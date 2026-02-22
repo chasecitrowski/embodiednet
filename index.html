@@ -1,0 +1,3704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EmbodiedNet — The Real-World Residential Intelligence Layer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0B1A2E;
+  --navy-mid: #112240;
+  --navy-light: #1A3050;
+  --orange: #E8713A;
+  --orange-light: #F09060;
+  --cream: #F5F0E8;
+  --cream-dark: #E8E0D2;
+  --white: #FFFFFF;
+  --gray-300: #A0AABB;
+  --gray-400: #7A8899;
+  --gray-500: #556677;
+  --text-light: #C8D0DC;
+  --text-dim: #8899AA;
+  --border-subtle: rgba(255,255,255,0.08);
+  --border-orange: rgba(232,113,58,0.3);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; color-scheme: dark; }
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: #0B1A2E !important;
+  color: var(--text-light);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ========== UTILITY ========== */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+.container-wide { max-width: 1400px; margin: 0 auto; padding: 0 40px; }
+
+.section-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 4vw, 52px);
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 24px;
+  font-weight: 400;
+}
+
+.section-title em {
+  font-style: italic;
+  color: var(--orange);
+}
+
+.divider {
+  width: 60px;
+  height: 2px;
+  background: var(--orange);
+  margin: 32px 0;
+}
+
+/* ========== SCROLL ANIMATIONS ========== */
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ========== HEADER / NAV ========== */
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(11,26,46,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background 0.3s;
+}
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+}
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+.logo span { color: var(--orange); font-style: italic; }
+
+nav { display: flex; gap: 32px; align-items: center; }
+nav a {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+nav a:hover { color: var(--white); }
+
+.nav-cta {
+  background: var(--orange) !important;
+  color: var(--navy) !important;
+  padding: 8px 20px;
+  font-weight: 600;
+  border-radius: 2px;
+  transition: background 0.2s !important;
+}
+.nav-cta:hover { background: var(--orange-light) !important; }
+
+/* ========== HERO ========== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-top: 64px;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 70% 40%, rgba(232,113,58,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 60% at 20% 80%, rgba(232,113,58,0.03) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+}
+
+.hero-eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeSlideUp 0.8s 0.2s forwards;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(44px, 6vw, 80px);
+  color: var(--white);
+  line-height: 1.05;
+  margin-bottom: 32px;
+  font-weight: 400;
+  opacity: 0;
+  animation: fadeSlideUp 0.8s 0.4s forwards;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--orange);
+}
+
+.hero-subtitle {
+  font-size: 18px;
+  color: var(--gray-300);
+  max-width: 600px;
+  line-height: 1.8;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeSlideUp 0.8s 0.6s forwards;
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0;
+  border: 1px solid var(--border-subtle);
+  opacity: 0;
+  animation: fadeSlideUp 0.8s 0.8s forwards;
+}
+.hero-stat {
+  padding: 24px 16px;
+  text-align: center;
+  border-right: 1px solid var(--border-subtle);
+}
+.hero-stat:last-child { border-right: none; }
+.hero-stat-value {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 3vw, 42px);
+  color: var(--orange);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.hero-stat-value sup {
+  font-size: 0.5em;
+  vertical-align: super;
+}
+.hero-stat-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========== CONFIDENTIAL BADGE ========== */
+.hero-badge {
+  position: absolute;
+  top: 100px;
+  right: 40px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  writing-mode: vertical-rl;
+  opacity: 0;
+  animation: fadeSlideUp 0.8s 1s forwards;
+}
+
+/* Hero buttons */
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 44px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 14px 28px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.hero-btn-primary {
+  background: var(--orange);
+  color: var(--white);
+}
+.hero-btn-primary:hover { background: var(--orange-light); }
+.hero-btn-secondary {
+  background: transparent;
+  color: var(--gray-300);
+  border: 1px solid var(--gray-600);
+}
+.hero-btn-secondary:hover { border-color: var(--gray-400); color: var(--white); }
+
+/* ========== ACCORDION ========== */
+.accordion-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 0;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+.accordion-trigger:hover .accordion-chevron { color: var(--orange); }
+.accordion-chevron {
+  width: 28px;
+  height: 28px;
+  color: var(--gray-500);
+  transition: transform 0.3s ease, color 0.2s ease;
+  flex-shrink: 0;
+  margin-left: 16px;
+}
+.accordion-trigger[aria-expanded="true"] .accordion-chevron {
+  transform: rotate(180deg);
+  color: var(--orange);
+}
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+}
+.accordion-body.open {
+  max-height: 3000px;
+}
+
+/* ========== SAMPLE REDESIGN ========== */
+.sample-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.sample-grid-wide {
+  grid-template-columns: repeat(2, 1fr);
+}
+.sample-card {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  background: var(--navy-deep);
+}
+.sample-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+.sample-card-info {
+  padding: 14px 16px;
+}
+.sample-card-modality {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 4px;
+}
+.sample-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+.sample-card-desc {
+  font-size: 12px;
+  color: var(--gray-400);
+  line-height: 1.5;
+}
+.sample-card-format {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--gray-500);
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-subtle);
+}
+.sample-note {
+  text-align: center;
+  padding: 20px;
+  border: 1px dashed rgba(232, 113, 58, 0.3);
+  border-radius: 8px;
+  margin-top: 16px;
+}
+.sample-note p {
+  font-size: 13px;
+  color: var(--gray-400);
+  line-height: 1.6;
+}
+.sample-note strong { color: var(--orange); }
+
+/* CTA redesign */
+.cta-btn-big {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 20px 44px;
+  border-radius: 6px;
+  background: var(--orange);
+  color: var(--white);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  margin-bottom: 16px;
+}
+.cta-btn-big:hover { background: var(--orange-light); transform: translateY(-1px); }
+.cta-wp-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--gray-400);
+  text-decoration: none;
+  margin-top: 12px;
+  transition: color 0.2s ease;
+}
+.cta-wp-link:hover { color: var(--white); }
+
+/* ========== EXECUTIVE SUMMARY ========== */
+.exec-summary {
+  padding: 120px 0;
+  border-top: 1px solid var(--border-subtle);
+}
+.exec-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 80px;
+  align-items: start;
+}
+.exec-left .section-title { margin-bottom: 16px; }
+.exec-body {
+  font-size: 16px;
+  color: var(--gray-300);
+  line-height: 1.85;
+}
+.exec-body p { margin-bottom: 20px; }
+
+/* ========== PULLQUOTE ========== */
+.pullquote {
+  padding: 80px 0;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.pullquote-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+.pullquote-text {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 3vw, 32px);
+  color: var(--white);
+  line-height: 1.5;
+  font-style: italic;
+  position: relative;
+  padding: 0 40px;
+}
+.pullquote-text::before {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: var(--orange);
+  margin: 0 auto 32px;
+}
+
+/* ========== CONVERGENCE ========== */
+.convergence {
+  padding: 120px 0;
+}
+.convergence-intro {
+  max-width: 700px;
+  margin-bottom: 80px;
+}
+.convergence-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+.convergence-card {
+  border: 1px solid var(--border-subtle);
+  padding: 48px 36px;
+  position: relative;
+  transition: border-color 0.3s;
+}
+.convergence-card:hover {
+  border-color: var(--border-orange);
+}
+.convergence-card-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 64px;
+  color: rgba(232,113,58,0.15);
+  position: absolute;
+  top: 16px;
+  right: 24px;
+  line-height: 1;
+}
+.convergence-card-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 20px;
+}
+.convergence-card-body {
+  font-size: 15px;
+  color: var(--gray-300);
+  line-height: 1.75;
+}
+
+/* ========== SYNTHETIC DATA PROBLEM ========== */
+.synthetic {
+  padding: 120px 0;
+  background: var(--navy-mid);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.synthetic-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.failure-modes {
+  margin-top: 40px;
+}
+.failure-mode {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.failure-mode:first-child { border-top: 1px solid var(--border-subtle); }
+.failure-mode-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--orange-light);
+  margin-bottom: 8px;
+}
+.failure-mode-desc {
+  font-size: 14px;
+  color: var(--gray-400);
+  line-height: 1.7;
+}
+
+.synthetic-right-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: var(--white);
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+
+/* ========== FIGURES SECTION ========== */
+.figures-section {
+  padding: 120px 0;
+}
+.figure-block {
+  margin-bottom: 100px;
+}
+.figure-block:last-child { margin-bottom: 0; }
+
+.figure-display {
+  width: 100%;
+  background: var(--navy-mid);
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.figure-display img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.figure-placeholder {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background:
+    linear-gradient(135deg, var(--navy-mid) 0%, var(--navy-light) 50%, var(--navy-mid) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.figure-placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 40px,
+      rgba(255,255,255,0.02) 40px,
+      rgba(255,255,255,0.02) 41px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 40px,
+      rgba(255,255,255,0.02) 40px,
+      rgba(255,255,255,0.02) 41px
+    );
+}
+.figure-placeholder-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  position: relative;
+  z-index: 1;
+}
+.figure-placeholder-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: var(--gray-400);
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 0 40px;
+}
+
+.figure-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+}
+.figure-number {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  flex-shrink: 0;
+}
+.figure-caption {
+  font-size: 14px;
+  color: var(--gray-400);
+  line-height: 1.6;
+  max-width: 700px;
+}
+
+/* ========== MODALITIES TABLE ========== */
+.modalities {
+  padding: 120px 0;
+  background: var(--navy-mid);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.modalities-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  margin-bottom: 80px;
+}
+.modality-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.modality-card {
+  border: 1px solid var(--border-subtle);
+  padding: 32px 28px;
+  transition: border-color 0.3s;
+}
+.modality-card:hover { border-color: var(--border-orange); }
+.modality-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.modality-card-name {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.modality-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border: 1px solid var(--orange);
+  color: var(--orange);
+}
+.modality-card-spec {
+  font-size: 14px;
+  color: var(--gray-300);
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+.modality-card-use {
+  font-size: 13px;
+  color: var(--gray-500);
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* ========== IRREPLACEABILITY ========== */
+.irreplaceable {
+  padding: 120px 0;
+}
+.irreplaceable-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  margin-top: 60px;
+}
+.irreplaceable-card {
+  padding: 48px 40px;
+  border: 1px solid var(--border-subtle);
+  position: relative;
+}
+.irreplaceable-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--orange);
+}
+.irreplaceable-card-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 16px;
+}
+.irreplaceable-card-body {
+  font-size: 15px;
+  color: var(--gray-300);
+  line-height: 1.75;
+}
+
+/* ========== CORPUS STATS ========== */
+.corpus-stats {
+  padding: 120px 0;
+  background: var(--navy-mid);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 48px;
+}
+.stats-table tr {
+  border-bottom: 1px solid var(--border-subtle);
+}
+.stats-table td {
+  padding: 16px 0;
+  vertical-align: top;
+}
+.stats-table td:first-child {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  width: 300px;
+  padding-right: 40px;
+}
+.stats-table td:last-child {
+  color: var(--white);
+  font-size: 16px;
+}
+
+/* ========== APPLICATIONS ========== */
+.applications {
+  padding: 120px 0;
+}
+.applications-intro {
+  max-width: 700px;
+  margin-bottom: 60px;
+}
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.app-card {
+  padding: 40px 32px;
+  border: 1px solid var(--border-subtle);
+  transition: border-color 0.3s;
+}
+.app-card:hover { border-color: var(--border-orange); }
+.app-card-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  color: rgba(232,113,58,0.2);
+  margin-bottom: 16px;
+  line-height: 1;
+}
+.app-card-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 16px;
+}
+.app-card-body {
+  font-size: 14px;
+  color: var(--gray-400);
+  line-height: 1.7;
+}
+
+/* ========== BUYERS ========== */
+.buyers {
+  padding: 120px 0;
+  background: var(--navy-mid);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.buyers-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  margin-top: 60px;
+}
+.buyer-card {
+  padding: 40px;
+  border: 1px solid var(--border-subtle);
+  transition: border-color 0.3s;
+}
+.buyer-card:hover { border-color: var(--border-orange); }
+.buyer-card-name {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.buyer-card-product {
+  font-size: 12px;
+  color: var(--orange);
+  font-family: 'IBM Plex Mono', monospace;
+  margin-bottom: 16px;
+}
+.buyer-card-body {
+  font-size: 14px;
+  color: var(--gray-400);
+  line-height: 1.7;
+}
+
+/* ========== VALIDATION ========== */
+.validation {
+  padding: 120px 0;
+}
+.validation-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  margin-top: 60px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.validation-card {
+  padding: 40px 32px;
+  border: 1px solid var(--border-subtle);
+  text-align: center;
+}
+.validation-card-icon {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  color: var(--orange);
+  margin-bottom: 24px;
+}
+.validation-card-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+.validation-card-body {
+  font-size: 14px;
+  color: var(--gray-400);
+  line-height: 1.7;
+}
+.validation-card-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: var(--white);
+  margin-top: 20px;
+  font-style: italic;
+}
+.validation-card-role {
+  font-size: 12px;
+  color: var(--gray-500);
+  margin-top: 4px;
+}
+
+/* ========== COMPARISON TABLE ========== */
+.comparison {
+  padding: 120px 0;
+  background: var(--navy-mid);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.comparison-table-wrap {
+  overflow-x: auto;
+  margin-top: 48px;
+}
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+.comparison-table th {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  font-weight: 500;
+}
+.comparison-table td {
+  padding: 14px 16px;
+  font-size: 14px;
+  color: var(--gray-300);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.comparison-table tr.highlight td {
+  color: var(--white);
+  background: rgba(232,113,58,0.06);
+  font-weight: 500;
+}
+.comparison-table tr.highlight td:first-child {
+  color: var(--orange);
+}
+
+/* ========== SAMPLE SECTION ========== */
+.sample-section {
+  padding: 120px 0;
+}
+.sample-banner {
+  background: rgba(232,113,58,0.08);
+  border: 1px solid var(--border-orange);
+  padding: 32px 40px;
+  margin-bottom: 60px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.sample-banner-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  background: rgba(232,113,58,0.15);
+  padding: 6px 14px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.sample-banner-text {
+  font-size: 15px;
+  color: var(--gray-300);
+  line-height: 1.6;
+}
+.sample-banner-text strong { color: var(--orange); }
+
+.sample-images {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-bottom: 32px;
+}
+.sample-image-wrap {
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+}
+.sample-image-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.sample-image-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  padding: 12px 16px;
+  background: var(--navy-mid);
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* ========== CTA ========== */
+.cta {
+  padding: 120px 0;
+  background: linear-gradient(180deg, var(--navy) 0%, var(--navy-mid) 100%);
+  text-align: center;
+  border-top: 1px solid var(--border-subtle);
+}
+.cta-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 48px);
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 24px;
+  font-weight: 400;
+}
+.cta-subtitle {
+  font-size: 16px;
+  color: var(--gray-400);
+  max-width: 600px;
+  margin: 0 auto 48px;
+  line-height: 1.7;
+}
+.cta-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--orange);
+  color: var(--navy);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px;
+  letter-spacing: 1px;
+  padding: 16px 40px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.cta-email:hover { background: var(--orange-light); }
+
+.cta-details {
+  margin-top: 48px;
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+}
+.cta-detail {
+  text-align: center;
+}
+.cta-detail-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  margin-bottom: 4px;
+}
+.cta-detail-value {
+  font-size: 14px;
+  color: var(--gray-300);
+}
+
+/* ========== FOOTER ========== */
+footer {
+  padding: 40px 0;
+  border-top: 1px solid var(--border-subtle);
+  text-align: center;
+}
+footer p {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+  .hero-stats { grid-template-columns: repeat(3, 1fr); }
+  .hero-stat:nth-child(3) { border-right: none; }
+  .convergence-grid { grid-template-columns: 1fr; }
+  .synthetic-grid { grid-template-columns: 1fr; }
+  .modalities-intro { grid-template-columns: 1fr; }
+  .modality-grid { grid-template-columns: repeat(2, 1fr); }
+  .exec-grid { grid-template-columns: 1fr; gap: 40px; }
+  .irreplaceable-grid { grid-template-columns: 1fr; }
+  .app-grid { grid-template-columns: 1fr; }
+  .buyers-grid { grid-template-columns: 1fr; }
+  .validation-grid { grid-template-columns: 1fr; }
+  .sample-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .container, .container-wide { padding: 0 24px; }
+  .hero-stats { grid-template-columns: repeat(2, 1fr); }
+  .hero-stat:nth-child(2), .hero-stat:nth-child(4) { border-right: none; }
+  .hero-stat:nth-child(3) { border-right: 1px solid var(--border-subtle); }
+  nav { display: none; }
+  .modality-grid { grid-template-columns: 1fr; }
+  .sample-grid { grid-template-columns: 1fr; }
+  .cta-details { flex-direction: column; gap: 20px; }
+  .hero-badge { display: none; }
+  .hero-buttons { flex-direction: column; }
+  .hero-btn { justify-content: center; }
+  .cta-btn-big { padding: 16px 28px; font-size: 13px; }
+}
+/* ========== FIGURE 1: CURB-TO-COUCH ========== */
+.fig1-container {
+  background: #0F1A2E;
+  border: 1px solid rgba(46, 117, 182, 0.25);
+  border-radius: 6px;
+  padding: 44px 48px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.fig1-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(46, 117, 182, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(46, 117, 182, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+.fig1-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 36px;
+  position: relative;
+  z-index: 1;
+}
+.fig1-header-left { flex: 1; }
+.fig1-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #4A9FE0;
+  margin-bottom: 12px;
+}
+.fig1-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 3vw, 42px);
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 10px;
+  font-weight: 400;
+}
+.fig1-subtitle {
+  font-size: 15px;
+  color: #7A8BA3;
+  font-weight: 400;
+  line-height: 1.55;
+  max-width: 560px;
+}
+.fig1-header-right { padding-top: 8px; }
+.fig1-brand {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: #2E75B6;
+  text-transform: uppercase;
+}
+
+.fig1-flow {
+  display: flex;
+  gap: 0;
+  position: relative;
+  z-index: 1;
+  align-items: stretch;
+}
+.fig1-flow-line {
+  display: none;
+}
+
+.fig1-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  padding: 0 6px;
+}
+.fig1-number {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #2E75B6;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 4px #0F1A2E, 0 0 0 6px #2E75B6;
+}
+
+.fig1-image {
+  width: 100%;
+  aspect-ratio: 16/10;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(46, 117, 182, 0.25);
+  margin-bottom: 14px;
+  flex-shrink: 0;
+}
+.fig1-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.fig1-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15,26,46,0) 50%, rgba(15,26,46,0.4) 100%);
+  pointer-events: none;
+}
+.fig1-image-floorplan {
+  background: #fafafa;
+}
+.fig1-image-floorplan img {
+  object-fit: contain;
+  padding: 4px;
+}
+
+.fig1-tag {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: rgba(15, 26, 46, 0.85);
+  backdrop-filter: blur(4px);
+  color: #4A9FE0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 3px;
+  z-index: 2;
+}
+
+.fig1-stage-content {
+  text-align: center;
+  flex: 1;
+}
+.fig1-stage-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: var(--white);
+  margin-bottom: 5px;
+  line-height: 1.2;
+}
+.fig1-stage-desc {
+  font-size: 11.5px;
+  color: #7A8BA3;
+  line-height: 1.5;
+}
+.fig1-stage-spec {
+  margin-top: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9.5px;
+  color: #4A9FE0;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.fig1-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 28px;
+  border-top: 1px solid rgba(46, 117, 182, 0.12);
+  margin-top: 32px;
+  position: relative;
+  z-index: 1;
+}
+.fig1-footer-note {
+  font-size: 13px;
+  color: #7A8BA3;
+  font-style: italic;
+}
+.fig1-footer-stats {
+  display: flex;
+  gap: 32px;
+}
+.fig1-stat { text-align: center; }
+.fig1-stat-value {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #4A9FE0;
+}
+.fig1-stat-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: #7A8BA3;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+/* Figure 1 responsive */
+@media (max-width: 1024px) {
+  .fig1-flow {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .fig1-flow-line { display: none; }
+  .fig1-container { padding: 32px 28px; }
+}
+@media (max-width: 768px) {
+  .fig1-flow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .fig1-footer { flex-direction: column; gap: 20px; text-align: center; }
+  .fig1-header { flex-direction: column; }
+}
+
+/* ========== FIGURE 2: RAW BRACKET vs HDR ========== */
+.fig2-container {
+  background: #0F1A2E;
+  border: 1px solid rgba(46, 117, 182, 0.25);
+  border-radius: 6px;
+  padding: 44px 48px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.fig2-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(46, 117, 182, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(46, 117, 182, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+.fig2-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+  position: relative;
+  z-index: 1;
+}
+.fig2-header-left { flex: 1; }
+.fig2-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #4A9FE0;
+  margin-bottom: 12px;
+}
+.fig2-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(24px, 2.5vw, 38px);
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 10px;
+  font-weight: 400;
+}
+.fig2-subtitle {
+  font-size: 14px;
+  color: #7A8BA3;
+  line-height: 1.55;
+  max-width: 620px;
+}
+.fig2-header-right { padding-top: 8px; }
+.fig2-brand {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: #2E75B6;
+  text-transform: uppercase;
+}
+
+/* Bracket strip */
+.fig2-bracket-strip {
+  display: flex;
+  gap: 4px;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 0;
+}
+.fig2-bracket {
+  flex: 1;
+  min-width: 0;
+}
+.fig2-bracket-img {
+  position: relative;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  border-radius: 6px;
+  border: 1px solid rgba(46, 117, 182, 0.2);
+}
+.fig2-bracket-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.fig2-bracket-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15,26,46,0) 60%, rgba(15,26,46,0.5) 100%);
+  pointer-events: none;
+}
+.fig2-ev-badge {
+  position: absolute;
+  top: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  z-index: 2;
+}
+.fig2-ev-left {
+  left: 6px;
+  background: rgba(15, 26, 46, 0.85);
+  color: var(--white);
+}
+.fig2-ev-right {
+  right: 6px;
+  background: rgba(74, 159, 224, 0.2);
+  color: #4A9FE0;
+  backdrop-filter: blur(4px);
+}
+.fig2-ev-flash {
+  font-size: 8px;
+  letter-spacing: 0.3px;
+  color: #F0A050;
+  background: rgba(240, 160, 80, 0.15);
+}
+.fig2-bracket-info {
+  padding: 8px 4px 0;
+}
+.fig2-bracket-info strong {
+  display: block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--white);
+  margin-bottom: 2px;
+}
+.fig2-bracket-info span {
+  font-size: 11px;
+  color: #5A7A9A;
+}
+
+/* Pipeline divider */
+.fig2-pipeline-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px 0;
+  position: relative;
+  z-index: 1;
+}
+.fig2-pipeline-divider span {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #4A9FE0;
+}
+
+/* Merged section */
+.fig2-merged-section {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 0;
+  border: 1px solid rgba(46, 117, 182, 0.2);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+.fig2-merged-image {
+  position: relative;
+  overflow: hidden;
+}
+.fig2-merged-image > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  min-height: 360px;
+}
+.fig2-merged-badges {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  gap: 8px;
+  z-index: 3;
+}
+.fig2-merged-badge-primary {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: #2E75B6;
+  color: var(--white);
+  padding: 5px 12px;
+  border-radius: 3px;
+}
+.fig2-merged-badge-secondary {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  background: rgba(15, 26, 46, 0.8);
+  color: #7A8BA3;
+  padding: 5px 12px;
+  border-radius: 3px;
+  backdrop-filter: blur(4px);
+}
+
+/* Annotations */
+.fig2-annotation {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.fig2-annotation-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #4A9FE0;
+  border: 2px solid rgba(255,255,255,0.5);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.fig2-annotation-text {
+  background: rgba(15, 26, 46, 0.85);
+  backdrop-filter: blur(4px);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  color: #A0B8D0;
+  line-height: 1.45;
+  max-width: 220px;
+}
+.fig2-annotation-tl { top: 50px; right: 20px; }
+.fig2-annotation-bl { bottom: 40px; left: 16px; }
+.fig2-annotation-br { bottom: 40px; right: 20px; }
+
+/* Sidebar */
+.fig2-merged-sidebar {
+  background: rgba(15, 26, 46, 0.6);
+  border-left: 1px solid rgba(46, 117, 182, 0.15);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.fig2-sidebar-block {
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(46, 117, 182, 0.1);
+}
+.fig2-sidebar-block:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.fig2-sidebar-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #4A9FE0;
+  margin-bottom: 10px;
+}
+.fig2-sidebar-text {
+  font-size: 13px;
+  color: #8A9AB0;
+  line-height: 1.6;
+}
+.fig2-sidebar-text strong {
+  color: var(--white);
+  font-weight: 600;
+}
+
+/* Footer */
+.fig2-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
+  border-top: 1px solid rgba(46, 117, 182, 0.12);
+  margin-top: 28px;
+  position: relative;
+  z-index: 1;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.fig2-footer-note {
+  font-size: 12px;
+  color: #5A7A9A;
+  font-style: italic;
+  flex: 1;
+  min-width: 300px;
+}
+.fig2-footer-badges {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.fig2-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #4A9FE0;
+  border: 1px solid rgba(46, 117, 182, 0.3);
+  padding: 5px 14px;
+  border-radius: 3px;
+}
+
+/* Figure 2 responsive */
+@media (max-width: 1024px) {
+  .fig2-bracket-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .fig2-merged-section {
+    grid-template-columns: 1fr;
+  }
+  .fig2-merged-image > img { min-height: 280px; }
+  .fig2-container { padding: 32px 28px; }
+}
+@media (max-width: 768px) {
+  .fig2-bracket-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .fig2-footer { flex-direction: column; text-align: center; }
+  .fig2-footer-badges { justify-content: center; }
+  .fig2-header { flex-direction: column; }
+  .fig2-annotation { display: none; }
+}
+
+/* ========== FIGURE 3: S-LOG3 vs GRADED ========== */
+.fig3-container {
+  background: #0F1A2E;
+  border: 1px solid rgba(46, 117, 182, 0.25);
+  border-radius: 6px;
+  padding: 40px 48px 36px;
+  position: relative;
+  overflow: hidden;
+}
+.fig3-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(46, 117, 182, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(46, 117, 182, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+.fig3-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
+}
+.fig3-header-left { flex: 1; }
+.fig3-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #4A9FE0;
+  margin-bottom: 8px;
+}
+.fig3-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(24px, 2.5vw, 38px);
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 8px;
+  font-weight: 400;
+}
+.fig3-subtitle {
+  font-size: 14px;
+  color: #7A8BA3;
+  line-height: 1.55;
+  max-width: 700px;
+}
+.fig3-header-right { padding-top: 8px; }
+.fig3-brand {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: #2E75B6;
+  text-transform: uppercase;
+}
+
+/* Main two-panel layout */
+.fig3-main {
+  display: flex;
+  gap: 0;
+  position: relative;
+  z-index: 1;
+  align-items: stretch;
+}
+.fig3-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(46, 117, 182, 0.15);
+}
+.fig3-panel-archive {
+  border-color: rgba(46, 117, 182, 0.35);
+  box-shadow: 0 0 30px rgba(46, 117, 182, 0.1);
+}
+
+/* Panel headers */
+.fig3-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  flex-shrink: 0;
+}
+.fig3-panel-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.fig3-panel-header-delivery {
+  background: rgba(58, 175, 92, 0.08);
+  border-bottom: 1px solid rgba(58, 175, 92, 0.15);
+}
+.fig3-panel-header-archive {
+  background: rgba(46, 117, 182, 0.1);
+  border-bottom: 1px solid rgba(46, 117, 182, 0.2);
+}
+.fig3-panel-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 3px;
+}
+.fig3-badge-delivery {
+  background: rgba(58, 175, 92, 0.15);
+  color: #3AAF5C;
+}
+.fig3-badge-archive {
+  background: rgba(46, 117, 182, 0.2);
+  color: #4A9FE0;
+}
+.fig3-panel-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+}
+.fig3-panel-format {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: #7A8BA3;
+}
+
+/* Panel image */
+.fig3-panel-image {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  min-height: 340px;
+}
+.fig3-panel-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.fig3-panel-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(15,26,46,0.7) 100%);
+  pointer-events: none;
+}
+
+/* Callouts */
+.fig3-callout {
+  position: absolute;
+  z-index: 2;
+  background: rgba(15, 26, 46, 0.88);
+  backdrop-filter: blur(6px);
+  border-radius: 5px;
+  padding: 8px 11px;
+  max-width: 240px;
+}
+.fig3-callout-good { border-left: 3px solid #3AAF5C; }
+.fig3-callout-warn { border-left: 3px solid #E8943C; }
+.fig3-callout-info { border-left: 3px solid #2E75B6; }
+.fig3-callout-text {
+  font-size: 11px;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.45;
+}
+.fig3-callout-text strong { color: var(--white); }
+
+.fig3-timecode {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  z-index: 2;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.45);
+  background: rgba(15, 26, 46, 0.7);
+  padding: 2px 7px;
+  border-radius: 3px;
+}
+
+/* Panel footer */
+.fig3-panel-footer {
+  padding: 12px 16px;
+  background: rgba(15, 26, 46, 0.5);
+  flex-shrink: 0;
+}
+.fig3-panel-footer-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.fig3-panel-footer-delivery .fig3-panel-footer-title { color: #3AAF5C; }
+.fig3-panel-footer-archive .fig3-panel-footer-title { color: #4A9FE0; }
+.fig3-panel-footer-text {
+  font-size: 12px;
+  color: #7A8BA3;
+  line-height: 1.5;
+}
+.fig3-panel-footer-text strong { color: rgba(255,255,255,0.85); }
+
+/* Center divider */
+.fig3-divider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  flex-shrink: 0;
+  gap: 8px;
+  padding: 0 2px;
+}
+.fig3-divider-text {
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #5A7A9A;
+}
+.fig3-divider-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #0F1A2E;
+  border: 2px solid #2E75B6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Footer */
+.fig3-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  margin-top: 16px;
+  border-top: 1px solid rgba(46, 117, 182, 0.12);
+  position: relative;
+  z-index: 1;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.fig3-footer-note {
+  font-size: 12px;
+  color: #5A7A9A;
+  font-style: italic;
+  flex: 1;
+  min-width: 280px;
+}
+.fig3-footer-tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.fig3-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #4A9FE0;
+  background: rgba(46, 117, 182, 0.12);
+  border: 1px solid rgba(46, 117, 182, 0.2);
+  padding: 5px 12px;
+  border-radius: 16px;
+}
+
+/* Figure 3 responsive */
+@media (max-width: 1024px) {
+  .fig3-main { flex-direction: column; gap: 16px; }
+  .fig3-divider {
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    padding: 8px 0;
+  }
+  .fig3-divider-text {
+    writing-mode: horizontal-tb;
+    text-orientation: initial;
+  }
+  .fig3-container { padding: 32px 28px; }
+}
+@media (max-width: 768px) {
+  .fig3-header { flex-direction: column; }
+  .fig3-footer { flex-direction: column; text-align: center; }
+  .fig3-footer-tags { justify-content: center; }
+  .fig3-callout { display: none; }
+}
+
+/* ========== FIGURE 4: SPATIAL ALIGNMENT ========== */
+.fig4-container {
+  background: #0F1A2E;
+  border: 1px solid rgba(46, 117, 182, 0.25);
+  border-radius: 6px;
+  padding: 40px 48px 36px;
+  position: relative;
+  overflow: hidden;
+}
+.fig4-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(46, 117, 182, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(46, 117, 182, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+.fig4-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
+}
+.fig4-header-left { flex: 1; }
+.fig4-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #4A9FE0;
+  margin-bottom: 8px;
+}
+.fig4-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(24px, 2.5vw, 38px);
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 8px;
+  font-weight: 400;
+}
+.fig4-subtitle {
+  font-size: 14px;
+  color: #7A8BA3;
+  line-height: 1.55;
+  max-width: 700px;
+}
+.fig4-header-right { padding-top: 8px; }
+.fig4-brand {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: #2E75B6;
+  text-transform: uppercase;
+}
+
+/* Main layout */
+.fig4-main {
+  display: flex;
+  gap: 0;
+  position: relative;
+  z-index: 1;
+  align-items: stretch;
+  min-height: 480px;
+}
+
+/* Floor plan panel */
+.fig4-plan-panel {
+  flex: 0.95;
+  background: #fafbfc;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(46, 117, 182, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+.fig4-plan-panel > img {
+  flex: 1;
+  width: 100%;
+  object-fit: contain;
+  padding: 6px 10px;
+  min-height: 0;
+}
+.fig4-plan-label {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--navy);
+  padding: 5px 12px;
+  border-radius: 5px;
+}
+.fig4-plan-label-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4A9FE0;
+}
+.fig4-plan-label span {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.fig4-plan-legend {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  background: rgba(15, 26, 46, 0.9);
+  backdrop-filter: blur(6px);
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+.fig4-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 3px;
+}
+.fig4-legend-item:last-child { margin-bottom: 0; }
+.fig4-legend-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.fig4-dot-red { background: #E8453C; }
+.fig4-dot-blue { background: #2E75B6; }
+.fig4-legend-item span {
+  font-size: 10px;
+  color: rgba(255,255,255,0.8);
+}
+
+/* Plan metadata bar */
+.fig4-plan-meta {
+  background: var(--navy);
+  padding: 10px 14px;
+  display: flex;
+  gap: 20px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+.fig4-meta-item {
+  display: flex;
+  flex-direction: column;
+}
+.fig4-meta-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #4A9FE0;
+  margin-bottom: 1px;
+}
+.fig4-meta-value {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--white);
+  font-weight: 500;
+}
+
+/* Bridge connector */
+.fig4-bridge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  flex-shrink: 0;
+  gap: 8px;
+  padding: 0 2px;
+}
+.fig4-bridge-text {
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #4A9FE0;
+}
+.fig4-bridge-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #2E75B6;
+  border: 3px solid #0F1A2E;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(46, 117, 182, 0.4);
+}
+
+/* Frames panel */
+.fig4-frames-panel {
+  flex: 1.05;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+}
+.fig4-frame-card {
+  flex: 1;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(46, 117, 182, 0.2);
+}
+.fig4-frame-active {
+  border: 2px solid #4A9FE0;
+  box-shadow: 0 0 24px rgba(46, 117, 182, 0.2);
+}
+.fig4-frame-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.fig4-frame-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15,26,46,0.55) 0%, transparent 25%, transparent 70%, rgba(15,26,46,0.6) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.fig4-frame-top {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.fig4-frame-tag {
+  background: rgba(15, 26, 46, 0.85);
+  backdrop-filter: blur(4px);
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+.fig4-frame-format {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: #4A9FE0;
+  background: rgba(15, 26, 46, 0.75);
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+.fig4-frame-timecode {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  z-index: 2;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.5);
+  background: rgba(15, 26, 46, 0.75);
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+
+/* Frame callout */
+.fig4-frame-callout {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  right: 12px;
+  z-index: 2;
+  background: rgba(15, 26, 46, 0.88);
+  backdrop-filter: blur(6px);
+  border-radius: 5px;
+  padding: 8px 12px;
+  border-left: 3px solid #2E75B6;
+}
+.fig4-frame-callout-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  color: #4A9FE0;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.fig4-frame-callout-text {
+  font-size: 11px;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.45;
+}
+.fig4-frame-callout-text strong { color: var(--white); }
+
+/* VS badge */
+.fig4-vs-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px;
+  flex-shrink: 0;
+}
+.fig4-vs-line {
+  flex: 1;
+  height: 1px;
+  background: rgba(46, 117, 182, 0.2);
+}
+.fig4-vs-text {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #5A7A9A;
+  white-space: nowrap;
+}
+
+/* Footer */
+.fig4-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  margin-top: 16px;
+  border-top: 1px solid rgba(46, 117, 182, 0.12);
+  position: relative;
+  z-index: 1;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.fig4-footer-note {
+  font-size: 12px;
+  color: #5A7A9A;
+  font-style: italic;
+  flex: 1;
+  min-width: 280px;
+}
+.fig4-footer-tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.fig4-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #4A9FE0;
+  background: rgba(46, 117, 182, 0.12);
+  border: 1px solid rgba(46, 117, 182, 0.2);
+  padding: 5px 12px;
+  border-radius: 16px;
+}
+
+/* Figure 4 responsive */
+@media (max-width: 1024px) {
+  .fig4-main { flex-direction: column; gap: 16px; min-height: auto; }
+  .fig4-plan-panel { min-height: 360px; }
+  .fig4-bridge {
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    padding: 8px 0;
+  }
+  .fig4-bridge-text {
+    writing-mode: horizontal-tb;
+    text-orientation: initial;
+  }
+  .fig4-frames-panel { min-height: 500px; }
+  .fig4-container { padding: 32px 28px; }
+}
+@media (max-width: 768px) {
+  .fig4-header { flex-direction: column; }
+  .fig4-footer { flex-direction: column; text-align: center; }
+  .fig4-footer-tags { justify-content: center; }
+  .fig4-frame-callout { display: none; }
+  .fig4-plan-legend { display: none; }
+}
+
+/* ========== FIGURE 5: DIVERSITY MOSAIC ========== */
+.fig5-container {
+  background: #0F1A2E;
+  border: 1px solid rgba(46, 117, 182, 0.25);
+  border-radius: 6px;
+  padding: 36px 40px 32px;
+  position: relative;
+  overflow: hidden;
+}
+.fig5-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(46, 117, 182, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(46, 117, 182, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+.fig5-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+.fig5-header-left { flex: 1; }
+.fig5-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #4A9FE0;
+  margin-bottom: 6px;
+}
+.fig5-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(24px, 2.5vw, 36px);
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 6px;
+  font-weight: 400;
+}
+.fig5-subtitle {
+  font-size: 13px;
+  color: #7A8BA3;
+  line-height: 1.55;
+  max-width: 700px;
+}
+.fig5-header-right { padding-top: 8px; }
+.fig5-brand {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: #2E75B6;
+  text-transform: uppercase;
+}
+
+/* Mosaic grid */
+.fig5-mosaic {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: minmax(160px, 1fr);
+  gap: 5px;
+  position: relative;
+  z-index: 1;
+}
+.fig5-cell {
+  position: relative;
+  overflow: hidden;
+  border-radius: 5px;
+  border: 1px solid rgba(46, 117, 182, 0.1);
+}
+.fig5-wide { grid-column: span 2; }
+.fig5-cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.fig5-cell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15,26,46,0.45) 0%, transparent 30%, transparent 55%, rgba(15,26,46,0.7) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Category tag */
+.fig5-cat {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 2;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 2px;
+  background: rgba(15, 26, 46, 0.75);
+  backdrop-filter: blur(3px);
+}
+.fig5-cat-exterior { color: #7BC67E; }
+.fig5-cat-interior { color: #4A9FE0; }
+.fig5-cat-kitchen { color: #E8943C; }
+.fig5-cat-bathroom { color: #C77DBA; }
+.fig5-cat-bedroom { color: #7DBAC7; }
+.fig5-cat-aerial { color: #E8D43C; }
+
+/* Cell label */
+.fig5-cell-label {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  right: 6px;
+  z-index: 2;
+}
+.fig5-cell-type {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #4A9FE0;
+  margin-bottom: 1px;
+}
+.fig5-cell-desc {
+  font-size: 10px;
+  color: rgba(255,255,255,0.85);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+/* Footer */
+.fig5-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 14px;
+  margin-top: 10px;
+  border-top: 1px solid rgba(46, 117, 182, 0.12);
+  position: relative;
+  z-index: 1;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.fig5-footer-note {
+  font-size: 12px;
+  color: #5A7A9A;
+  font-style: italic;
+  flex: 1;
+  min-width: 280px;
+}
+.fig5-footer-stats {
+  display: flex;
+  gap: 28px;
+}
+.fig5-stat { text-align: center; }
+.fig5-stat-val {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #4A9FE0;
+}
+.fig5-stat-lbl {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  color: #7A8BA3;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 1px;
+}
+
+/* Figure 5 responsive */
+@media (max-width: 1024px) {
+  .fig5-mosaic {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .fig5-wide { grid-column: span 1; }
+  .fig5-container { padding: 28px 24px; }
+}
+@media (max-width: 768px) {
+  .fig5-mosaic {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .fig5-header { flex-direction: column; }
+  .fig5-footer { flex-direction: column; text-align: center; }
+  .fig5-footer-stats { justify-content: center; flex-wrap: wrap; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ====== HEADER ====== -->
+<header>
+  <div class="container">
+    <a href="#" class="logo">Embodied<span>Net</span></a>
+    <nav>
+      <a href="#convergence">Why Now</a>
+      <a href="#architecture">The Asset</a>
+      <a href="#figures">Methods</a>
+      <a href="#sample">Sample</a>
+      <a href="#contact" class="nav-cta">Inquire</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-eyebrow">Foundational Training Data for Embodied AI</div>
+      <h1 class="hero-title">The Real-World<br>Residential <em>Intelligence</em><br>Layer</h1>
+      <p class="hero-subtitle">
+        33+ terabytes of multi-modal sensor data captured across 500+ residential properties over six continuous years. The only large-scale, rights-clean residential corpus built for the physical AI revolution.
+      </p>
+      <div class="hero-buttons">
+        <a href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20Inquiry%20%E2%80%93%20White%20Paper%20Request" class="hero-btn hero-btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Full White Paper (PDF)
+        </a>
+        <a href="#sample" class="hero-btn hero-btn-secondary">View Sample</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-value">33<sup>TB+</sup></div>
+        <div class="hero-stat-label">Raw Sensor Data</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">500+</div>
+        <div class="hero-stat-label">Unique Properties</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">6</div>
+        <div class="hero-stat-label">Capture Modalities</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">6</div>
+        <div class="hero-stat-label">Years Continuous</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">1</div>
+        <div class="hero-stat-label">Single Operator</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-value">4K</div>
+        <div class="hero-stat-label">Video RAW</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== EXECUTIVE SUMMARY ====== -->
+<section class="exec-summary">
+  <div class="container">
+    <div class="exec-grid fade-up">
+      <div class="exec-left">
+        <div class="section-label">Executive Summary</div>
+        <h2 class="section-title">The data the robots <em>need</em> does not exist. <em>Except here.</em></h2>
+      </div>
+      <div class="exec-body">
+        <p>The race to build machines that operate in human spaces has entered its decisive phase. Tesla is manufacturing humanoid robots for home deployment by 2027. NVIDIA is building world foundation models. Apple confirmed development of home robotics products. The embodied AI market is projected to exceed $23 billion by 2030, growing at 39% annually.</p>
+        <p>Every one of these programs shares a common bottleneck: the absence of large-scale, high-fidelity training data captured from real residential environments. Synthetic platforms consistently fail to replicate the photometric complexity, spatial irregularity, and material diversity of actual homes. The sim-to-real gap remains the primary barrier between laboratory demonstrations and reliable domestic deployment.</p>
+        <p>EmbodiedNet is the dataset that closes this gap. Built over six years of continuous professional real estate media capture, it comprises interior RAW HDR brackets, ego-perspective 4K motion video in cinema-grade log profiles, exterior stills, aerial footage, and metric floor plans across 500+ unique residential properties.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== PULLQUOTE ====== -->
+<section class="pullquote">
+  <div class="container">
+    <div class="pullquote-inner fade-up">
+      <p class="pullquote-text">The companies building the robots exist. The capital to fund them exists. The models to train them exist. What does not exist, anywhere in the commercial or academic ecosystem, is a large-scale, high-fidelity, multi-modal corpus of real residential environments suitable for training domestic AI systems.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CONVERGENCE ====== -->
+<section class="convergence" id="convergence">
+  <div class="container">
+    <div class="convergence-intro fade-up">
+      <div class="section-label">The Convergence: Why Now</div>
+      <h2 class="section-title">Three forces creating an <em>unprecedented</em> market window</h2>
+      <p style="color: var(--gray-300); font-size: 16px; line-height: 1.8; margin-top: 16px;">Three forces are converging in 2026 to create the most significant market window for residential AI training data in the history of the field. This convergence is not a forecast. It is a description of events already underway.</p>
+    </div>
+    <div class="convergence-grid">
+      <div class="convergence-card fade-up">
+        <div class="convergence-card-number">01</div>
+        <div class="convergence-card-title">The Humanoid Robot Race</div>
+        <p class="convergence-card-body">Tesla has begun Gen 3 mass production of Optimus, with 1,000+ units performing factory tasks and consumer sales targeted for late 2027. Boston Dynamics, Apptronik ($350M funding), Figure AI, Agility Robotics, and Unitree are all advancing toward commercial bipedal platforms. Factory deployment is the proving ground; the home is the endgame.</p>
+      </div>
+      <div class="convergence-card fade-up" style="transition-delay: 0.1s;">
+        <div class="convergence-card-number">02</div>
+        <div class="convergence-card-title">Physical AI Investment Wave</div>
+        <p class="convergence-card-body">Capital allocation toward physical AI reached unprecedented levels: OpenAI/SoftBank/Oracle's $500B Stargate initiative, NVIDIA's $100B commitment, Anthropic's $50B buildout. Meta acquired a 49% stake in Scale AI for ~$14B, signaling that control over high-quality training data pipelines is now a top strategic priority.</p>
+      </div>
+      <div class="convergence-card fade-up" style="transition-delay: 0.2s;">
+        <div class="convergence-card-number">03</div>
+        <div class="convergence-card-title">The Residential Frontier</div>
+        <p class="convergence-card-body">Apple is developing home robotics with a tabletop companion for 2027 and mobile robots under research. Google DeepMind advances manipulation and navigation. Meta's Reality Labs invests in ego-perspective spatial understanding. Each confronts the same reality: training a robot for the home requires data from homes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SYNTHETIC DATA PROBLEM ====== -->
+<section class="synthetic" id="synthetic">
+  <div class="container">
+    <div class="synthetic-grid">
+      <div class="fade-up">
+        <div class="section-label">The Synthetic Data Problem</div>
+        <h2 class="section-title">Simulation does not <em>work</em> well enough</h2>
+        <p style="color: var(--gray-300); font-size: 16px; line-height: 1.8; margin-top: 16px;">Synthetic data generation is the prevailing approach to training embodied AI. Platforms like NVIDIA Isaac Sim, Meta AI Habitat, and Google's simulation tools generate massive volumes of virtual training data. The appeal is obvious: infinite scalability and full control. The problem is equally well-documented.</p>
+        <div class="failure-modes">
+          <div class="failure-mode">
+            <div class="failure-mode-title">Photometric Divergence</div>
+            <div class="failure-mode-desc">Synthetic lighting distributions, material reflectances, and shadow behaviors differ systematically from real sensor captures.</div>
+          </div>
+          <div class="failure-mode">
+            <div class="failure-mode-title">Geometric Oversimplification</div>
+            <div class="failure-mode-desc">Idealized 3D meshes lack the surface irregularity, clutter density, and spatial variation of actual rooms.</div>
+          </div>
+          <div class="failure-mode">
+            <div class="failure-mode-title">Sensor Artifact Absence</div>
+            <div class="failure-mode-desc">Real cameras produce noise, lens distortion, depth quantization errors, and ambient light interference that simulators omit.</div>
+          </div>
+          <div class="failure-mode">
+            <div class="failure-mode-title">Distribution Shift</div>
+            <div class="failure-mode-desc">Object arrangements, room proportions, and material combinations in synthetic environments fail to match real residential distributions.</div>
+          </div>
+        </div>
+      </div>
+      <div class="fade-up" style="transition-delay: 0.15s;">
+        <h3 class="synthetic-right-heading">Why homes are uniquely difficult to simulate</h3>
+        <p style="color: var(--gray-300); font-size: 15px; line-height: 1.8; margin-bottom: 24px;">Industrial environments have regularities that simulation can approximate: standardized racking, uniform lighting, predictable floors. Residential environments have none of these regularities.</p>
+        <p style="color: var(--gray-400); font-size: 15px; line-height: 1.8; margin-bottom: 24px;">A single home contains dozens of distinct material surfaces: hardwood transitioning to tile to carpet, granite adjacent to stainless steel, fabric next to glass. Natural light shifts throughout the day and across seasons, producing dynamic shadows and extreme luminance contrasts. Furniture arrangements are idiosyncratic. Rooms serve multiple overlapping functions.</p>
+        <p style="color: var(--gray-400); font-size: 15px; line-height: 1.8; margin-bottom: 24px;">Generating a synthetic residential environment at sufficient fidelity requires artists, 3D modelers, material scientists, and lighting engineers working for weeks per home. Generating 500 such environments is a project measured in years and tens of millions of dollars, with no guarantee of closing the transfer gap.</p>
+        <div style="padding: 32px; border: 1px solid var(--border-orange); background: rgba(232,113,58,0.04); margin-top: 32px;">
+          <p style="font-family: 'Playfair Display', serif; font-size: 18px; color: var(--white); line-height: 1.6; font-style: italic;">EmbodiedNet bypasses the synthesis problem entirely. It provides the ground truth that synthetic pipelines are trying to approximate, captured at native sensor fidelity across 500+ unique residential environments.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== MODALITIES ====== -->
+<section class="modalities" id="architecture">
+  <div class="container">
+    <div class="modalities-intro fade-up">
+      <div>
+        <div class="section-label">Six Capture Modalities</div>
+        <h2 class="section-title">Everything Preserved.<br><em>Nothing Discarded.</em></h2>
+      </div>
+      <div>
+        <p style="color: var(--gray-300); font-size: 16px; line-height: 1.8;">EmbodiedNet is the preserved archive of a professional real estate media operation that maintained comprehensive, standardized capture across client engagements for six years. The dataset is comprehensive because the business model demanded uniformity. Every modality preserved at native sensor fidelity.</p>
+      </div>
+    </div>
+    <div class="modality-grid">
+      <div class="modality-card fade-up">
+        <div class="modality-card-header">
+          <span class="modality-card-name">Int. RAW Stills</span>
+          <span class="modality-badge">ARW / 0 EV</span>
+        </div>
+        <p class="modality-card-spec">Sony ARW per room, uncompressed. ~50 final delivered stills per property, each composed from 5+ bracketed exposures, yielding 250+ individual RAW files for interiors alone.</p>
+        <p class="modality-card-use">Photometric ground truth, material recognition</p>
+      </div>
+      <div class="modality-card fade-up" style="transition-delay: 0.05s;">
+        <div class="modality-card-header">
+          <span class="modality-card-name">Int. Motion</span>
+          <span class="modality-badge">S-Log3 4K</span>
+        </div>
+        <p class="modality-card-spec">4K ego-perspective motion capture through residential spaces. S-Log3, ungraded. Segments vary by property layout and room sequence. 14mm geometry.</p>
+        <p class="modality-card-use">Navigation, SLAM, locomotion prior</p>
+      </div>
+      <div class="modality-card fade-up" style="transition-delay: 0.1s;">
+        <div class="modality-card-header">
+          <span class="modality-card-name">Brackets + HDR</span>
+          <span class="modality-badge">ARW x6 + TIFF</span>
+        </div>
+        <p class="modality-card-spec">5-bracket auto exposure + ambient flash per anchor room. 32-bit TIFF HDR merge also delivered. Full luminance range.</p>
+        <p class="modality-card-use">Sim-to-real calibration, renderer validation</p>
+      </div>
+      <div class="modality-card fade-up" style="transition-delay: 0.15s;">
+        <div class="modality-card-header">
+          <span class="modality-card-name">Ext. RAW Stills</span>
+          <span class="modality-badge">DNG / D-Log M</span>
+        </div>
+        <p class="modality-card-spec">DJI DNG frames covering front, rear, sides, neighborhood context, and lot geometry. Coverage is comprehensive and adapted to each property's layout and features.</p>
+        <p class="modality-card-use">Approach geometry, curb appeal modeling</p>
+      </div>
+      <div class="modality-card fade-up" style="transition-delay: 0.2s;">
+        <div class="modality-card-header">
+          <span class="modality-card-name">Aerial Motion</span>
+          <span class="modality-badge">HEVC D-Log M</span>
+        </div>
+        <p class="modality-card-spec">D-Log M ungraded aerial motion clip. Elevation variation, exterior geometry, neighborhood spatial context.</p>
+        <p class="modality-card-use">Context mapping, exterior spatial hierarchy</p>
+      </div>
+      <div class="modality-card fade-up" style="transition-delay: 0.25s;">
+        <div class="modality-card-header">
+          <span class="modality-card-name">Floor Plans</span>
+          <span class="modality-badge">Metric</span>
+        </div>
+        <p class="modality-card-spec">Labeled metric plans for both floors with room dimensions. Provides spatial scaffolding for sensor data.</p>
+        <p class="modality-card-use">SLAM validation, spatial reasoning</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FIGURES ====== -->
+<section class="figures-section" id="figures">
+  <div class="container">
+    <div class="fade-up" style="margin-bottom: 80px;">
+      <div class="section-label">Capture Method and Corpus</div>
+      <h2 class="section-title">How the data is <em>captured</em></h2>
+      <p style="color: var(--gray-300); font-size: 16px; line-height: 1.8; max-width: 700px; margin-top: 16px;">The following figures illustrate the technical methodology, spatial hierarchy, and corpus diversity that define EmbodiedNet's architecture.</p>
+    </div>
+
+    <!-- Figure 1: Curb-to-Couch Spatial Hierarchy -->
+    <div class="figure-block fade-up">
+      <div class="fig1-container">
+        <div class="fig1-header">
+          <div class="fig1-header-left">
+            <div class="fig1-label">Figure 1</div>
+            <h3 class="fig1-title">Curb-to-Couch Spatial Hierarchy</h3>
+            <p class="fig1-subtitle">EmbodiedNet captures the complete residential spatial hierarchy that world models require, from macro neighborhood context through interior navigation to metric ground truth.</p>
+          </div>
+          <div class="fig1-header-right">
+            <span class="fig1-brand">EmbodiedNet</span>
+          </div>
+        </div>
+
+        <div class="fig1-flow">
+          <div class="fig1-flow-line"></div>
+
+          <div class="fig1-stage">
+            <div class="fig1-number">1</div>
+            <div class="fig1-image">
+              <img src="assets/img/aerial.jpg" alt="Aerial neighborhood context">
+              <span class="fig1-tag">D-Log M HEVC</span>
+            </div>
+            <div class="fig1-stage-content">
+              <div class="fig1-stage-title">Aerial / Context</div>
+              <div class="fig1-stage-desc">Neighborhood mapping, spatial context, street-level geometry, and approach vectors</div>
+              <div class="fig1-stage-spec">DJI Air 3 &middot; 3840x2160 &middot; Part 107</div>
+            </div>
+          </div>
+
+          <div class="fig1-stage">
+            <div class="fig1-number">2</div>
+            <div class="fig1-image">
+              <img src="assets/img/exterior.jpg" alt="Exterior approach">
+              <span class="fig1-tag">RAW Stills + Video</span>
+            </div>
+            <div class="fig1-stage-content">
+              <div class="fig1-stage-title">Exterior / Approach</div>
+              <div class="fig1-stage-desc">Building facade, approach geometry, lot context, and exterior material surfaces</div>
+              <div class="fig1-stage-spec">Sony A7S III &middot; DNG + S-Log3</div>
+            </div>
+          </div>
+
+          <div class="fig1-stage">
+            <div class="fig1-number">3</div>
+            <div class="fig1-image">
+              <img src="assets/img/transition.jpg" alt="Interior-exterior transition zone">
+              <span class="fig1-tag">S-Log3 4K</span>
+            </div>
+            <div class="fig1-stage-content">
+              <div class="fig1-stage-title">Transition Zone</div>
+              <div class="fig1-stage-desc">Interior-exterior boundary capture, light adaptation between spaces, threshold geometry</div>
+              <div class="fig1-stage-spec">Ego-perspective &middot; Gimbal-stabilized</div>
+            </div>
+          </div>
+
+          <div class="fig1-stage">
+            <div class="fig1-number">4</div>
+            <div class="fig1-image">
+              <img src="assets/img/interior.jpg" alt="Interior navigation">
+              <span class="fig1-tag">S-Log3 Ego Motion</span>
+            </div>
+            <div class="fig1-stage-content">
+              <div class="fig1-stage-title">Interior / Navigation</div>
+              <div class="fig1-stage-desc">Room-to-room traversal, spatial logic, material transitions, and obstacle mapping</div>
+              <div class="fig1-stage-spec">4K 3840x2160 &middot; 14mm wide</div>
+            </div>
+          </div>
+
+          <div class="fig1-stage">
+            <div class="fig1-number">5</div>
+            <div class="fig1-image">
+              <img src="assets/img/hdr.jpg" alt="HDR merged output">
+              <span class="fig1-tag">5-Bracket RAW &rarr; 32-bit TIFF</span>
+            </div>
+            <div class="fig1-stage-content">
+              <div class="fig1-stage-title">HDR / Merged Output</div>
+              <div class="fig1-stage-desc">Full luminance range photometric ground truth for sim-to-real calibration</div>
+              <div class="fig1-stage-spec">Sony ARW &middot; ISO 200 &middot; f/7.1</div>
+            </div>
+          </div>
+
+          <div class="fig1-stage">
+            <div class="fig1-number">6</div>
+            <div class="fig1-image fig1-image-floorplan">
+              <img src="assets/img/floorplan.jpg" alt="Metric floor plan">
+              <span class="fig1-tag">Metric PDF</span>
+            </div>
+            <div class="fig1-stage-content">
+              <div class="fig1-stage-title">Floor Plan / Ground Truth</div>
+              <div class="fig1-stage-desc">Metric spatial anchoring, SLAM validation, dual-level coverage</div>
+              <div class="fig1-stage-spec">Ricoh Theta V 360 &middot; Both levels</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fig1-footer">
+          <div class="fig1-footer-note">The complete 6-layer hierarchy, captured consistently across 500+ properties by a single operator</div>
+          <div class="fig1-footer-stats">
+            <div class="fig1-stat">
+              <div class="fig1-stat-value">500+</div>
+              <div class="fig1-stat-label">Properties</div>
+            </div>
+            <div class="fig1-stat">
+              <div class="fig1-stat-value">33+ TB</div>
+              <div class="fig1-stat-label">Raw Data</div>
+            </div>
+            <div class="fig1-stat">
+              <div class="fig1-stat-value">6</div>
+              <div class="fig1-stat-label">Modalities</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="figure-meta" style="margin-top: 24px;">
+        <span class="figure-number">Figure 01</span>
+        <p class="figure-caption">EmbodiedNet captures the complete traversal from aerial context through exterior approach to interior navigation, anchored by metric floor plan ground truth. This multi-scale spatial hierarchy is what large world models require to learn coherent representations of physical environments.</p>
+      </div>
+    </div>
+
+    <!-- Figure 2: RAW Bracket vs. HDR Merged Comparison -->
+    <div class="figure-block fade-up">
+      <div class="fig2-container">
+        <div class="fig2-header">
+          <div class="fig2-header-left">
+            <div class="fig2-label">Figure 2</div>
+            <h3 class="fig2-title">RAW Bracket vs. HDR Merged Comparison</h3>
+            <p class="fig2-subtitle">A single capture position produces seven exposures: five auto-brackets spanning the full luminance range, one ambient flash, and the merged 32-bit TIFF output preserving detail from shadows through highlights.</p>
+          </div>
+          <div class="fig2-header-right">
+            <span class="fig2-brand">EmbodiedNet</span>
+          </div>
+        </div>
+
+        <div class="fig2-bracket-strip">
+          <div class="fig2-bracket">
+            <div class="fig2-bracket-img">
+              <img src="assets/img/bracket_b1.jpg" alt="Bracket 1: -4 EV">
+              <span class="fig2-ev-badge fig2-ev-left">B1</span>
+              <span class="fig2-ev-badge fig2-ev-right">&minus;4 EV</span>
+            </div>
+            <div class="fig2-bracket-info">
+              <strong>Darkest</strong>
+              <span>Highlight detail preserved</span>
+            </div>
+          </div>
+          <div class="fig2-bracket">
+            <div class="fig2-bracket-img">
+              <img src="assets/img/bracket_b2.jpg" alt="Bracket 2: -2 EV">
+              <span class="fig2-ev-badge fig2-ev-left">B2</span>
+              <span class="fig2-ev-badge fig2-ev-right">&minus;2 EV</span>
+            </div>
+            <div class="fig2-bracket-info">
+              <strong>Under</strong>
+              <span>Window detail visible</span>
+            </div>
+          </div>
+          <div class="fig2-bracket">
+            <div class="fig2-bracket-img">
+              <img src="assets/img/bracket_b3.jpg" alt="Bracket 3: 0 EV">
+              <span class="fig2-ev-badge fig2-ev-left">B3</span>
+              <span class="fig2-ev-badge fig2-ev-right">0 EV</span>
+            </div>
+            <div class="fig2-bracket-info">
+              <strong>Neutral</strong>
+              <span>Base exposure</span>
+            </div>
+          </div>
+          <div class="fig2-bracket">
+            <div class="fig2-bracket-img">
+              <img src="assets/img/bracket_b4.jpg" alt="Bracket 4: +2 EV">
+              <span class="fig2-ev-badge fig2-ev-left">B4</span>
+              <span class="fig2-ev-badge fig2-ev-right">+2 EV</span>
+            </div>
+            <div class="fig2-bracket-info">
+              <strong>Over</strong>
+              <span>Shadow detail lifted</span>
+            </div>
+          </div>
+          <div class="fig2-bracket">
+            <div class="fig2-bracket-img">
+              <img src="assets/img/bracket_b5.jpg" alt="Bracket 5: +4 EV">
+              <span class="fig2-ev-badge fig2-ev-left">B5</span>
+              <span class="fig2-ev-badge fig2-ev-right">+4 EV</span>
+            </div>
+            <div class="fig2-bracket-info">
+              <strong>Brightest</strong>
+              <span>Full shadow recovery</span>
+            </div>
+          </div>
+          <div class="fig2-bracket">
+            <div class="fig2-bracket-img">
+              <img src="assets/img/bracket_fl.jpg" alt="Ambient Flash">
+              <span class="fig2-ev-badge fig2-ev-left">FL</span>
+              <span class="fig2-ev-badge fig2-ev-right fig2-ev-flash">Ambient Flash</span>
+            </div>
+            <div class="fig2-bracket-info">
+              <strong>Flash Fill</strong>
+              <span>Even illumination reference</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="fig2-pipeline-divider">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4L10 16M10 16L5 11M10 16L15 11" stroke="#4A9FE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>HDR Merge Pipeline</span>
+        </div>
+
+        <div class="fig2-merged-section">
+          <div class="fig2-merged-image">
+            <div class="fig2-merged-badges">
+              <span class="fig2-merged-badge-primary">HDR Merged Output</span>
+              <span class="fig2-merged-badge-secondary">32-bit TIFF &middot; Full Luminance Range</span>
+            </div>
+            <img src="assets/img/bracket_b4.jpg" alt="HDR Merged Output">
+            <div class="fig2-annotation fig2-annotation-tl">
+              <div class="fig2-annotation-dot"></div>
+              <div class="fig2-annotation-text">Window highlights preserved from B1/B2: exterior detail retained</div>
+            </div>
+            <div class="fig2-annotation fig2-annotation-bl">
+              <div class="fig2-annotation-dot"></div>
+              <div class="fig2-annotation-text">Shadow detail recovered from B4/B5: floor grain, cabinet texture visible</div>
+            </div>
+            <div class="fig2-annotation fig2-annotation-br">
+              <div class="fig2-annotation-dot"></div>
+              <div class="fig2-annotation-text">Granite specular response, steel reflectance, tile texture all captured at native fidelity</div>
+            </div>
+          </div>
+          <div class="fig2-merged-sidebar">
+            <div class="fig2-sidebar-block">
+              <div class="fig2-sidebar-title">Why This Matters for AI</div>
+              <p class="fig2-sidebar-text">Synthetic renderers approximate material reflectance using BRDFs. Real-world surfaces have <strong>non-ideal, spatially varying reflectance</strong> that only ground-truth HDR capture preserves. This data calibrates renderers like NVIDIA Omniverse against reality.</p>
+            </div>
+            <div class="fig2-sidebar-block">
+              <div class="fig2-sidebar-title">The Sim-to-Real Bridge</div>
+              <p class="fig2-sidebar-text">Each 5-bracket set captures the <strong>full luminance range</strong> of a residential interior, including the extreme contrast between window glare and deep shadow that single-exposure datasets cannot represent and synthetic environments consistently misrepresent.</p>
+            </div>
+            <div class="fig2-sidebar-block">
+              <div class="fig2-sidebar-title">Capture Specifications</div>
+              <p class="fig2-sidebar-text"><strong>Sony ILCE-7SM3</strong> (A7S III)<br>5-bracket auto + ambient flash<br>ISO 200 fixed, f/7.1 fixed, 14mm</p>
+              <p class="fig2-sidebar-text" style="margin-top: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #4A6A8A;">Format: Sony ARW (RAW) per bracket<br>Merged: 32-bit TIFF, Display P3</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="fig2-footer">
+          <div class="fig2-footer-note">Each final still is composed from 5+ bracketed RAW exposures. A typical production yields ~50 delivered interiors (~250+ RAW), ~30 exterior RAW stills, plus video and aerial: 350+ individual sensor files per property.</div>
+          <div class="fig2-footer-badges">
+            <span class="fig2-badge">Photometric Ground Truth</span>
+            <span class="fig2-badge">Sim-to-Real Calibration</span>
+            <span class="fig2-badge">Native Sensor Fidelity</span>
+          </div>
+        </div>
+      </div>
+      <div class="figure-meta" style="margin-top: 24px;">
+        <span class="figure-number">Figure 02</span>
+        <p class="figure-caption">Five-bracket exposure sequences plus ambient flash preserve the full luminance range of residential interiors, from deep shadow zones to direct window glare. The merged 32-bit TIFF provides photometric ground truth that processed MLS imagery and synthetic renderers cannot deliver.</p>
+      </div>
+    </div>
+
+    <!-- Figure 3: S-Log3 Archive vs. Graded Client Delivery -->
+    <div class="figure-block fade-up">
+      <div class="fig3-container">
+        <div class="fig3-header">
+          <div class="fig3-header-left">
+            <div class="fig3-label">Figure 3</div>
+            <h3 class="fig3-title">S-Log3 Archive vs. Graded Client Delivery</h3>
+            <p class="fig3-subtitle">The same frame from the same walkthrough. The graded version is what the real estate agent received. The S-Log3 archive is what the AI training pipeline needs. EmbodiedNet preserved both.</p>
+          </div>
+          <div class="fig3-header-right">
+            <span class="fig3-brand">EmbodiedNet</span>
+          </div>
+        </div>
+
+        <div class="fig3-main">
+          <!-- Left: Graded delivery -->
+          <div class="fig3-panel fig3-panel-delivery">
+            <div class="fig3-panel-header fig3-panel-header-delivery">
+              <div class="fig3-panel-header-left">
+                <span class="fig3-panel-badge fig3-badge-delivery">Client Delivery</span>
+                <span class="fig3-panel-title">Color-Graded Output</span>
+              </div>
+              <span class="fig3-panel-format">Rec.709 &middot; H.264 &middot; 4K</span>
+            </div>
+            <div class="fig3-panel-image">
+              <img src="assets/img/slog3_graded.jpg" alt="Color-graded client delivery">
+              <div class="fig3-callout fig3-callout-good" style="top: 28px; left: 12px;">
+                <div class="fig3-callout-text"><strong>Contrast boosted.</strong> Pleasing to the eye. Shadows crushed for visual impact. Optimized for marketing, not machine learning.</div>
+              </div>
+              <div class="fig3-callout fig3-callout-warn" style="bottom: 40px; right: 12px;">
+                <div class="fig3-callout-text"><strong>Information destroyed.</strong> Highlight clipping in skylight, shadow detail lost in floor and furniture. Color shifts from creative grading. Irreversible.</div>
+              </div>
+              <div class="fig3-timecode">00:33 / 01:20</div>
+            </div>
+            <div class="fig3-panel-footer fig3-panel-footer-delivery">
+              <div class="fig3-panel-footer-title">What the agent received</div>
+              <p class="fig3-panel-footer-text">Standard real estate video delivery. Color-graded for visual appeal, compressed for web streaming. <strong>Dynamic range reduced by ~6 stops.</strong> Shadow and highlight detail permanently discarded. Suitable for Zillow. Unsuitable for training robots.</p>
+            </div>
+          </div>
+
+          <!-- Center divider -->
+          <div class="fig3-divider">
+            <span class="fig3-divider-text">Same Frame</span>
+            <div class="fig3-divider-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4A9FE0" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
+            </div>
+            <span class="fig3-divider-text">Same Walk</span>
+          </div>
+
+          <!-- Right: S-Log3 archive -->
+          <div class="fig3-panel fig3-panel-archive">
+            <div class="fig3-panel-header fig3-panel-header-archive">
+              <div class="fig3-panel-header-left">
+                <span class="fig3-panel-badge fig3-badge-archive">Preserved Archive</span>
+                <span class="fig3-panel-title">S-Log3 RAW Motion</span>
+              </div>
+              <span class="fig3-panel-format">S-Log3 &middot; S-Gamut3 &middot; 10-bit &middot; 4K</span>
+            </div>
+            <div class="fig3-panel-image">
+              <img src="assets/img/slog3_raw.jpg" alt="S-Log3 ungraded archive">
+              <div class="fig3-callout fig3-callout-info" style="top: 28px; right: 12px;">
+                <div class="fig3-callout-text"><strong>Full dynamic range preserved.</strong> Flat, low-contrast tonality retains ~15 stops of luminance data. Every photon the sensor captured is still here.</div>
+              </div>
+              <div class="fig3-callout fig3-callout-info" style="bottom: 40px; left: 12px;">
+                <div class="fig3-callout-text"><strong>Shadow detail intact.</strong> Floor grain, rug texture, furniture edges all visible. No creative decisions baked in. No information lost. This is what the training pipeline ingests.</div>
+              </div>
+              <div class="fig3-timecode">00:33 / 01:20</div>
+            </div>
+            <div class="fig3-panel-footer fig3-panel-footer-archive">
+              <div class="fig3-panel-footer-title">What the archive preserved</div>
+              <p class="fig3-panel-footer-text">Unprocessed S-Log3 in Sony S-Gamut3 color science. <strong>~15 stops of dynamic range.</strong> Flat gamma curve preserves maximum sensor information. No creative grading, no compression artifacts, no clipped highlights. This trains photometrically accurate world models.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="fig3-footer">
+          <div class="fig3-footer-note">Most real estate media agencies discard their RAW archives after client delivery. EmbodiedNet preserved every frame of unprocessed sensor data across 6 years of production.</div>
+          <div class="fig3-footer-tags">
+            <span class="fig3-tag">~15 Stops Dynamic Range</span>
+            <span class="fig3-tag">S-Log3 / S-Gamut3</span>
+            <span class="fig3-tag">35+ Hours Ego Video</span>
+          </div>
+        </div>
+      </div>
+      <div class="figure-meta" style="margin-top: 24px;">
+        <span class="figure-number">Figure 03</span>
+        <p class="figure-caption">The cinema-grade logarithmic profile preserves maximum dynamic range for AI training, while the graded output demonstrates the information embedded in the flat profile. Most agencies discard RAW archives after delivery. EmbodiedNet preserved every frame.</p>
+      </div>
+    </div>
+
+    <!-- Figure 4: Spatial Ground Truth Alignment -->
+    <div class="figure-block fade-up">
+      <div class="fig4-container">
+        <div class="fig4-header">
+          <div class="fig4-header-left">
+            <div class="fig4-label">Figure 4</div>
+            <h3 class="fig4-title">Spatial Ground Truth Alignment</h3>
+            <p class="fig4-subtitle">Metric floor plan provides SLAM validation anchoring. The operator position and viewing direction on the plan correspond directly to ego-perspective video frames and HDR stills, enabling cross-modal spatial verification.</p>
+          </div>
+          <div class="fig4-header-right">
+            <span class="fig4-brand">EmbodiedNet</span>
+          </div>
+        </div>
+
+        <div class="fig4-main">
+          <!-- Left: Floor plan -->
+          <div class="fig4-plan-panel">
+            <div class="fig4-plan-label">
+              <div class="fig4-plan-label-dot"></div>
+              <span>Floor Plan / Ground Truth</span>
+            </div>
+            <div class="fig4-plan-legend">
+              <div class="fig4-legend-item">
+                <div class="fig4-legend-dot fig4-dot-red"></div>
+                <span>Operator position</span>
+              </div>
+              <div class="fig4-legend-item">
+                <div class="fig4-legend-dot fig4-dot-blue"></div>
+                <span>Viewing direction / FOV</span>
+              </div>
+            </div>
+            <img src="assets/img/floorplan_annotated.jpg" alt="Floor plan with operator position indicator">
+            <div class="fig4-plan-meta">
+              <div class="fig4-meta-item">
+                <span class="fig4-meta-label">Living Room</span>
+                <span class="fig4-meta-value">20'3" x 24'0"</span>
+              </div>
+              <div class="fig4-meta-item">
+                <span class="fig4-meta-label">Kitchen</span>
+                <span class="fig4-meta-value">18'9" x 22'1"</span>
+              </div>
+              <div class="fig4-meta-item">
+                <span class="fig4-meta-label">Primary Bed</span>
+                <span class="fig4-meta-value">16'7" x 21'2"</span>
+              </div>
+              <div class="fig4-meta-item">
+                <span class="fig4-meta-label">Dining</span>
+                <span class="fig4-meta-value">19'6" x 10'5"</span>
+              </div>
+              <div class="fig4-meta-item">
+                <span class="fig4-meta-label">Rooms</span>
+                <span class="fig4-meta-value">14</span>
+              </div>
+              <div class="fig4-meta-item">
+                <span class="fig4-meta-label">Format</span>
+                <span class="fig4-meta-value">Metric PDF</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bridge connector -->
+          <div class="fig4-bridge">
+            <span class="fig4-bridge-text">Alignment</span>
+            <div class="fig4-bridge-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,18 15,12 9,6"/></svg>
+            </div>
+            <span class="fig4-bridge-text">Verified</span>
+          </div>
+
+          <!-- Right: Stacked video frames -->
+          <div class="fig4-frames-panel">
+            <!-- S-Log3 ego video frame -->
+            <div class="fig4-frame-card fig4-frame-active">
+              <img src="assets/img/video_frame_slog.jpg" alt="S-Log3 ego-perspective video frame">
+              <div class="fig4-frame-top">
+                <span class="fig4-frame-tag">Ego-Perspective Video</span>
+                <span class="fig4-frame-format">S-Log3 4K</span>
+              </div>
+              <span class="fig4-frame-timecode">00:13 / 00:27</span>
+              <div class="fig4-frame-callout">
+                <div class="fig4-frame-callout-title">Position A: Living Room</div>
+                <p class="fig4-frame-callout-text">Facing kitchen and dining area. Note the <strong>flat S-Log3 tonality</strong> preserving maximum dynamic range. Window blow-out, shadow detail, and material color all retained for downstream processing.</p>
+              </div>
+            </div>
+
+            <!-- Comparison badge -->
+            <div class="fig4-vs-badge">
+              <div class="fig4-vs-line"></div>
+              <span class="fig4-vs-text">Same position, different modality</span>
+              <div class="fig4-vs-line"></div>
+            </div>
+
+            <!-- HDR merged output -->
+            <div class="fig4-frame-card">
+              <img src="assets/img/hdr_same_room.jpg" alt="HDR merged output of same room">
+              <div class="fig4-frame-top">
+                <span class="fig4-frame-tag">HDR Merged Output</span>
+                <span class="fig4-frame-format">5-Bracket RAW &rarr; 32-bit TIFF</span>
+              </div>
+              <div class="fig4-frame-callout">
+                <div class="fig4-frame-callout-title">Cross-Modal Correspondence</div>
+                <p class="fig4-frame-callout-text">Same room as a <strong>5-bracket HDR merge</strong>. Full luminance range recovered. Both modalities share the same floor plan anchor, enabling multi-modal spatial reasoning.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fig4-footer">
+          <div class="fig4-footer-note">Floor plan position indicator corresponds to ego-perspective video frame. Multi-modal alignment across floor plan, video, and HDR enables SLAM validation and spatial reasoning at scale.</div>
+          <div class="fig4-footer-tags">
+            <span class="fig4-tag">SLAM Validation</span>
+            <span class="fig4-tag">Cross-Modal Alignment</span>
+            <span class="fig4-tag">Metric Ground Truth</span>
+          </div>
+        </div>
+      </div>
+      <div class="figure-meta" style="margin-top: 24px;">
+        <span class="figure-number">Figure 04</span>
+        <p class="figure-caption">Metric floor plans provide SLAM validation data, connecting ego-perspective video traversals to verified spatial geometry. Cross-modal alignment between floor plan, S-Log3 video, and HDR stills enables spatial reasoning benchmarks that require metric room geometry.</p>
+      </div>
+    </div>
+
+    <!-- Figure 5: Temporal and Architectural Diversity -->
+    <div class="figure-block fade-up">
+      <div class="fig5-container">
+        <div class="fig5-header">
+          <div class="fig5-header-left">
+            <div class="fig5-label">Figure 5</div>
+            <h3 class="fig5-title">Temporal and Architectural Diversity</h3>
+            <p class="fig5-subtitle">12 anonymized samples from across the corpus demonstrating the range of architectural eras, room types, seasonal conditions, material surfaces, and spatial configurations. The dataset is not monotone.</p>
+          </div>
+          <div class="fig5-header-right">
+            <span class="fig5-brand">EmbodiedNet</span>
+          </div>
+        </div>
+
+        <div class="fig5-mosaic">
+          <div class="fig5-cell">
+            <img src="assets/img/grid_01_ext_suburban.jpg" alt="">
+            <span class="fig5-cat fig5-cat-exterior">Exterior</span>
+            <div class="fig5-cell-label"><div class="fig5-cell-type">Spring</div><div class="fig5-cell-desc">Suburban, 2-story, brick + siding</div></div>
+          </div>
+          <div class="fig5-cell">
+            <img src="assets/img/grid_02_bath_modern.jpg" alt="">
+            <span class="fig5-cat fig5-cat-bathroom">Bathroom</span>
+            <div class="fig5-cell-label"><div class="fig5-cell-type">Contemporary</div><div class="fig5-cell-desc">Glazed tile, brass fixtures, glass</div></div>
+          </div>
+          <div class="fig5-cell fig5-wide">
+            <img src="assets/img/grid_07_aerial_estate.jpg" alt="">
+            <span class="fig5-cat fig5-cat-aerial">Aerial</span>
+            <div class="fig5-cell-label"><div class="fig5-cell-type">Dusk Capture</div><div class="fig5-cell-desc">Boulder estate, mixed lighting, landscaped compound</div></div>
+          </div>
+          <div class="fig5-cell fig5-wide">
+            <img src="assets/img/grid_05_cabin_living.jpg" alt="">
+            <span class="fig5-cat fig5-cat-interior">Living</span>
+            <div class="fig5-cell-label"><div class="fig5-cell-type">Mountain Cabin</div><div class="fig5-cell-desc">Tongue-and-groove, stone fireplace, multi-level</div></div>
+          </div>
+
+          <div class="fig5-cell fig5-wide">
+            <img src="assets/img/grid_03_ext_colonial.jpg" alt="">
+            <span class="fig5-cat fig5-cat-exterior">Exterior</span>
+            <div class="fig5-cell-label"><div class="fig5-cell-type">Winter</div><div class="fig5-cell-desc">Colonial, brick facade, gambrel roof, dormant landscaping</div></div>
+          </div>
+          <div class="fig5-cell">
+            <img src="assets/img/grid_04_living_split.jpg" alt="">
+            <span class="fig5-cat fig5-cat-interior">Living</span>
+            <div class="fig5-cell-label"><div class="fig5-cell-type">Split-Level</div><div class="fig5-cell-desc">Staircase, French doors, warm light</div></div>
+          </div>
+          <div class="fig5-cell">
+            <img src="assets/img/grid_06_cabin_kitchen.jpg" alt="">
+            <span class="fig5-cat fig5-cat-kitchen">Kitchen</span>
+            <div class="fig5-cell-label"><div class="fig5-cell-type">Rustic</div><div class="fig5-cell-desc">Knotty wood, plank ceiling, compact</div></div>
+          </div>
+          <div class="fig5-cell">
+            <img src="assets/img/grid_08_bath_rustic.jpg" alt="">
+            <span class="fig5-cat fig5-cat-bathroom">Bathroom</span>
+            <div class="fig5-cell-label"><div class="fig5-cell-type">Artisan</div><div class="fig5-cell-desc">River rock, live-edge vanity, stained glass</div></div>
+          </div>
+          <div class="fig5-cell">
+            <img src="assets/img/grid_09_bedroom_loft.jpg" alt="">
+            <span class="fig5-cat fig5-cat-bedroom">Bedroom</span>
+            <div class="fig5-cell-label"><div class="fig5-cell-type">Urban Loft</div><div class="fig5-cell-desc">Exposed concrete, mixed use</div></div>
+          </div>
+
+          <div class="fig5-cell">
+            <img src="assets/img/grid_10_ext_snow.jpg" alt="">
+            <span class="fig5-cat fig5-cat-exterior">Exterior</span>
+            <div class="fig5-cell-label"><div class="fig5-cell-type">Winter / Mountain</div><div class="fig5-cell-desc">A-frame, snow load, alpine setting</div></div>
+          </div>
+          <div class="fig5-cell">
+            <img src="assets/img/grid_11_kitchen_trad.jpg" alt="">
+            <span class="fig5-cat fig5-cat-kitchen">Kitchen</span>
+            <div class="fig5-cell-label"><div class="fig5-cell-type">Traditional</div><div class="fig5-cell-desc">Cherry wood, galley, natural light</div></div>
+          </div>
+          <div class="fig5-cell fig5-wide">
+            <img src="assets/img/grid_12_open_modern.jpg" alt="">
+            <span class="fig5-cat fig5-cat-interior">Kitchen + Living</span>
+            <div class="fig5-cell-label"><div class="fig5-cell-type">Open Concept / Modern</div><div class="fig5-cell-desc">Sage cabinetry, quartz counters, open plan, contemporary staging</div></div>
+          </div>
+          <div class="fig5-cell fig5-wide">
+            <img src="assets/img/slog3_graded.jpg" alt="">
+            <span class="fig5-cat fig5-cat-interior">Living</span>
+            <div class="fig5-cell-label"><div class="fig5-cell-type">Urban Loft / Condo</div><div class="fig5-cell-desc">Open plan, exposed ductwork, mixed materials, layered textures</div></div>
+          </div>
+        </div>
+
+        <div class="fig5-footer">
+          <div class="fig5-footer-note">All images from the EmbodiedNet corpus. Anonymized, rights-clean, captured across 2020 to 2025. Seasonal and architectural range shown is representative, not exhaustive.</div>
+          <div class="fig5-footer-stats">
+            <div class="fig5-stat"><div class="fig5-stat-val">1890-2025</div><div class="fig5-stat-lbl">Build Year Range</div></div>
+            <div class="fig5-stat"><div class="fig5-stat-val">570-11,953</div><div class="fig5-stat-lbl">Sq Ft Range</div></div>
+            <div class="fig5-stat"><div class="fig5-stat-val">36</div><div class="fig5-stat-lbl">Communities</div></div>
+            <div class="fig5-stat"><div class="fig5-stat-val">4</div><div class="fig5-stat-lbl">Seasons Captured</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="figure-meta" style="margin-top: 24px;">
+        <span class="figure-number">Figure 05</span>
+        <p class="figure-caption">The corpus spans six years of seasonal variation, design evolution, and architectural range across 36 neighboring communities within a single metro region. Property sizes from 570 to nearly 12,000 square feet, construction dates from 1890 to 2025.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SINGLE OPERATOR ====== -->
+<section class="pullquote">
+  <div class="container">
+    <div class="pullquote-inner fade-up">
+      <p class="pullquote-text">Every property was captured by one person: the same operator following a documented Standard Operating Procedure that matured over six years alongside the equipment, as any commercial operation evolves. The constant is the operator. The model learns a stable locomotion prior not corrupted by the variance of multiple operators' body mechanics. This kinematic invariance cannot be assembled retrospectively.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====== STRUCTURAL IRREPLACEABILITY ====== -->
+<section class="irreplaceable">
+  <div class="container">
+    <div class="fade-up" style="max-width: 700px; margin-bottom: 20px;">
+      <div class="section-label">Structural Irreplaceability</div>
+      <h2 class="section-title">Why this cannot be <em>rebuilt</em></h2>
+      <p style="color: var(--gray-300); font-size: 16px; line-height: 1.8; margin-top: 16px;">The critical question any prospective acquirer will ask is not whether this is good data. The question is: why can we not produce this ourselves? The answer operates across multiple independent dimensions, each a barrier that money alone cannot overcome.</p>
+    </div>
+    <div class="irreplaceable-grid">
+      <div class="irreplaceable-card fade-up">
+        <div class="irreplaceable-card-title">Market Window Permanently Closed</div>
+        <p class="irreplaceable-card-body">The residential market between 2020 and 2023 was anomalous by any historical measure. Post-COVID demand migration, historically low mortgage rates, rapid new construction, and elevated agent marketing budgets drove transaction volume and listing density to levels not seen before or since. The economic environment that funded EmbodiedNet is a historical artifact.</p>
+      </div>
+      <div class="irreplaceable-card fade-up" style="transition-delay: 0.1s;">
+        <div class="irreplaceable-card-title">Residential Access Cannot Be Recreated</div>
+        <p class="irreplaceable-card-body">The 500+ properties were privately owned homes. Access was granted under commercial photography agreements at time of listing. Those homes have since been sold. Owners have changed. Interior configurations have been modified. The specific combination of furnishings, staging, light conditions, and seasonal context no longer exists at any of these addresses.</p>
+      </div>
+      <div class="irreplaceable-card fade-up" style="transition-delay: 0.15s;">
+        <div class="irreplaceable-card-title">Temporal Diversity Cannot Be Fast-Tracked</div>
+        <p class="irreplaceable-card-body">Four full seasonal cycles across six years means the corpus contains every seasonal lighting condition and six years of evolving design conventions: color trends, fixture styles, furnishing density, staging philosophies, and landscaping choices. A purpose-built capture sprint of any duration shorter than years produces a single seasonal slice.</p>
+      </div>
+      <div class="irreplaceable-card fade-up" style="transition-delay: 0.2s;">
+        <div class="irreplaceable-card-title">Clean IP Chain of Title</div>
+        <p class="irreplaceable-card-body">All intellectual property is original to the collector. No data has been scraped, licensed from third parties, or generated synthetically. The corpus has never been licensed to any entity. This clean chain of title eliminates licensing encumbrance risks and enables exclusive acquisition structures that provide competitive advantage.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CORPUS STATS ====== -->
+<section class="corpus-stats">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Corpus Statistics</div>
+      <h2 class="section-title">The <em>numbers</em></h2>
+    </div>
+    <table class="stats-table fade-up">
+      <tr><td>Total Corpus Size</td><td>33+ TB at native sensor fidelity</td></tr>
+      <tr><td>Unique Properties</td><td>500+</td></tr>
+      <tr><td>Capture Span</td><td>February 2020 to present</td></tr>
+      <tr><td>Geographic Scope</td><td>36 neighboring communities within a single metro region, all rights-clear</td></tr>
+      <tr><td>Property Types</td><td>Single-family (79%), townhouse (10%), condo (6%), land/other (5%)</td></tr>
+      <tr><td>Sq Ft Range</td><td>570 to 11,953 sq ft</td></tr>
+      <tr><td>Construction Dates</td><td>1890 to 2025</td></tr>
+      <tr><td>Operator Consistency</td><td>100% single-operator capture</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ====== APPLICATIONS ====== -->
+<section class="applications">
+  <div class="container">
+    <div class="applications-intro fade-up">
+      <div class="section-label">Research and Training Applications</div>
+      <h2 class="section-title">What you can <em>build</em> with this</h2>
+    </div>
+    <div class="app-grid">
+      <div class="app-card fade-up">
+        <div class="app-card-number">01</div>
+        <div class="app-card-title">Visual SLAM and Navigation</div>
+        <p class="app-card-body">S-Log3 walkthroughs provide hundreds of unique residential layouts with human-speed traversal, wide-angle geometry producing stable parallax, and metric floor plan ground truth to validate reconstructed maps. Residential-scale coverage no existing benchmark approaches.</p>
+      </div>
+      <div class="app-card fade-up" style="transition-delay: 0.05s;">
+        <div class="app-card-number">02</div>
+        <div class="app-card-title">Sim-to-Real Calibration</div>
+        <p class="app-card-body">Five-bracket HDR RAW sequences capture the full luminance range of residential interiors. Training photometric models or calibrating rendering engines like NVIDIA Cosmos directly addresses the sim-to-real gap at the domain level.</p>
+      </div>
+      <div class="app-card fade-up" style="transition-delay: 0.1s;">
+        <div class="app-card-number">03</div>
+        <div class="app-card-title">World Model Pre-Training</div>
+        <p class="app-card-body">The curb-to-couch stack provides the hierarchical spatial information world models need: aerial geometry connecting to exterior context connecting to interior walkthrough, all anchored by floor plan ground truth across hundreds of layouts.</p>
+      </div>
+      <div class="app-card fade-up" style="transition-delay: 0.15s;">
+        <div class="app-card-number">04</div>
+        <div class="app-card-title">Humanoid Locomotion</div>
+        <p class="app-card-body">Single-operator kinematic consistency provides a stable locomotion prior for training traversal patterns in domestic spaces: narrow hallways, staircases, furniture-cluttered rooms, flooring transitions, and the spatial logic of residential architecture.</p>
+      </div>
+      <div class="app-card fade-up" style="transition-delay: 0.2s;">
+        <div class="app-card-number">05</div>
+        <div class="app-card-title">Autonomous Delivery</div>
+        <p class="app-card-body">Aerial and exterior modalities provide rich training data for the last-hundred-meters problem: navigating from public road to private residential space, understanding driveways, building approaches, and visual transition cues.</p>
+      </div>
+      <div class="app-card fade-up" style="transition-delay: 0.25s;">
+        <div class="app-card-number">06</div>
+        <div class="app-card-title">Semantic Annotation</div>
+        <p class="app-card-body">Embedded human-expert attention hierarchy baked into capture sequence. Room order, dwell time, and compositional choices reflect agent-assigned value hierarchy, providing richer spatial salience data than post-hoc object labels.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== COMPARISON ====== -->
+<section class="comparison">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Comparable Landscape</div>
+      <h2 class="section-title">Existing residential <em>datasets</em></h2>
+    </div>
+    <div class="comparison-table-wrap fade-up">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Dataset</th>
+            <th>Properties</th>
+            <th>Modalities</th>
+            <th>Real / Synthetic</th>
+            <th>Residential Focus</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>ScanNet</td><td>1,513 rooms</td><td>RGB-D only</td><td>Real</td><td>Partial</td></tr>
+          <tr><td>Matterport3D</td><td>90 buildings</td><td>RGB-D, panoramic</td><td>Real</td><td>Mixed</td></tr>
+          <tr><td>Gibson</td><td>572 spaces</td><td>RGB-D</td><td>Real scans</td><td>Mixed</td></tr>
+          <tr><td>AI Habitat (HM3D)</td><td>1,000 scans</td><td>RGB-D mesh</td><td>Reconstructed</td><td>Partial</td></tr>
+          <tr><td>Replica</td><td>18 scenes</td><td>Dense mesh</td><td>Reconstructed</td><td>Limited</td></tr>
+          <tr class="highlight"><td>EmbodiedNet</td><td>500+ homes</td><td>6 modalities (RAW)</td><td>Real capture</td><td>100% residential</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ====== STRATEGIC POSITIONING ====== -->
+<section class="buyers">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Strategic Positioning</div>
+      <h2 class="section-title">Where EmbodiedNet <em>fits</em></h2>
+      <p style="color: var(--gray-300); font-size: 16px; line-height: 1.8; max-width: 700px; margin-top: 16px;">Every major AI lab building toward residential deployment confronts the same data gap. EmbodiedNet addresses each program's specific requirements.</p>
+    </div>
+    <div class="buyers-grid">
+      <div class="buyer-card fade-up">
+        <div class="buyer-card-name">Tesla</div>
+        <div class="buyer-card-product">Optimus</div>
+        <p class="buyer-card-body">Targeting home deployment by 2027. Needs residential navigation, manipulation context, and floor-plan-to-walkthrough spatial correspondence. The leap from factory to home requires residential training data that factory deployment cannot generate.</p>
+      </div>
+      <div class="buyer-card fade-up" style="transition-delay: 0.05s;">
+        <div class="buyer-card-name">NVIDIA</div>
+        <div class="buyer-card-product">Isaac Lab / Cosmos / GR00T</div>
+        <p class="buyer-card-body">Building the foundational simulation and model infrastructure that the entire industry runs on. Needs real-world photometric ground truth to calibrate Cosmos renderers and validate Isaac Sim environments.</p>
+      </div>
+      <div class="buyer-card fade-up" style="transition-delay: 0.1s;">
+        <div class="buyer-card-name">Google DeepMind</div>
+        <div class="buyer-card-product">Gemini Robotics / Genie 2</div>
+        <p class="buyer-card-body">Advancing generalized robotic control and world model architectures. Needs multi-scale residential spatial data for training world models at the layout, room, and object levels.</p>
+      </div>
+      <div class="buyer-card fade-up" style="transition-delay: 0.15s;">
+        <div class="buyer-card-name">Meta FAIR</div>
+        <div class="buyer-card-product">Project Aria / EgoTracks</div>
+        <p class="buyer-card-body">Investing in ego-perspective spatial understanding through wearable and robotic platforms. The S-Log3 ego-perspective walkthroughs directly serve the research goals of these programs.</p>
+      </div>
+      <div class="buyer-card fade-up" style="transition-delay: 0.2s;">
+        <div class="buyer-card-name">Apple</div>
+        <div class="buyer-card-product">Home Robotics</div>
+        <p class="buyer-card-body">Developing home robot products with a tabletop companion for 2027 and mobile robots under active research. Needs residential spatial intelligence for navigation in cluttered home spaces.</p>
+      </div>
+      <div class="buyer-card fade-up" style="transition-delay: 0.25s;">
+        <div class="buyer-card-name">Apptronik / Figure AI</div>
+        <div class="buyer-card-product">Apollo / Figure 02</div>
+        <p class="buyer-card-body">Scaling commercial humanoid production with residential deployment as the long-term addressable market. Domestic navigation training data is a prerequisite for the home use case.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== VALIDATION ====== -->
+<section class="validation">
+  <div class="container">
+    <div class="fade-up" style="text-align: center; max-width: 600px; margin: 0 auto 20px;">
+      <div class="section-label">Validation and Engagement</div>
+      <h2 class="section-title">Reviewed by <em>field leaders</em></h2>
+    </div>
+    <div class="validation-grid">
+      <div class="validation-card fade-up">
+        <div class="validation-card-icon">&ldquo;</div>
+        <div class="validation-card-title">Academic Validation</div>
+        <p class="validation-card-body">Technical validation of the corpus's significance for embodied AI locomotion and kinematic research from one of the most cited researchers in robotics.</p>
+        <div class="validation-card-name">Henrik Christensen</div>
+        <div class="validation-card-role">Director, Contextual Robotics Institute, UCSD</div>
+      </div>
+      <div class="validation-card fade-up" style="transition-delay: 0.1s;">
+        <div class="validation-card-icon">&ldquo;</div>
+        <div class="validation-card-title">Active Technical Evaluation</div>
+        <p class="validation-card-body">Active technical evaluation underway at one of the most respected independent AI research organizations in the world.</p>
+        <div class="validation-card-name">Allen Institute for AI</div>
+        <div class="validation-card-role">Dieter Fox &amp; Ranjay Krishna</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SAMPLE ====== -->
+<section class="sample-section" id="sample">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Sample</div>
+      <h2 class="section-title">See the <em>data</em></h2>
+      <p style="color: var(--gray-400); font-size: 15px; line-height: 1.7; max-width: 640px; margin-top: 12px;">A shallow sample from one property in the archive, showing all six modalities at reduced depth. One complete property at full depth is available by request.</p>
+    </div>
+
+    <div class="sample-grid fade-up" style="margin-top: 32px;">
+      <div class="sample-card">
+        <img src="assets/img/aerial.jpg" alt="Aerial neighborhood context" loading="lazy">
+        <div class="sample-card-info">
+          <div class="sample-card-modality">01 / Aerial</div>
+          <div class="sample-card-title">Neighborhood Context</div>
+          <div class="sample-card-desc">Spatial context mapping, street-level geometry, and approach vectors from DJI Air 3.</div>
+          <div class="sample-card-format">D-Log M HEVC &middot; 3840x2160 &middot; FAA Part 107</div>
+        </div>
+      </div>
+      <div class="sample-card">
+        <img src="assets/img/exterior.jpg" alt="Exterior approach" loading="lazy">
+        <div class="sample-card-info">
+          <div class="sample-card-modality">02 / Exterior</div>
+          <div class="sample-card-title">Building Approach</div>
+          <div class="sample-card-desc">Building facade, approach geometry, lot context, and exterior material surfaces.</div>
+          <div class="sample-card-format">Sony ARW &middot; DNG + S-Log3 video</div>
+        </div>
+      </div>
+      <div class="sample-card">
+        <img src="assets/img/transition.jpg" alt="Interior-exterior transition zone" loading="lazy">
+        <div class="sample-card-info">
+          <div class="sample-card-modality">03 / Transition</div>
+          <div class="sample-card-title">Transition Zone</div>
+          <div class="sample-card-desc">Interior-exterior boundary capture, light adaptation between spaces. Address and identifying details redacted for privacy.</div>
+          <div class="sample-card-format">S-Log3 4K &middot; Ego-perspective &middot; Gimbal-stabilized</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sample-grid fade-up">
+      <div class="sample-card">
+        <img src="assets/img/interior.jpg" alt="Interior navigation" loading="lazy">
+        <div class="sample-card-info">
+          <div class="sample-card-modality">04 / Interior Motion</div>
+          <div class="sample-card-title">Room Navigation</div>
+          <div class="sample-card-desc">Room-to-room traversal, spatial logic, material transitions, and obstacle mapping.</div>
+          <div class="sample-card-format">S-Log3 4K &middot; 3840x2160 &middot; 14mm wide</div>
+        </div>
+      </div>
+      <div class="sample-card">
+        <img src="assets/img/hdr.jpg" alt="HDR merged output" loading="lazy">
+        <div class="sample-card-info">
+          <div class="sample-card-modality">05 / HDR Merged</div>
+          <div class="sample-card-title">Photometric Ground Truth</div>
+          <div class="sample-card-desc">Full luminance range from 5-bracket RAW merge. Sim-to-real calibration reference.</div>
+          <div class="sample-card-format">5-Bracket Sony ARW &rarr; 32-bit TIFF &middot; ISO 200 &middot; f/7.1</div>
+        </div>
+      </div>
+      <div class="sample-card">
+        <img src="assets/img/floorplan.jpg" alt="Metric floor plan" loading="lazy">
+        <div class="sample-card-info">
+          <div class="sample-card-modality">06 / Floor Plan</div>
+          <div class="sample-card-title">Metric Ground Truth</div>
+          <div class="sample-card-desc">Spatial anchoring for SLAM validation, dual-level coverage with verified room dimensions.</div>
+          <div class="sample-card-format">Ricoh Theta V 360 &middot; Metric PDF &middot; Both levels</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sample-note fade-up">
+      <p>This <strong>sample</strong> provides a shallow representation of the 6-modality stack for one property drawn from the full archive. It is not exhaustive. One complete property at full depth, with all RAW files and native sensor data, is available by request. The complete corpus spans 500+ properties in cold storage, awaiting formal diligence.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CTA ====== -->
+<section class="cta" id="contact">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">The Window Is Open</div>
+      <h2 class="cta-title">The only large-scale residential corpus<br>available for <em style="font-style: italic; color: var(--orange);">exclusive acquisition</em></h2>
+      <p class="cta-subtitle">For technical evaluation, sample access, or acquisition inquiry.</p>
+      <a href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20Inquiry%20%E2%80%93%20Sample%20Request" class="cta-btn-big">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M2 3l10 9 10-9"/></svg>
+        Request Free Sample
+      </a>
+      <br>
+      <a href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20Inquiry%20%E2%80%93%20White%20Paper%20Request" class="cta-wp-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Or download the full White Paper (PDF)
+      </a>
+      <div class="cta-details">
+        <div class="cta-detail">
+          <div class="cta-detail-label">Entity</div>
+          <div class="cta-detail-value">Lefties Lens Limited</div>
+        </div>
+        <div class="cta-detail">
+          <div class="cta-detail-label">Location</div>
+          <div class="cta-detail-value">United States</div>
+        </div>
+        <div class="cta-detail">
+          <div class="cta-detail-label">Status</div>
+          <div class="cta-detail-value">Pilot Evaluation Available Now</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<footer>
+  <div class="container">
+    <p>Lefties Lens Limited &middot; February 2026</p>
+  </div>
+</footer>
+
+<!-- ====== SCROLL ANIMATION ====== -->
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Smooth scroll for nav links
+document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+</body>
+</html>
