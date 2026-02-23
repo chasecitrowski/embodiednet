@@ -31,6 +31,8 @@ All files preserve native sensor characteristics and original embedded metadata.
 → **[Open VB1 Google Drive Folder](https://drive.google.com/drive/folders/1WzNt24V_z8i3QOczZrfoGQez1kWm_DQc?usp=drive_link)**  
 (Contains the complete preview package with all modalities)
 
+**Note on file hosting**: These are large native sensor files (14-bit RAW stills, 4K video clips, bracket sequences, etc.). GitHub has strict size limits (25 MB per file via browser upload, 100 MB recommended maximum), so Google Drive is the most practical and reliable way to share them at full fidelity without quality loss or extra setup (such as Git LFS).
+
 ## Contents Summary
 - **Interior**: 8× 0 EV RAW stills, 1× living-room motion clip, 1× full bracket set, 1× HDR merge  
 - **Exterior**: 6× 0 EV RAW stills, 1× aerial motion clip, 1× full bracket set, 1× HDR merge  
