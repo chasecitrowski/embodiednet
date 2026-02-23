@@ -27,31 +27,22 @@ This verification batch lets you explore native 14-bit RAW stills, 4K log-encode
 
 All files preserve native sensor characteristics and original embedded metadata.
 
-## Contents
+## Download the Full Preview
+→ **[Open VB1 Google Drive Folder](https://drive.google.com/drive/folders/1WzNt24V_z8i3QOczZrfoGQez1kWm_DQc?usp=drive_link)**  
+(Contains the complete preview package with all modalities)
 
-### 01 Interior
-- **RAW Stills**: Eight 0 EV interior RAW files (living room, kitchen, bedroom, hallway, bathroom)  
-- **Motion**: One interior movement clip (living room) demonstrating parallax stability and exposure transitions  
-- **Brackets**: One complete multi-bracket RAW exposure set (primary living room composition)  
-- **HDR Merged**: One neutrally edited HDR merge from the bracket sequence  
+## Contents Summary
+- **Interior**: 8× 0 EV RAW stills, 1× living-room motion clip, 1× full bracket set, 1× HDR merge  
+- **Exterior**: 6× 0 EV RAW stills, 1× aerial motion clip, 1× full bracket set, 1× HDR merge  
+- **Floor Plan**: 1× metric floor plan (Property 297)
 
-### 02 Exterior
-- **RAW Stills**: Six 0 EV exterior RAW files (front elevation, angled front, back elevation, neighborhood context, side context, overhead lot perspective)  
-- **Motion**: One aerial motion clip  
-- **Brackets**: One complete multi-bracket RAW exposure set (primary exterior elevation)  
-- **HDR Merged**: One HDR merge from the exterior bracket sequence  
-
-### 03 Floor Plans
-- One metric floor plan for Property 297  
-
-The living room serves as the primary anchor environment for evaluation.
+The living room is the primary anchor environment.
 
 ## Change Log
 **v2 — December 2025**  
 • Added full exterior RAW, motion, brackets, and HDR merge  
 • Added floor plan  
 • Replaced interior TIFFs with native 0 EV RAW stills  
-• Updated equipment and methodology details  
 
 **v1 — November 2025**  
 • Initial interior-only batch
