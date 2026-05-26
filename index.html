@@ -22,6 +22,18 @@ it<!DOCTYPE html>
 
   gtag('config', 'G-X9VSY3BLPW');
 </script>
+it<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X9VSY3BLPW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-X9VSY3BLPW');
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EmbodiedNet — The Real-World Residential Intelligence Layer</title>
@@ -3710,47 +3722,79 @@ footer p {
       <p style="color: var(--gray-400); font-size: 15px; line-height: 1.7; max-width: 640px; margin-top: 12px;">No preprocessing. No fine-tuning. Lower bounds from the most generic property in the corpus.</p>
     </div>
 
-    <div class="fade-up" style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 48px;">
+    <!-- Triptych: Source → Reconstruction → Render -->
+    <div class="fade-up" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 48px;">
       <div style="border: 1px solid var(--border-subtle); overflow: hidden;">
-        <img src="assets/img/recon_pointcloud.png" alt="COLMAP dense point cloud" style="width: 100%; display: block;">
-        <div style="padding: 16px; background: var(--navy-mid);">
-          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--orange); margin-bottom: 6px;">COLMAP Dense Point Cloud</div>
-          <p style="font-size: 13px; color: var(--gray-400); line-height: 1.6;">~2M points from a single 15-second S-Log3 video clip. Default COLMAP. CPU-only.</p>
+        <img src="assets/img/recon_slog3_source.png" alt="S-Log3 source frame" style="width: 100%; display: block;">
+        <div style="padding: 14px 16px; background: var(--navy-mid);">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray-500); margin-bottom: 4px;">Input</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--orange); margin-bottom: 6px;">Source: Ungraded S-Log3 4K</div>
+          <p style="font-size: 12px; color: var(--gray-400); line-height: 1.5;">Raw video frame as preserved in the archive. Flat gamma, 15 stops dynamic range. No preprocessing, no tone mapping, no grading. This is what the pipeline ingests.</p>
         </div>
       </div>
       <div style="border: 1px solid var(--border-subtle); overflow: hidden;">
-        <img src="assets/img/recon_splat.png" alt="3D Gaussian Splatting" style="width: 100%; display: block;">
-        <div style="padding: 16px; background: var(--navy-mid);">
-          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--orange); margin-bottom: 6px;">3D Gaussian Splatting</div>
-          <p style="font-size: 13px; color: var(--gray-400); line-height: 1.6;">Photorealistic novel-view synthesis from the same source data. Near-photographic fidelity.</p>
+        <img src="assets/img/recon_dense_pointcloud.png" alt="COLMAP dense point cloud" style="width: 100%; display: block;">
+        <div style="padding: 14px 16px; background: var(--navy-mid);">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray-500); margin-bottom: 4px;">Geometry</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--orange); margin-bottom: 6px;">COLMAP Dense Reconstruction</div>
+          <p style="font-size: 12px; color: var(--gray-400); line-height: 1.5;">~2M colored points. 52,819 sparse features, mean track length 23.7. Default parameters, CPU-only, Mac Studio. 149/149 frames registered.</p>
+        </div>
+      </div>
+      <div style="border: 1px solid rgba(232,113,58,0.4); overflow: hidden;">
+        <img src="assets/img/recon_nerf_render.png" alt="Nerfacto novel-view synthesis" style="width: 100%; display: block;">
+        <div style="padding: 14px 16px; background: var(--navy-mid);">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray-500); margin-bottom: 4px;">Output</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--orange); margin-bottom: 6px;">Nerfacto Novel-View Synthesis</div>
+          <p style="font-size: 12px; color: var(--gray-400); line-height: 1.5;">This is not a photograph. This is a novel viewpoint rendered from the reconstruction. PSNR 33.09 dB, SSIM 0.953, LPIPS 0.044.</p>
         </div>
       </div>
     </div>
 
-    <div class="fade-up" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 36px;">
-      <div style="text-align: center; padding: 28px 16px; border: 1px solid var(--border-subtle);">
-        <div style="font-size: 32px; color: var(--orange); font-family: 'Playfair Display', serif; margin-bottom: 10px;">100%</div>
-        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--orange); margin-bottom: 6px;">Registration</div>
-        <p style="font-size: 12px; color: var(--gray-500);">149/149 frames</p>
-      </div>
-      <div style="text-align: center; padding: 28px 16px; border: 1px solid var(--border-subtle);">
-        <div style="font-size: 32px; color: var(--orange); font-family: 'Playfair Display', serif; margin-bottom: 10px;">0.63 px</div>
-        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--orange); margin-bottom: 6px;">Reprojection Error</div>
-        <p style="font-size: 12px; color: var(--gray-500);">Sub-pixel, no preprocessing</p>
-      </div>
-      <div style="text-align: center; padding: 28px 16px; border: 1px solid var(--border-subtle);">
-        <div style="font-size: 32px; color: var(--orange); font-family: 'Playfair Display', serif; margin-bottom: 10px;">33.09 dB</div>
-        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--orange); margin-bottom: 6px;">PSNR</div>
-        <p style="font-size: 12px; color: var(--gray-500);">Research-grade quality</p>
-      </div>
-      <div style="text-align: center; padding: 28px 16px; border: 1px solid var(--border-subtle);">
-        <div style="font-size: 32px; color: var(--orange); font-family: 'Playfair Display', serif; margin-bottom: 10px;">~2M</div>
-        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--orange); margin-bottom: 6px;">Dense Points</div>
-        <p style="font-size: 12px; color: var(--gray-500);">15 seconds, one modality</p>
-      </div>
+    <!-- Full metrics table -->
+    <div class="fade-up" style="margin-top: 48px;">
+      <table style="width: 100%; border-collapse: collapse; max-width: 800px;">
+        <tr style="border-bottom: 1px solid var(--border-subtle);">
+          <td colspan="2" style="padding: 12px 0; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--orange);">COLMAP Sparse Reconstruction</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--border-subtle);">
+          <td style="padding: 10px 0; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--gray-500); width: 240px;">Registered Frames</td>
+          <td style="padding: 10px 0; color: var(--white); font-size: 15px;">149 / 149 (100%)</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--border-subtle);">
+          <td style="padding: 10px 0; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--gray-500);">Mean Reprojection Error</td>
+          <td style="padding: 10px 0; color: var(--white); font-size: 15px;">0.6325 px</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--border-subtle);">
+          <td style="padding: 10px 0; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--gray-500);">Sparse Points</td>
+          <td style="padding: 10px 0; color: var(--white); font-size: 15px;">52,819</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--border-subtle);">
+          <td style="padding: 10px 0; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--gray-500);">Mean Track Length</td>
+          <td style="padding: 10px 0; color: var(--white); font-size: 15px;">23.7</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--border-subtle);">
+          <td style="padding: 10px 0; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--gray-500);">Dense Points</td>
+          <td style="padding: 10px 0; color: var(--white); font-size: 15px;">~2,000,000</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--border-subtle);">
+          <td colspan="2" style="padding: 16px 0 12px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--orange);">Nerfacto Reconstruction</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--border-subtle);">
+          <td style="padding: 10px 0; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--gray-500);">PSNR</td>
+          <td style="padding: 10px 0; color: var(--white); font-size: 15px;">33.09 dB</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--border-subtle);">
+          <td style="padding: 10px 0; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--gray-500);">SSIM</td>
+          <td style="padding: 10px 0; color: var(--white); font-size: 15px;">0.953</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--border-subtle);">
+          <td style="padding: 10px 0; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--gray-500);">LPIPS</td>
+          <td style="padding: 10px 0; color: var(--white); font-size: 15px;">0.044</td>
+        </tr>
+      </table>
     </div>
 
-    <p class="fade-up" style="color: var(--gray-500); font-size: 13px; line-height: 1.7; margin-top: 28px;">Pipeline: COLMAP + 3DGS. Input: ungraded S-Log3 4K, single interior clip. Any VB1 recipient can replicate with open-source tools.</p>
+    <p class="fade-up" style="color: var(--gray-500); font-size: 13px; line-height: 1.7; margin-top: 28px;">Pipeline: COLMAP (SfM + MVS) then Nerfstudio Nerfacto. Input: ungraded S-Log3 4K, single interior clip, 15 seconds. Hardware: Mac Studio, CPU-only for COLMAP. Default parameters throughout. No tone mapping, no denoising, no preprocessing. One modality, one property. Any VB1 recipient can replicate with open-source tools.</p>
   </div>
 </section>
 
@@ -3790,19 +3834,19 @@ footer p {
           Request VB1 Verification Batch
         </a>
 
-        <!-- NDA -->
+        <!-- NDA + evaluation slice -->
         <a
           href="https://forms.gle/HvoYW5qQ7EYf4jq58"
           class="cta-btn-big cta-btn-secondary"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Request NDA"
+          aria-label="Request NDA and Evaluation Slice"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 1l3 5 6 .9-4.4 4.3 1 6-5.6-3-5.6 3 1-6L3 6.9 9 6z"></path>
           </svg>
-          Request NDA
+          Request NDA + Evaluation Slice
         </a>
       </div>
 
