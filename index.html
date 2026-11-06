@@ -4,23 +4,677 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>EmbodiedNet</title>
+<meta name="description" content="The real world reference for homes. 518 Colorado homes, six modalities, one operator, 2020 to 2026.">
+<link rel="icon" href="./assets/brand/favicon.ico" sizes="any">
+<link rel="icon" href="./assets/brand/favicon-dark.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./assets/brand/icon-dark-180.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="EmbodiedNet">
+<meta property="og:description" content="The real world reference for homes. 518 Colorado homes, six modalities, one operator, 2020 to 2026.">
+<meta property="og:url" content="https://chasecitrowski.github.io/embodiednet/">
+<meta property="og:image" content="https://chasecitrowski.github.io/embodiednet/assets/brand/share-1200x630.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://chasecitrowski.github.io/embodiednet/assets/brand/share-1200x630.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-html,body{height:100%;margin:0;background:#fff}
-body{display:flex;align-items:center;justify-content:center;font-family:Inter,-apple-system,system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-align:center;padding:0 24px;box-sizing:border-box}
-main{display:flex;flex-direction:column;align-items:center}
-svg{width:min(320px,72vw);height:auto;color:#111311;display:block}
-p{margin:28px 0 0;font-size:clamp(20px,4vw,30px);font-weight:500;color:#0B1A2E;letter-spacing:-.02em}
-a{margin-top:18px;font-size:16px;color:#0B1A2E}
+:root{
+  --navy:#0B1A2E;--ink:#1C2B3F;--ink2:#5D6C7B;--ink3:#7A8797;
+  --orange:#E8713A;--orange2:#D4602A;--orangeT:#FCEDE4;
+  --bg:#FFFFFF;--soft:#F5F6F8;--soft2:#EEF1F5;--cream:#F7F2EA;--line:#E3E7EC;
+  --max:1200px;--pad:26px;--r:24px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,-apple-system,system-ui,sans-serif;-webkit-font-smoothing:antialiased;letter-spacing:-.012em;line-height:1.5}
+a{color:var(--orange2);text-decoration:none}
+img{display:block;max-width:100%}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{font-weight:500;letter-spacing:-.02em;color:var(--navy)}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
+.sec{padding:96px 0}
+.sec+.sec{border-top:1px solid var(--line)}
+.sec.soft{background:var(--soft)}
+@media (max-width:760px){.sec{padding:64px 0}}
+.eyebrow{font-size:14px;font-weight:400;letter-spacing:.02em;text-transform:uppercase;color:var(--orange2)}
+.h2{font-size:clamp(28px,3.2vw,36px);line-height:1.28;margin-top:6px}
+.lead{font-size:clamp(16px,1.5vw,18px);color:var(--ink2);line-height:1.45;margin-top:8px;max-width:660px}
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:24px}
+@media (max-width:760px){.head{flex-direction:column}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 22px;border-radius:999px;background:var(--orange);color:#fff;font-weight:700;font-size:14px;white-space:nowrap;border:0;cursor:pointer;font-family:inherit;transition:background .2s}
+.btn:hover{background:var(--orange2);color:#fff}
+.btn.ghost{background:transparent;color:var(--navy);border:1px solid #C9D1DB}
+.btn.ghost:hover{border-color:var(--navy)}
+.btn.white{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.45);backdrop-filter:blur(8px)}
+.btn.white:hover{background:rgba(255,255,255,.24)}
+.tlink{font-size:14px;font-weight:600;color:var(--navy);display:inline-flex;align-items:center;gap:8px}
+.tlink::before{content:"›";display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;border:1px solid #C9D1DB;font-size:14px;line-height:1}
+.pill{position:absolute;top:14px;left:14px;z-index:3;display:inline-flex;align-items:center;gap:7px;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);color:var(--navy);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;pointer-events:none;box-shadow:0 1px 3px rgba(11,26,46,.12)}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--orange)}
+.ph-tag{position:absolute;left:14px;bottom:14px;z-index:3;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#fff;background:rgba(11,26,46,.55);border:1px dashed rgba(255,255,255,.6);padding:5px 10px;border-radius:8px}
+.media{position:relative;overflow:hidden;border-radius:var(--r);background:var(--soft2)}
+.media img{width:100%;height:100%;object-fit:cover}
+.media img.bar{height:112%;object-position:center top}
+.media video{display:block;width:100%;height:100%;object-fit:cover}
+.media.plan{background:#fff}
+.media.plan img{object-fit:contain;padding:18px}
+.mark{width:72px;height:72px;border-radius:18px;background:var(--navy);color:#F7F5F0;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(11,26,46,.18)}
+.mark svg{width:38px;height:37px;display:block}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .3s,box-shadow .3s}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:56px;max-width:none}
+nav .brand{display:flex;align-items:center;gap:9px;font-size:17px;font-weight:700;color:#fff;letter-spacing:-.02em}
+nav .brand svg{width:124px;height:24px;display:block}
+nav .links{display:flex;align-items:center;gap:24px;font-size:13px}
+nav .links a{color:rgba(255,255,255,.85)}
+nav .links a.cta{background:var(--orange);color:#fff;padding:7px 14px;border-radius:999px;font-weight:600}
+nav.solid{background:rgba(255,255,255,.92);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+nav.solid .brand,nav.solid .links a{color:var(--navy)}
+nav.solid .links a.cta{color:#fff}
+@media (max-width:860px){nav .links a:not(.cta){display:none}}
+
+/* hero stage */
+.stage{position:relative;height:100vh;min-height:560px;max-height:1100px;background:#0B1A2E}
+.stage .pin{position:relative;height:100%;overflow:hidden}
+.scene-media{position:absolute;inset:0;opacity:0;transition:opacity .9s ease}
+.scene-media.on{opacity:1}
+.scene-media img,.scene-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.06);transition:transform 8s linear}
+.scene-media video{transform:none;transition:none}
+.scene-media.on img{transform:scale(1)}
+.scene-media::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(11,26,46,.28) 0%,rgba(11,26,46,.55) 100%)}
+.brk-cycle img{opacity:0;transition:opacity .7s}
+.brk-cycle img.on{opacity:1}
+.cap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 24px;color:#fff;opacity:0;transform:translateY(16px);transition:opacity .6s,transform .6s;pointer-events:none;z-index:4}
+.cap.on{opacity:1;transform:none;pointer-events:auto}
+.cap .eyebrow{color:#fff;opacity:.9;margin-top:20px;font-size:14px}
+.cap h1{color:#fff;font-size:clamp(36px,5.6vw,64px);line-height:1.15;letter-spacing:-.03em;margin-top:6px;max-width:900px;font-weight:500}
+.cap .row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:26px}
+.cap .watch{margin-top:18px;font-size:14px;color:#fff;opacity:.9;background:none;border:0;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:8px}
+.cap .watch span{display:inline-flex;width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,.7);align-items:center;justify-content:center;font-size:10px}
+.cap .lines{font-size:clamp(30px,4.2vw,48px);font-weight:500;line-height:1.17;letter-spacing:-.025em}
+.cap .rot{display:inline-block;color:#fff;position:relative}
+.cap .rot b{font-weight:500;display:inline-block;transition:opacity .35s,transform .35s}
+.cap .rot b.out{opacity:0;transform:translateY(-14px)}
+.cap .rot b{color:var(--orange)}
+.scroll-hint{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);z-index:5;color:#fff;opacity:.75;font-size:12px;letter-spacing:.08em;text-transform:uppercase;transition:opacity .4s}
+.stage .ph-tag{z-index:5;left:var(--pad);bottom:22px}
+.hctrls{z-index:6}
+.progress{position:absolute;right:var(--pad);top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;gap:8px}
+.progress span{width:3px;height:22px;border-radius:2px;background:rgba(255,255,255,.3);transition:background .3s}
+.progress span.on{background:var(--orange)}
+@media (max-width:760px){.progress,.scroll-hint{display:none}}
+.cap .lines{text-shadow:0 2px 24px rgba(11,26,46,.45)}
+
+/* accordion features */
+.feat{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:44px;align-items:start}
+@media (max-width:860px){.feat{grid-template-columns:1fr}}
+.acc{border-top:1px solid #CBD2DA}
+.acc-row{border-bottom:1px solid var(--line)}
+.acc-row button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:24px 0;background:none;border:0;cursor:pointer;text-align:left;font-family:inherit;font-size:clamp(19px,2vw,24px);font-weight:300;color:var(--navy);letter-spacing:-.015em}
+.acc-row button .n{display:none}
+.acc-row button .pm{width:18px;height:18px;position:relative;flex:none}
+.acc-row button .pm::before,.acc-row button .pm::after{content:"";position:absolute;left:2px;right:2px;top:8px;height:1.5px;background:var(--navy);transition:transform .3s}
+.acc-row button .pm::after{transform:rotate(90deg)}
+.acc-row.open button .pm::after{transform:rotate(0)}
+.acc-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s ease}
+.acc-row.open .acc-body{grid-template-rows:1fr}
+.acc-body>div{overflow:hidden}
+.acc-body p{font-size:16px;color:var(--ink2);line-height:1.5;padding:0 0 24px;max-width:460px}
+.acc-body .mm{display:none;margin:0 0 22px;aspect-ratio:4/3}
+@media (max-width:860px){.acc-body .mm{display:block}.feat .panel{display:none}}
+.front-m{display:none}
+@media (max-width:860px){.feat:not(.has-open) .front-m{display:block;aspect-ratio:4/3}}
+.panel{position:sticky;top:90px;aspect-ratio:1/1;border-radius:var(--r);background:var(--soft);overflow:hidden}
+.panel .pv{position:absolute;inset:0;opacity:0;transition:opacity .5s}
+.panel .pv.on{opacity:1}
+.panel .pv .media{position:absolute;inset:28px;border-radius:18px}
+.brkgrid{position:absolute;inset:28px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:8px}
+.brkgrid div{position:relative;border-radius:12px;overflow:hidden}
+.brkgrid img{width:100%;height:100%;object-fit:cover}
+.brkgrid span{position:absolute;left:8px;bottom:8px;font-size:11px;font-weight:600;color:#fff;background:rgba(11,26,46,.6);padding:2px 7px;border-radius:6px}
+.ph-box{position:absolute;inset:28px;border-radius:18px;border:1.5px dashed #C9D1DB;display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:12px;letter-spacing:.08em;text-transform:uppercase;background:#fff}
+.mm .ph-box{inset:0}
+
+/* buckets */
+.buckets{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+@media (max-width:900px){.buckets{grid-template-columns:1fr}}
+.bk{border-radius:var(--r);background:var(--soft);padding:28px 26px 14px}
+.bk .t{display:flex;align-items:center;gap:12px}
+.bk .ic{width:34px;height:34px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;flex:none}
+.bk .ic svg{width:18px;height:18px}
+.bk h3{font-size:21px}
+.bk .sub{font-size:14px;color:var(--ink3);margin-top:2px}
+.bk dl{margin:20px 0 0}
+.bk .row{display:grid;grid-template-columns:112px 1fr;gap:14px;padding:12px 0;border-top:1px solid var(--line);align-items:baseline}
+.bk dt{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);font-weight:600;line-height:1.35}
+.bk dd{margin:0;font-size:15px;color:var(--navy);font-weight:500;line-height:1.4}
+.bk dd.open{color:var(--ink3);font-weight:400;font-style:italic}
+.bk.hi{background:var(--navy)}
+.bk.hi h3,.bk.hi dd{color:#fff}
+.bk.hi .ic{background:var(--orange)}
+.bk.hi .sub,.bk.hi dt{color:#9FB0C4}
+.bk.hi .row{border-top-color:rgba(255,255,255,.12)}
+.bk.hi dd.open{color:#7F91A6}
+.bk.hi dd.hi{color:#fff;font-weight:700}
+.bk.hi dd.hi em{font-style:normal;color:var(--orange)}
+@media (max-width:1100px) and (min-width:901px){.bk .row{grid-template-columns:1fr;gap:3px}}
+
+
+/* comparison: labels once, three columns on subgrid */
+.cmp{display:grid;grid-template-columns:150px repeat(3,1fr);grid-template-rows:auto repeat(5,auto);column-gap:12px;margin-top:40px}
+.cmp>div{display:grid;grid-row:1/span 6;grid-template-rows:subgrid}
+.cmp .ch{display:flex;align-items:center;gap:12px;padding:22px 22px 18px}
+.cmp .ch h3{font-size:20px}
+.cmp .ch .sub{font-size:14px;color:var(--ink3);margin-top:1px}
+.cmp .ic{width:36px;height:36px;border-radius:50%;background:var(--soft);color:var(--navy);display:flex;align-items:center;justify-content:center;flex:none}
+.cmp .ic svg{width:19px;height:19px}
+.cmp .cv{padding:14px 22px;border-top:1px solid var(--line);font-size:16px;color:var(--ink);line-height:1.4;align-self:stretch}
+.cmp .cl .cv{font-size:14px;color:var(--ink3);padding-left:0;padding-right:8px}
+.cmp .cv.open{color:var(--ink3)}
+.cmp .cc.hi{background:#FDF3EC;border-radius:20px;box-shadow:inset 0 0 0 1.5px rgba(232,113,58,.55)}
+.cmp .cc.hi .ic{background:var(--orange);color:#fff}
+.cmp .cc.hi .cv{border-top-color:rgba(232,113,58,.22)}
+.cmp .cv.key{font-weight:500;color:var(--navy)}
+.cmp .cv.key em{font-style:normal;color:var(--orange2)}
+@media (max-width:860px){
+  .cmp{display:flex;flex-direction:column;gap:14px}
+  .cmp>div{display:block}
+  .cmp .cl{display:none}
+  .cmp .cc{background:var(--soft);border-radius:20px;padding-bottom:6px}
+  .cmp .cv{display:grid;grid-template-columns:118px 1fr;gap:12px}
+  .cmp .cv::before{content:attr(data-l);font-size:13px;color:var(--ink3)}
+  .cmp .cc .ic{background:#fff}
+}
+
+/* where it fits: A to D loop */
+.loop{display:grid;grid-template-columns:1.35fr 40px 1fr 40px 1fr 40px 1fr;margin-top:40px;align-items:stretch}
+.lc{border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;background:#fff;min-width:0}
+.lc.real{border:2px solid var(--orange)}
+.lc .lab{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:var(--navy);letter-spacing:-.01em}
+.lc .lab i{font-style:normal;flex:none;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--navy);display:grid;place-items:center;font-size:12px;font-weight:600}
+.lc.real .lab i{border-color:var(--orange);color:var(--orange2)}
+.lc .sub{font-size:13px;color:var(--ink2);margin-top:4px;line-height:1.4}
+.lc .imgs{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:6px;margin-top:14px;flex:1;min-height:300px}
+.lc .imgs img{width:100%;height:100%;object-fit:cover;border-radius:8px}
+.lc .imgs img.plan{grid-row:1/3;grid-column:2;object-fit:contain;background:#fff;border:1px solid var(--line);padding:6px}
+.lc .box{flex:1;margin-top:14px;border-radius:12px;background:var(--soft);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:10px;padding:18px 12px;text-align:center;min-height:220px}
+.lc .big{font-size:15px;font-weight:600;color:var(--navy);line-height:1.35}
+.chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.chips span{font-size:12px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 10px;color:var(--ink);white-space:nowrap}
+.tok{display:flex;gap:4px}.tok s{width:12px;height:12px;border-radius:3px;background:var(--navy);display:block}
+.tok.o s{background:var(--orange)}
+.larr{display:flex;align-items:center;justify-content:center;color:var(--navy)}
+.larr svg{width:18px;height:18px}
+.lret{display:grid;grid-template-columns:1.35fr 40px 1fr 40px 1fr 40px 1fr;height:44px;margin-top:14px;position:relative}
+.lret i{border:0 dashed var(--orange);border-bottom-width:2px}
+.lret .a{margin-left:50%;border-left-width:2px;position:relative}
+.lret .a::before{content:"";position:absolute;left:-7px;top:-2px;width:8px;height:8px;border:solid var(--orange);border-width:2px 0 0 2px;transform:rotate(45deg)}
+.lret .m{grid-column:2/7}
+.lret .d{margin-right:50%;border-right-width:2px}
+.lnote{margin:-12px auto 0;text-align:center;font-size:15px;color:var(--navy);line-height:1.45;max-width:760px;position:relative}
+.lnote span{background:var(--bg);padding:0 12px}
+.lnote b{font-weight:600;color:var(--orange2)}
+@media (max-width:980px){
+  .loop{grid-template-columns:1fr;gap:0;max-width:520px;margin-left:auto;margin-right:auto}
+  .larr{height:36px}.larr svg{transform:rotate(90deg)}
+  .lc .imgs{min-height:0;aspect-ratio:4/3}
+  .lc .box{min-height:0}
+  .lret{display:none}
+  .lnote{margin:22px auto 0;max-width:520px;text-align:left;border-left:2px dashed var(--orange);padding:4px 0 4px 16px}
+  .lnote span{padding:0;background:none}
+}
+
+/* "As shot" corner label: add <span class="asshot">Native camera file. As shot.</span> inside a .media box, only on media confirmed as a straight display transform */
+.asshot{position:absolute;right:10px;bottom:10px;z-index:3;font-size:10px;font-weight:500;letter-spacing:.02em;color:#fff;background:rgba(11,26,46,.55);padding:3px 8px;border-radius:6px;pointer-events:none;white-space:nowrap}
+
+/* findings motion panel */
+.show{position:relative;margin-top:40px;border-radius:var(--r);overflow:hidden;background:linear-gradient(180deg,#FBFCFD 0%,#F3F6FA 55%,#FCEDE4 100%);min-height:540px;display:flex;align-items:center;justify-content:center;padding:60px 28px}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 28px;opacity:0;transform:translateY(18px) scale(.985);transition:opacity .7s,transform .7s}
+.slide.on{opacity:1;transform:none}
+.slide .big{font-size:clamp(32px,4.6vw,56px);font-weight:500;letter-spacing:-.035em;line-height:1.05;color:var(--navy)}
+.slide .big em{font-style:normal;color:var(--orange)}
+.slide .vs{margin-top:22px;font-size:clamp(17px,1.8vw,22px);color:var(--ink2)}
+.slide .vs b{color:var(--navy);font-weight:600}
+.slide .k{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);font-weight:600;margin-bottom:18px}
+.ctrls{position:absolute;right:22px;bottom:20px;display:flex;gap:8px;z-index:3}
+.ctrls button{width:34px;height:34px;border-radius:50%;border:0;background:rgba(11,26,46,.55);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.ctrls button svg{width:12px;height:12px}
+.dots{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);display:flex;gap:8px;z-index:3}
+.dots button{width:8px;height:8px;border-radius:50%;border:0;background:#C9D1DB;padding:0;cursor:pointer}
+.dots button.on{background:var(--orange);width:22px;border-radius:4px}
+.under{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+@media (max-width:760px){.under{grid-template-columns:1fr}}
+.under .card{border-radius:var(--r);background:var(--soft);padding:26px}
+.under .card h3{font-size:19px}
+.under .card p{font-size:15px;color:var(--ink2);margin-top:8px;line-height:1.55}
+.planbox{position:relative;border-radius:var(--r);background:#fff;border:1px solid var(--line);overflow:hidden}
+.planbox img{width:100%}
+.tag{position:absolute;background:var(--navy);color:#fff;font-size:12px;font-weight:500;padding:5px 10px;border-radius:999px;white-space:nowrap;transform:translateY(-50%)}
+.tag::after{content:"";position:absolute;right:-9px;top:50%;width:8px;height:8px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 2px #fff;transform:translateY(-50%)}
+@media (max-width:560px){.tag{font-size:10px;padding:3px 7px}}
+
+.slide.plan-slide{flex-direction:row;gap:40px;text-align:left;padding:40px 56px}
+.plan-slide .ps-t{flex:1}.plan-slide .ps-i{flex:1;position:relative;background:#fff;border-radius:16px;padding:10px;box-shadow:0 6px 24px rgba(11,26,46,.08)}
+.plan-slide .ps-i img{width:100%}
+@media (max-width:760px){.slide.plan-slide{flex-direction:column;text-align:center;padding:30px 20px 60px}.plan-slide .ps-i{width:100%}}
+/* papers row */
+.papers{display:grid;grid-template-columns:280px 1fr;gap:40px;align-items:center}
+@media (max-width:900px){.papers{grid-template-columns:1fr}}
+.prow{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;-webkit-overflow-scrolling:touch}
+.prow::-webkit-scrollbar{height:0}
+.pcard{flex:0 0 calc((100% - 44px)/3);min-width:240px;scroll-snap-align:start;color:var(--ink2)}
+.pcard .media{aspect-ratio:3/4}
+.pcard .st{position:absolute;top:14px;left:14px;z-index:3;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:999px;background:#fff;color:var(--navy)}
+.pcard .st::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--orange);margin-right:7px;vertical-align:middle}
+.pcard .go{position:absolute;right:14px;bottom:14px;z-index:3;width:38px;height:38px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--navy);font-size:18px;transition:transform .3s}
+a.pcard:hover .go{transform:translateX(3px)}
+a.pcard:hover .media img{transform:scale(1.04)}
+.pcard .media img{transition:transform .8s}
+.pcard p{font-size:14px;margin-top:12px;line-height:1.5}
+.pcard p b{color:var(--navy);font-weight:600}
+
+/* holds up tinted panel */
+.tint{border-radius:var(--r);background:var(--cream);padding:44px 48px;display:grid;grid-template-columns:320px 1fr;gap:44px;align-items:center}
+@media (max-width:900px){.tint{grid-template-columns:1fr;padding:30px 24px}}
+.tint .h2{font-size:clamp(26px,3vw,34px)}
+.tint p.b{font-size:15px;color:var(--ink2);margin-top:12px;line-height:1.55}
+.nums{margin-top:20px;border-top:1px solid #E6DCCD}
+.nums div{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:11px 0;border-bottom:1px solid #E6DCCD;font-size:13px;color:var(--ink2)}
+.nums b{font-size:18px;color:var(--navy);font-weight:700;white-space:nowrap}
+.recon{position:relative;aspect-ratio:16/9;border-radius:18px;overflow:hidden;background:#ddd}
+.recon .rv{position:absolute;inset:0;opacity:0;transition:opacity .8s}
+.recon .rv.on{opacity:1}
+.recon .rv img{width:100%;height:100%;object-fit:cover}
+.steps{display:flex;gap:6px;margin-top:12px}
+.steps button{flex:1;border:0;background:none;padding:8px 0 0;border-top:2px solid #E0D5C4;font-family:inherit;font-size:12px;color:var(--ink3);text-align:left;cursor:pointer;letter-spacing:.02em}
+.steps button.on{border-top-color:var(--orange);color:var(--navy);font-weight:600}
+
+/* split */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+@media (max-width:860px){.split{grid-template-columns:1fr;gap:26px}}
+.split .media{aspect-ratio:4/3}
+.split h2{font-size:clamp(28px,3.2vw,36px)}
+.split p.eyebrow{font-size:13px;color:var(--orange2);margin:0}
+.split p:not(.eyebrow){font-size:16px;color:var(--ink2);margin-top:12px;line-height:1.55;max-width:460px}
+.split .row{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:24px}
+
+/* closing banner */
+.banner{position:relative;border-radius:var(--r);overflow:hidden;background:linear-gradient(135deg,#F4F7FB 0%,#FBF3EC 60%,#F6EFE6 100%);min-height:420px;display:flex;align-items:center;justify-content:center;text-align:center;padding:60px 24px}
+.banner .c{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center}
+.banner .eyebrow{margin-top:18px;color:var(--navy)}
+.banner h2{font-size:clamp(28px,3.2vw,36px);line-height:1.28;margin-top:6px;max-width:620px}
+.banner p.eyebrow{font-size:13px;color:var(--navy);margin-top:18px}
+.banner p:not(.eyebrow){font-size:15px;color:var(--ink2);margin-top:10px}
+.banner .row{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap;justify-content:center}
+.float{position:absolute;border-radius:14px;overflow:hidden;box-shadow:0 10px 30px rgba(11,26,46,.16);animation:drift 9s ease-in-out infinite alternate}
+.float img{width:100%;height:100%;object-fit:cover}
+@keyframes drift{from{transform:translateY(-8px) rotate(var(--r0,0deg))}to{transform:translateY(10px) rotate(var(--r1,0deg))}}
+@media (max-width:760px){.float{display:none}}
+
+/* faq */
+.faq{margin-top:34px;border-top:1px solid #CBD2DA;max-width:880px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:26px 0;font-size:clamp(20px,2.4vw,28px);font-weight:500;color:var(--navy);letter-spacing:-.02em;line-height:1.2}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .pm{width:18px;height:18px;position:relative;flex:none}
+.faq summary .pm::before,.faq summary .pm::after{content:"";position:absolute;left:2px;right:2px;top:8px;height:1.5px;background:var(--navy);transition:transform .3s}
+.faq summary .pm::after{transform:rotate(90deg)}
+.faq details[open] summary .pm::after{transform:rotate(0)}
+.faq details p{font-size:16px;color:var(--ink2);line-height:1.6;padding:0 0 22px;max-width:720px}
+
+footer{background:var(--soft);padding:48px 0 40px;margin-top:0}
+footer .wrap{display:grid;grid-template-columns:1.4fr 1fr;gap:26px;font-size:13px;color:var(--ink3);line-height:1.65}
+footer b{color:var(--navy)}
+@media (max-width:760px){footer .wrap{grid-template-columns:1fr}}
+
+/* lightbox */
+dialog{border:0;padding:0;background:transparent;width:min(1100px,94vw)}
+dialog::backdrop{background:rgba(11,26,46,.82)}
+dialog .vid{aspect-ratio:16/9;background:#000;border-radius:16px;overflow:hidden}
+.filmbox{margin-top:40px;border-radius:var(--r);overflow:hidden;background:#000;aspect-ratio:16/9}
+.filmbox video{width:100%;height:100%;display:block}
+dialog .x{position:absolute;top:-44px;right:0;background:none;border:0;color:#fff;font-size:28px;cursor:pointer}
+
+.in{opacity:0;transform:translateY(20px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.in.on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.in{opacity:1;transform:none}}
 </style>
 </head>
 <body>
-<main>
-<svg viewBox="58 48 902 174" fill="currentColor" role="img" aria-label="EmbodiedNet"><path  d="M79.6 48 L124.72 48 C126.64 48 128.08 49.44 128.08 51.36 L128.08 71.52 C128.08 72.96 127.6 73.92 126.16 74.88 L94.72 93.12 C93.52 93.84 93.04 94.56 93.04 96.24 L93.04 115.44 C93.04 119.52 89.92 122.4 85.84 122.4 L61.36 122.4 C59.44 122.4 58 120.96 58 119.04 L58 69.6 C58 57.6 67.6 48 79.6 48 Z"/><path  d="M216.4 48 L171.28 48 C169.36 48 167.92 49.44 167.92 51.36 L167.92 71.52 C167.92 72.96 168.4 73.92 169.84 74.88 L201.28 93.12 C202.48 93.84 202.96 94.56 202.96 96.24 L202.96 115.44 C202.96 119.52 206.08 122.4 210.16 122.4 L234.64 122.4 C236.56 122.4 238 120.96 238 119.04 L238 69.6 C238 57.6 228.4 48 216.4 48 Z"/><path  d="M61.36 148.8 L85.84 148.8 C89.92 148.8 93.04 151.92 93.04 156 L93.04 179.52 C93.04 183.6 96.16 186.72 100.24 186.72 L126.64 186.72 C130.72 186.72 133.84 189.84 133.84 193.92 L133.84 218.64 C133.84 220.56 132.4 222 130.48 222 L79.6 222 C67.6 222 58 212.4 58 200.4 L58 152.16 C58 150.24 59.44 148.8 61.36 148.8 Z"/><path  d="M234.64 148.8 L210.16 148.8 C206.08 148.8 202.96 151.92 202.96 156 L202.96 179.52 C202.96 183.6 199.84 186.72 195.76 186.72 L169.36 186.72 C165.28 186.72 162.16 189.84 162.16 193.92 L162.16 218.64 C162.16 220.56 163.6 222 165.52 222 L216.4 222 C228.4 222 238 212.4 238 200.4 L238 152.16 C238 150.24 236.56 148.8 234.64 148.8 Z"/><path  d="M309.296 168 L354.544 168 L354.544 157.024 L322.288 157.024 L322.288 135.408 L348.608 135.408 L348.608 124.432 L322.288 124.432 L322.288 105.728 L353.424 105.728 L353.424 94.752 L309.296 94.752 Z"/><path  d="M368.432 168 L381.312 168 L381.312 129.584 C385.568 124.992 389.488 122.752 392.848 122.752 C398.672 122.752 401.36 126.112 401.36 135.184 L401.36 168 L414.24 168 L414.24 129.584 C418.496 124.992 422.304 122.752 425.776 122.752 C431.488 122.752 434.176 126.112 434.176 135.184 L434.176 168 L447.168 168 L447.168 133.504 C447.168 119.616 441.792 111.664 430.144 111.664 C423.2 111.664 417.712 115.92 412.448 121.52 C409.872 115.36 405.28 111.664 397.216 111.664 C390.384 111.664 385.008 115.584 380.416 120.512 L379.968 120.512 L379.072 113.008 L368.432 113.008 Z"/><path  d="M462.848 168 L473.04 168 L474.16 162.4 L474.496 162.4 C479.088 166.88 484.464 169.344 489.504 169.344 C501.712 169.344 513.024 158.48 513.024 139.552 C513.024 122.64 505.072 111.664 491.296 111.664 C485.696 111.664 479.984 114.464 475.392 118.496 L475.728 109.312 L475.728 88.928 L462.848 88.928 Z M475.728 154.112 L475.728 128.464 C479.984 124.32 483.792 122.304 487.824 122.304 C496.112 122.304 499.696 128.8 499.696 139.776 C499.696 152.208 494.096 158.704 486.816 158.704 C483.568 158.704 479.648 157.472 475.728 154.112 Z"/><path  d="M522.432 140.56 C522.432 158.816 534.864 169.344 548.528 169.344 C562.304 169.344 574.736 158.816 574.736 140.56 C574.736 122.192 562.304 111.664 548.528 111.664 C534.864 111.664 522.432 122.192 522.432 140.56 Z M535.648 140.56 C535.648 129.472 540.464 122.192 548.528 122.192 C556.592 122.192 561.52 129.472 561.52 140.56 C561.52 151.536 556.592 158.816 548.528 158.816 C540.464 158.816 535.648 151.536 535.648 140.56 Z"/><path  d="M584.144 140.56 C584.144 158.704 592.992 169.344 606.768 169.344 C612.704 169.344 618.304 166.096 622.336 162.064 L622.784 162.064 L623.68 168 L634.32 168 L634.32 88.928 L621.44 88.928 L621.44 108.864 L621.888 117.712 C617.632 114.016 613.712 111.664 607.44 111.664 C595.456 111.664 584.144 122.64 584.144 140.56 Z M597.472 140.448 C597.472 128.912 603.184 122.304 610.24 122.304 C613.936 122.304 617.632 123.536 621.44 126.896 L621.44 152.544 C617.744 156.8 614.16 158.704 609.904 158.704 C601.952 158.704 597.472 152.32 597.472 140.448 Z"/><path  d="M657.168 103.376 C661.76 103.376 665.12 100.352 665.12 96.096 C665.12 91.728 661.76 88.704 657.168 88.704 C652.576 88.704 649.216 91.728 649.216 96.096 C649.216 100.352 652.576 103.376 657.168 103.376 Z M650.672 168 L663.552 168 L663.552 113.008 L650.672 113.008 Z"/><path  d="M676.432 140.56 C676.432 158.704 688.304 169.344 703.536 169.344 C710.48 169.344 717.088 166.88 722.352 163.408 L717.984 155.344 C713.952 157.92 709.92 159.376 705.216 159.376 C696.368 159.376 690.096 153.776 688.976 143.808 L723.92 143.808 C724.256 142.464 724.48 140.224 724.48 137.76 C724.48 122.416 716.64 111.664 701.744 111.664 C688.864 111.664 676.432 122.64 676.432 140.56 Z M688.864 135.632 C689.984 126.448 695.584 121.632 702.08 121.632 C709.584 121.632 713.28 126.896 713.28 135.632 Z"/><path  d="M733.44 140.56 C733.44 158.704 742.288 169.344 756.064 169.344 C762 169.344 767.6 166.096 771.632 162.064 L772.08 162.064 L772.976 168 L783.616 168 L783.616 88.928 L770.736 88.928 L770.736 108.864 L771.184 117.712 C766.928 114.016 763.008 111.664 756.736 111.664 C744.752 111.664 733.44 122.64 733.44 140.56 Z M746.768 140.448 C746.768 128.912 752.48 122.304 759.536 122.304 C763.232 122.304 766.928 123.536 770.736 126.896 L770.736 152.544 C767.04 156.8 763.456 158.704 759.2 158.704 C751.248 158.704 746.768 152.32 746.768 140.448 Z"/><path  d="M801.088 168 L813.52 168 L813.52 135.968 C813.52 127.792 812.4 118.944 811.84 111.216 L812.288 111.216 L819.792 126.784 L842.64 168 L855.968 168 L855.968 94.752 L843.536 94.752 L843.536 126.56 C843.536 134.736 844.656 144.032 845.216 151.536 L844.768 151.536 L837.264 135.968 L814.416 94.752 L801.088 94.752 Z"/><path  d="M869.856 140.56 C869.856 158.704 881.728 169.344 896.96 169.344 C903.904 169.344 910.512 166.88 915.776 163.408 L911.408 155.344 C907.376 157.92 903.344 159.376 898.64 159.376 C889.792 159.376 883.52 153.776 882.4 143.808 L917.344 143.808 C917.68 142.464 917.904 140.224 917.904 137.76 C917.904 122.416 910.064 111.664 895.168 111.664 C882.288 111.664 869.856 122.64 869.856 140.56 Z M882.288 135.632 C883.408 126.448 889.008 121.632 895.504 121.632 C903.008 121.632 906.704 126.896 906.704 135.632 Z"/><path  d="M930.336 149.408 C930.336 161.28 935.04 169.344 947.808 169.344 C952.176 169.344 955.984 168.336 959.008 167.328 L956.768 157.808 C955.2 158.48 952.96 159.04 951.056 159.04 C945.792 159.04 943.328 155.904 943.328 149.408 L943.328 123.2 L957.328 123.2 L957.328 113.008 L943.328 113.008 L943.328 98 L932.576 98 L931.008 113.008 L922.496 113.568 L922.496 123.2 L930.336 123.2 Z"/></svg>
-<p>The real world reference for homes.</p>
-<a href="mailto:chase@leftieslens.com">chase@leftieslens.com</a>
-</main>
+
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="mk" viewBox="100 100 750 725" fill="currentColor"><path  d="M190 100 L378 100 C386 100 392 106 392 114 L392 198 C392 204 390 208 384 212 L253 288 C248 291 246 294 246 301 L246 381 C246 398 233 410 216 410 L114 410 C106 410 100 404 100 396 L100 190 C100 140 140 100 190 100 Z"/><path  d="M760 100 L572 100 C564 100 558 106 558 114 L558 198 C558 204 560 208 566 212 L697 288 C702 291 704 294 704 301 L704 381 C704 398 717 410 734 410 L836 410 C844 410 850 404 850 396 L850 190 C850 140 810 100 760 100 Z"/><path  d="M114 520 L216 520 C233 520 246 533 246 550 L246 648 C246 665 259 678 276 678 L386 678 C403 678 416 691 416 708 L416 811 C416 819 410 825 402 825 L190 825 C140 825 100 785 100 735 L100 534 C100 526 106 520 114 520 Z"/><path  d="M836 520 L734 520 C717 520 704 533 704 550 L704 648 C704 665 691 678 674 678 L564 678 C547 678 534 691 534 708 L534 811 C534 819 540 825 548 825 L760 825 C810 825 850 785 850 735 L850 534 C850 526 844 520 836 520 Z"/></symbol><symbol id="lk" viewBox="58 48 902 174" fill="currentColor"><path  d="M79.6 48 L124.72 48 C126.64 48 128.08 49.44 128.08 51.36 L128.08 71.52 C128.08 72.96 127.6 73.92 126.16 74.88 L94.72 93.12 C93.52 93.84 93.04 94.56 93.04 96.24 L93.04 115.44 C93.04 119.52 89.92 122.4 85.84 122.4 L61.36 122.4 C59.44 122.4 58 120.96 58 119.04 L58 69.6 C58 57.6 67.6 48 79.6 48 Z"/><path  d="M216.4 48 L171.28 48 C169.36 48 167.92 49.44 167.92 51.36 L167.92 71.52 C167.92 72.96 168.4 73.92 169.84 74.88 L201.28 93.12 C202.48 93.84 202.96 94.56 202.96 96.24 L202.96 115.44 C202.96 119.52 206.08 122.4 210.16 122.4 L234.64 122.4 C236.56 122.4 238 120.96 238 119.04 L238 69.6 C238 57.6 228.4 48 216.4 48 Z"/><path  d="M61.36 148.8 L85.84 148.8 C89.92 148.8 93.04 151.92 93.04 156 L93.04 179.52 C93.04 183.6 96.16 186.72 100.24 186.72 L126.64 186.72 C130.72 186.72 133.84 189.84 133.84 193.92 L133.84 218.64 C133.84 220.56 132.4 222 130.48 222 L79.6 222 C67.6 222 58 212.4 58 200.4 L58 152.16 C58 150.24 59.44 148.8 61.36 148.8 Z"/><path  d="M234.64 148.8 L210.16 148.8 C206.08 148.8 202.96 151.92 202.96 156 L202.96 179.52 C202.96 183.6 199.84 186.72 195.76 186.72 L169.36 186.72 C165.28 186.72 162.16 189.84 162.16 193.92 L162.16 218.64 C162.16 220.56 163.6 222 165.52 222 L216.4 222 C228.4 222 238 212.4 238 200.4 L238 152.16 C238 150.24 236.56 148.8 234.64 148.8 Z"/><path  d="M309.296 168 L354.544 168 L354.544 157.024 L322.288 157.024 L322.288 135.408 L348.608 135.408 L348.608 124.432 L322.288 124.432 L322.288 105.728 L353.424 105.728 L353.424 94.752 L309.296 94.752 Z"/><path  d="M368.432 168 L381.312 168 L381.312 129.584 C385.568 124.992 389.488 122.752 392.848 122.752 C398.672 122.752 401.36 126.112 401.36 135.184 L401.36 168 L414.24 168 L414.24 129.584 C418.496 124.992 422.304 122.752 425.776 122.752 C431.488 122.752 434.176 126.112 434.176 135.184 L434.176 168 L447.168 168 L447.168 133.504 C447.168 119.616 441.792 111.664 430.144 111.664 C423.2 111.664 417.712 115.92 412.448 121.52 C409.872 115.36 405.28 111.664 397.216 111.664 C390.384 111.664 385.008 115.584 380.416 120.512 L379.968 120.512 L379.072 113.008 L368.432 113.008 Z"/><path  d="M462.848 168 L473.04 168 L474.16 162.4 L474.496 162.4 C479.088 166.88 484.464 169.344 489.504 169.344 C501.712 169.344 513.024 158.48 513.024 139.552 C513.024 122.64 505.072 111.664 491.296 111.664 C485.696 111.664 479.984 114.464 475.392 118.496 L475.728 109.312 L475.728 88.928 L462.848 88.928 Z M475.728 154.112 L475.728 128.464 C479.984 124.32 483.792 122.304 487.824 122.304 C496.112 122.304 499.696 128.8 499.696 139.776 C499.696 152.208 494.096 158.704 486.816 158.704 C483.568 158.704 479.648 157.472 475.728 154.112 Z"/><path  d="M522.432 140.56 C522.432 158.816 534.864 169.344 548.528 169.344 C562.304 169.344 574.736 158.816 574.736 140.56 C574.736 122.192 562.304 111.664 548.528 111.664 C534.864 111.664 522.432 122.192 522.432 140.56 Z M535.648 140.56 C535.648 129.472 540.464 122.192 548.528 122.192 C556.592 122.192 561.52 129.472 561.52 140.56 C561.52 151.536 556.592 158.816 548.528 158.816 C540.464 158.816 535.648 151.536 535.648 140.56 Z"/><path  d="M584.144 140.56 C584.144 158.704 592.992 169.344 606.768 169.344 C612.704 169.344 618.304 166.096 622.336 162.064 L622.784 162.064 L623.68 168 L634.32 168 L634.32 88.928 L621.44 88.928 L621.44 108.864 L621.888 117.712 C617.632 114.016 613.712 111.664 607.44 111.664 C595.456 111.664 584.144 122.64 584.144 140.56 Z M597.472 140.448 C597.472 128.912 603.184 122.304 610.24 122.304 C613.936 122.304 617.632 123.536 621.44 126.896 L621.44 152.544 C617.744 156.8 614.16 158.704 609.904 158.704 C601.952 158.704 597.472 152.32 597.472 140.448 Z"/><path  d="M657.168 103.376 C661.76 103.376 665.12 100.352 665.12 96.096 C665.12 91.728 661.76 88.704 657.168 88.704 C652.576 88.704 649.216 91.728 649.216 96.096 C649.216 100.352 652.576 103.376 657.168 103.376 Z M650.672 168 L663.552 168 L663.552 113.008 L650.672 113.008 Z"/><path  d="M676.432 140.56 C676.432 158.704 688.304 169.344 703.536 169.344 C710.48 169.344 717.088 166.88 722.352 163.408 L717.984 155.344 C713.952 157.92 709.92 159.376 705.216 159.376 C696.368 159.376 690.096 153.776 688.976 143.808 L723.92 143.808 C724.256 142.464 724.48 140.224 724.48 137.76 C724.48 122.416 716.64 111.664 701.744 111.664 C688.864 111.664 676.432 122.64 676.432 140.56 Z M688.864 135.632 C689.984 126.448 695.584 121.632 702.08 121.632 C709.584 121.632 713.28 126.896 713.28 135.632 Z"/><path  d="M733.44 140.56 C733.44 158.704 742.288 169.344 756.064 169.344 C762 169.344 767.6 166.096 771.632 162.064 L772.08 162.064 L772.976 168 L783.616 168 L783.616 88.928 L770.736 88.928 L770.736 108.864 L771.184 117.712 C766.928 114.016 763.008 111.664 756.736 111.664 C744.752 111.664 733.44 122.64 733.44 140.56 Z M746.768 140.448 C746.768 128.912 752.48 122.304 759.536 122.304 C763.232 122.304 766.928 123.536 770.736 126.896 L770.736 152.544 C767.04 156.8 763.456 158.704 759.2 158.704 C751.248 158.704 746.768 152.32 746.768 140.448 Z"/><path  d="M801.088 168 L813.52 168 L813.52 135.968 C813.52 127.792 812.4 118.944 811.84 111.216 L812.288 111.216 L819.792 126.784 L842.64 168 L855.968 168 L855.968 94.752 L843.536 94.752 L843.536 126.56 C843.536 134.736 844.656 144.032 845.216 151.536 L844.768 151.536 L837.264 135.968 L814.416 94.752 L801.088 94.752 Z"/><path  d="M869.856 140.56 C869.856 158.704 881.728 169.344 896.96 169.344 C903.904 169.344 910.512 166.88 915.776 163.408 L911.408 155.344 C907.376 157.92 903.344 159.376 898.64 159.376 C889.792 159.376 883.52 153.776 882.4 143.808 L917.344 143.808 C917.68 142.464 917.904 140.224 917.904 137.76 C917.904 122.416 910.064 111.664 895.168 111.664 C882.288 111.664 869.856 122.64 869.856 140.56 Z M882.288 135.632 C883.408 126.448 889.008 121.632 895.504 121.632 C903.008 121.632 906.704 126.896 906.704 135.632 Z"/><path  d="M930.336 149.408 C930.336 161.28 935.04 169.344 947.808 169.344 C952.176 169.344 955.984 168.336 959.008 167.328 L956.768 157.808 C955.2 158.48 952.96 159.04 951.056 159.04 C945.792 159.04 943.328 155.904 943.328 149.408 L943.328 123.2 L957.328 123.2 L957.328 113.008 L943.328 113.008 L943.328 98 L932.576 98 L931.008 113.008 L922.496 113.568 L922.496 123.2 L930.336 123.2 Z"/></symbol>
+</svg>
+
+<nav id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="EmbodiedNet"><svg><use href="#lk"/></svg></a>
+    <div class="links">
+      <a href="#archive">The archive</a>
+      <a href="#why">Why homes</a>
+      <a href="#measured">Measured</a>
+      <a href="#faq">FAQ</a>
+      <a class="cta" href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20evaluation%20under%20NDA">Evaluate under NDA</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO: one screen. Scenes advance on a timer, as on the Muse page. Each scene's media is a placeholder for a video loop except the walkthrough. -->
+<section class="stage" id="top">
+  <div class="pin">
+    <!-- Hero film: four full frame clips, one per line of copy. Captions are synced to its clock. -->
+    <div class="scene-media on"><video id="heroFilm" muted loop playsinline preload="auto" poster="./assets/clips/hero-film-poster.jpg" data-desktop="./assets/clips/hero-film-1080p.mp4" data-mobile="./assets/clips/hero-film-mobile.mp4" data-pm="./assets/clips/hero-film-mobile-poster.jpg" aria-hidden="true"></video></div>
+
+    <div class="cap on" data-c="0">
+      <div class="mark"><svg><use href="#mk"/></svg></div>
+      <p class="eyebrow">Introducing EmbodiedNet</p>
+      <h1>The real world reference for homes.</h1>
+      <div class="row">
+        <a class="btn" href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20evaluation%20under%20NDA">Evaluate under NDA</a>
+        <a class="btn white" href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20sample%20request">Request the sample</a>
+      </div>
+      <a class="watch" href="#film"><span>&#9654;</span>Watch the video</a>
+    </div>
+    <div class="cap" data-c="1"><p class="lines">One operator walked<br><span class="rot" data-rot="518 homes|239 communities|six years of seasons"><b>518 homes</b></span><br>with the camera running</p></div>
+    <div class="cap" data-c="2"><p class="lines">Every still keeps<br><span class="rot" data-rot="its brackets|its flash frame|its raw files"><b>its brackets</b></span><br>behind the photo</p></div>
+    <div class="cap" data-c="3"><p class="lines">One visit captured<br><span class="rot" data-rot="the aerial|the exterior"><b>the aerial</b></span><br>of the same house</p></div>
+
+        <div class="ctrls hctrls"><button type="button" id="heroPause" aria-label="Pause"><svg viewBox="0 0 12 12" fill="#fff"><rect x="2" y="1" width="3" height="10"/><rect x="7" y="1" width="3" height="10"/></svg></button></div>
+  </div>
+</section>
+
+<!-- THE ARCHIVE -->
+<section class="sec" id="archive">
+  <div class="wrap">
+    <div class="head in">
+      <div><p class="eyebrow">The archive</p><h2 class="h2">One house, six ways. Then 517 more.</h2>
+        <p class="lead">One visit, one operator, one documented method.</p></div>
+      <a class="btn" href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20evaluation%20under%20NDA">Evaluate under NDA</a>
+    </div>
+    <div class="feat">
+      <div class="media front-m in"><span class="pill">Aerial · from raw brackets</span><img src="./assets/web/archive-front.jpg" alt="Front of the house, drone still"></div>
+      <div class="acc in" id="acc">
+        <div class="acc-row" data-p="0"><button type="button"><span><span class="n">01</span>Interior video</span><span class="pm"></span></button>
+          <div class="acc-body"><div><div class="media mm"><span class="pill">Interior video</span><video class="loop" muted loop playsinline preload="metadata" poster="./assets/clips/archive-interior-poster.jpg" src="./assets/clips/archive-interior.mp4" aria-hidden="true"></video></div><p>A gimbal mounted trajectory at human height.</p></div></div></div>
+        <div class="acc-row" data-p="1"><button type="button"><span><span class="n">02</span>Interior stills</span><span class="pm"></span></button>
+          <div class="acc-body"><div><div class="media mm"><span class="pill">Interior still · from raw brackets</span><img src="./assets/web/archive-interior-still.jpg" alt=""></div><p>Camera raw brackets and a flash frame behind every photo.</p></div></div></div>
+        <div class="acc-row" data-p="2"><button type="button"><span><span class="n">03</span>Floor plans</span><span class="pm"></span></button>
+          <div class="acc-body"><div><div class="media mm plan"><span class="pill">Floor plan · hand measured</span><img src="./assets/web/archive-floorplan.jpg" alt=""></div><p>Hand measured, every level. About half the homes.</p></div></div></div>
+        <div class="acc-row" data-p="3"><button type="button"><span><span class="n">04</span>Exterior video</span><span class="pm"></span></button>
+          <div class="acc-body"><div><div class="media mm"><span class="pill">Exterior video</span><video class="loop" muted loop playsinline preload="metadata" poster="./assets/clips/archive-exterior-poster.jpg" src="./assets/clips/archive-exterior.mp4" aria-hidden="true"></video></div><p>Facades, yards and the crossing at the front door.</p></div></div></div>
+        <div class="acc-row" data-p="4"><button type="button"><span><span class="n">05</span>Exterior stills</span><span class="pm"></span></button>
+          <div class="acc-body"><div><div class="media mm"><span class="pill">Exterior still · from raw brackets</span><img src="./assets/web/archive-exterior-still.jpg" alt="Back elevation, HDR merge"></div><p>Camera raw. Facades, the lot and its context.</p></div></div></div>
+        <div class="acc-row" data-p="5"><button type="button"><span><span class="n">06</span>Aerial</span><span class="pm"></span></button>
+          <div class="acc-body"><div><div class="media mm"><span class="pill">Aerial video</span><video class="loop" muted loop playsinline preload="metadata" poster="./assets/clips/archive-aerial-poster.jpg" src="./assets/clips/archive-aerial.mp4" aria-hidden="true"></video></div><p>Stills and log video under FAA Part 107.</p></div></div></div>
+      </div>
+      <div class="panel in" id="panel">
+        <div class="pv on" data-p="front"><div class="media"><span class="pill">Aerial · from raw brackets</span><img src="./assets/web/archive-front.jpg" alt="Front of the house, drone still"></div></div>
+        <div class="pv" data-p="0"><div class="media"><span class="pill">Interior video</span><video class="loop" muted loop playsinline preload="metadata" poster="./assets/clips/archive-interior-poster.jpg" src="./assets/clips/archive-interior.mp4" aria-hidden="true"></video></div></div>
+        <div class="pv" data-p="1"><div class="brkgrid">
+          <div><img src="./assets/web/archive-b1.jpg" alt=""><span>B1</span></div><div><img src="./assets/web/archive-b2.jpg" alt=""><span>B2</span></div><div><img src="./assets/web/archive-b3.jpg" alt=""><span>B3</span></div>
+          <div><img src="./assets/web/archive-b4.jpg" alt=""><span>B4</span></div><div><img src="./assets/web/archive-b5.jpg" alt=""><span>B5</span></div><div><img src="./assets/web/archive-fl.jpg" alt=""><span>Flash</span></div>
+        </div></div>
+        <div class="pv" data-p="2"><div class="media plan"><span class="pill">Floor plan · hand measured</span><img src="./assets/web/archive-floorplan.jpg" alt="Hand measured floor plan, main level"></div></div>
+        <div class="pv" data-p="3"><div class="media"><span class="pill">Exterior video</span><video class="loop" muted loop playsinline preload="metadata" poster="./assets/clips/archive-exterior-poster.jpg" src="./assets/clips/archive-exterior.mp4" aria-hidden="true"></video></div></div>
+        <div class="pv" data-p="4"><div class="brkgrid">
+          <div><img src="./assets/web/archive-ext-b1.jpg" alt=""><span>B1</span></div><div><img src="./assets/web/archive-ext-b2.jpg" alt=""><span>B2</span></div><div><img src="./assets/web/archive-ext-b3.jpg" alt=""><span>B3</span></div><div><img src="./assets/web/archive-ext-b4.jpg" alt=""><span>B4</span></div><div><img src="./assets/web/archive-ext-b5.jpg" alt=""><span>B5</span></div><div><img src="./assets/web/archive-exterior-still.jpg" alt="Back elevation, HDR merge of the five brackets"><span>Merged</span></div>
+        </div></div>
+        <div class="pv" data-p="5"><div class="media"><span class="pill">Aerial video</span><video class="loop" muted loop playsinline preload="metadata" poster="./assets/clips/archive-aerial-poster.jpg" src="./assets/clips/archive-aerial.mp4" aria-hidden="true"></video></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY HOMES -->
+<section class="sec" id="why">
+  <div class="wrap">
+    <div class="head in">
+      <div><p class="eyebrow">Why homes</p><h2 class="h2">Cars have fleets. Factories have digital twins. Homes have neither.</h2>
+        <p class="lead">Fleets log the real road. A factory&rsquo;s twin comes from its own design files.</p></div>
+      <a class="btn" href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20evaluation%20under%20NDA">Evaluate under NDA</a>
+    </div>
+    <div class="cmp">
+      <div class="cl" aria-hidden="true"><div class="ch"></div>
+        <div class="cv">Application</div>
+        <div class="cv">Model</div>
+        <div class="cv">Real world ground truth</div>
+        <div class="cv">Simulation and world models</div>
+        <div class="cv">Body</div>
+      </div>
+      <div class="cc in"><div class="ch"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 15h16l-2-6H6z"/><circle cx="8" cy="17" r="1.5"/><circle cx="16" cy="17" r="1.5"/></svg></span><div><h3>Autonomous driving</h3><p class="sub">The road</p></div></div>
+        <div class="cv" data-l="Application">Robotaxis and driver assist</div>
+        <div class="cv" data-l="Model">Alpamayo, the Waymo Driver, Tesla FSD</div>
+        <div class="cv" data-l="Real world ground truth">Labeled human driving</div>
+        <div class="cv" data-l="Simulation and world models">Cosmos, Waymo World Model</div>
+        <div class="cv" data-l="Body">The car</div>
+      </div>
+      <div class="cc in"><div class="ch"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 20V10l5 3V10l5 3V6h8v14z"/></svg></span><div><h3>Industrial</h3><p class="sub">The factory</p></div></div>
+        <div class="cv" data-l="Application">Plants designed and tested in software</div>
+        <div class="cv" data-l="Model">Industrial AI</div>
+        <div class="cv" data-l="Real world ground truth">The plant&rsquo;s design files, the source of its twin</div>
+        <div class="cv" data-l="Simulation and world models">Digital twins and physics simulation</div>
+        <div class="cv" data-l="Body">The line</div>
+      </div>
+      <div class="cc hi in"><div class="ch"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 12l8-7 8 7"/><path d="M6 10v10h12V10"/></svg></span><div><h3>Residential</h3><p class="sub">The home</p></div></div>
+        <div class="cv open" data-l="Application">Open</div>
+        <div class="cv" data-l="Model">GR00T, Gemini Robotics, MolmoAct</div>
+        <div class="cv key" data-l="Real world ground truth"><span><em>EmbodiedNet.</em> 518 homes, measured.</span></div>
+        <div class="cv" data-l="Simulation and world models">Isaac Lab Arena, BEHAVIOR, MolmoSpaces, RoboCasa, SPEAR, Genie 3, Marble, V&#8209;JEPA 2, Cosmos</div>
+        <div class="cv" data-l="Body">Home robots and humanoids</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHERE IT FITS: the A to D loop, rebuilt from figure.html (Nov 6) -->
+<section class="sec" id="fits">
+  <div class="wrap">
+    <div class="in"><p class="eyebrow">Where it fits</p><h2 class="h2">Bring the real home into the computer. Then check against it.</h2></div>
+    <div class="loop in">
+      <div class="lc real">
+        <div class="lab"><i>A</i>Capture the real home</div>
+        <p class="sub">EmbodiedNet. 518 homes, six modalities, one operator.</p>
+        <div class="imgs"><img src="./assets/web/archive-front.jpg" alt="The archive house from the air" loading="lazy"><img class="plan" src="./assets/web/archive-floorplan.jpg" alt="Hand measured floor plan, main level" loading="lazy"><img src="./assets/web/archive-interior-still.jpg" alt="Kitchen, interior still" loading="lazy"></div>
+      </div>
+      <div class="larr" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9h13M10 4l5 5-5 5"/></svg></div>
+      <div class="lc">
+        <div class="lab"><i>B</i>Simulate and generate</div>
+        <p class="sub">Homes in simulation and world models.</p>
+        <div class="box"><p class="big">Simulation<br>and world models</p><div class="chips"><span>Isaac Lab Arena</span><span>BEHAVIOR</span><span>MolmoSpaces</span><span>RoboCasa</span><span>SPEAR</span><span>Genie 3</span><span>Cosmos</span></div></div>
+      </div>
+      <div class="larr" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9h13M10 4l5 5-5 5"/></svg></div>
+      <div class="lc">
+        <div class="lab"><i>C</i>Train the robot</div>
+        <p class="sub">Sensors in, actions out.</p>
+        <div class="box"><div class="tok" aria-hidden="true"><s></s><s></s><s></s><s></s></div><p class="big">Robot model</p><div class="tok o" aria-hidden="true"><s></s><s></s><s></s></div><div class="chips"><span>GR00T</span><span>Gemini Robotics</span><span>MolmoAct</span></div></div>
+      </div>
+      <div class="larr" aria-hidden="true"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9h13M10 4l5 5-5 5"/></svg></div>
+      <div class="lc">
+        <div class="lab"><i>D</i>Deploy into a home</div>
+        <p class="sub">A home it has never seen.</p>
+        <div class="box"><p class="big">Home robots<br>and humanoids</p></div>
+      </div>
+    </div>
+    <div class="lret" aria-hidden="true"><i class="a"></i><i class="m"></i><i class="d"></i></div>
+    <p class="lnote in"><span>Before deployment: <b>check the simulated home against the real one</b>, on homes held out of training.</span></p>
+  </div>
+</section>
+
+<!-- THE FILM -->
+<section class="sec" id="film">
+  <div class="wrap">
+    <div class="head in">
+      <div><p class="eyebrow">The video</p><h2 class="h2">The archive, as shot.</h2></div>
+      <a class="btn" href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20evaluation%20under%20NDA">Evaluate under NDA</a>
+    </div>
+    <div class="filmbox in"><video controls playsinline preload="none" poster="./assets/clips/figures-film-poster.jpg"><source src="./assets/clips/figures-film.mp4" type="video/mp4"></video></div>
+  </div>
+</section>
+
+<!-- MEASURED -->
+<section class="sec soft" id="measured">
+  <div class="wrap papers">
+    <div class="in"><p class="eyebrow">Measured</p><h2 class="h2" style="font-size:clamp(30px,3.6vw,42px)">Three readings of the archive.</h2>
+      <p class="lead" style="font-size:16px">Layout, light, and what breaks at a threshold.</p>
+      <div style="margin-top:22px"><a class="btn" href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20evaluation%20under%20NDA">Evaluate under NDA</a></div></div>
+    <div class="prow in" id="papers">
+      <div class="pcard"><div class="media"><span class="st">Measured</span><img src="./assets/web/sim2real_fig1_real.jpg" alt="" loading="lazy"></div><p><b>EmbodiedNet-Sim2Real</b> measures simulated houses against real ones, for layout.</p></div>
+      <a class="pcard" href="papers/calibrate/"><div class="media"><span class="st">Technical note</span><img src="./assets/web/calibrate_fig1_real.jpg" alt="" loading="lazy"><span class="go">&rsaquo;</span></div><p><b>EmbodiedNet-Calibrate</b> reads real rooms against generated ones, for light.</p></a>
+      <div class="pcard"><div class="media"><span class="st">Under review</span><img class="bar" src="./assets/web/transition.jpg" alt="" loading="lazy" style="object-position:left top"></div><p><b>EmbodiedNet-Hard</b> benchmarks sparse interiors and indoor to outdoor transitions.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOLDS UP -->
+<section class="sec" id="results">
+  <div class="wrap">
+    <div class="tint in">
+      <div>
+        <p class="eyebrow">It holds up</p>
+        <h2 class="h2">Standard pipelines, the archive as it comes.</h2>
+        <p class="b">3,906 video frames and 39 stills of one bathroom, every one registered. 0.47 px mean reprojection error. Video frames as shot: no grading, no preprocessing.</p>
+        <div style="margin-top:22px"><a class="btn" href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20evaluation%20under%20NDA">Evaluate under NDA</a></div>
+      </div>
+      <div>
+        <!-- PLACEHOLDER: motion graphic. Interim: source, render and point cloud crossfade. -->
+        <div class="recon" id="recon">
+          <div class="rv on"><span class="pill">Source · 4K video frame</span><img src="./assets/web/recon-bath-source.jpg" alt="Source video frame, bathroom vanity" loading="lazy"></div>
+          <div class="rv"><span class="pill">Point cloud · same viewpoint</span><img src="./assets/web/recon-bath-pointcloud.jpg" alt="Sparse point cloud of the bathroom, seen from the source frame's camera" loading="lazy"></div>
+          <div class="rv"><span class="pill">Camera path · every registered frame</span><img src="./assets/web/recon-bath-path.jpg" alt="The bathroom point cloud from above, with the registered camera path" loading="lazy"></div>
+        </div>
+        <div class="steps"><button class="on" type="button">Source frame</button><button type="button">Point cloud</button><button type="button">Camera path</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SAMPLE SPLIT -->
+<section class="sec" id="sample">
+  <div class="wrap split">
+    <div class="media in"><span class="pill">Interior still · from raw brackets</span><img src="./assets/web/hdr.jpg" alt="Living room, interior still" loading="lazy"></div>
+    <div class="in">
+      <p class="eyebrow">The sample</p>
+      <h2>Start with the sample.</h2>
+      <p>A full living room in every modality, then single stills of other rooms and the exterior. Native camera files. No cost, no NDA.</p>
+      <div class="row"><a class="btn" href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20sample%20request">Request the sample</a><a class="tlink" href="#archive">What's in it</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING BANNER -->
+<section class="sec" style="padding-top:0;border-top:0">
+  <div class="wrap">
+    <div class="banner in">
+      <div class="float" style="width:150px;height:110px;left:4%;top:12%;--r0:-6deg;--r1:-3deg"><img src="./assets/web/grid_05_cabin_living.jpg" alt=""></div>
+      <div class="float" style="width:120px;height:90px;left:6%;bottom:10%;--r0:4deg;--r1:7deg;animation-delay:-3s"><img src="./assets/web/grid_02_bath_modern.jpg" alt=""></div>
+      <div class="float" style="width:110px;height:82px;left:22%;top:6%;--r0:3deg;--r1:0deg;animation-delay:-5s"><img src="./assets/web/grid_10_ext_snow.jpg" alt=""></div>
+      <div class="float" style="width:150px;height:110px;right:5%;top:10%;--r0:5deg;--r1:2deg;animation-delay:-2s"><img src="./assets/web/grid_07_aerial_estate.jpg" alt=""></div>
+      <div class="float" style="width:126px;height:94px;right:10%;bottom:10%;--r0:-4deg;--r1:-7deg;animation-delay:-6s"><img src="./assets/web/grid_06_cabin_kitchen.jpg" alt=""></div>
+      <div class="float" style="width:104px;height:78px;right:3%;top:44%;--r0:-2deg;--r1:2deg;animation-delay:-4s"><img src="./assets/web/grid_03_ext_colonial.jpg" alt=""></div>
+      <div class="c">
+        <div class="mark"><svg><use href="#mk"/></svg></div>
+        <p class="eyebrow">Evaluate</p>
+        <h2>Ready to measure against real homes?</h2>
+        <p>A single asset, placed once.</p>
+        <p>Frozen evaluation slices, property disjoint, under a mutual NDA.</p>
+        <div class="row"><a class="btn" href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20evaluation%20under%20NDA">Evaluate under NDA</a><a class="btn ghost" href="mailto:chase@leftieslens.com?subject=CoRL%20Austin">Meet at CoRL, Austin</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec" id="faq">
+  <div class="wrap">
+    <p class="eyebrow in">Frequently asked questions</p>
+    <div class="faq in">
+      <details><summary>Is it real?<span class="pm"></span></summary><p>Yes. 518 homes in 239 Colorado communities, captured on site by one operator under commercial engagements, 2020 to 2026. Nothing synthetic, scraped or licensed in.</p></details>
+      <details><summary>How is it different from an indoor scan dataset?<span class="pm"></span></summary><p>Indoor scan sets were captured by researchers at chosen viewpoints. This archive was captured for commercial work, one visit per house, with the raw brackets, log video and hand measured plans kept behind every delivery.</p></details>
+      <details><summary>What's in the sample?<span class="pm"></span></summary><p>One living room in every modality, plus single stills of other rooms and the exterior, as native camera files. No cost and no NDA.</p></details>
+      <details><summary>What's under the NDA?<span class="pm"></span></summary><p>Larger frozen evaluation slices, property disjoint, each with its manifest and fingerprints, to run on your own pipelines.</p></details>
+      <details><summary>What about rights and privacy?<span class="pm"></span></summary><p>Rights are settled at the source and the chain of title is closed. Identifiers are opaque, and location metadata is stripped and verified absent.</p></details>
+      <details><summary>Where can I meet you?<span class="pm"></span></summary><p>CoRL 2026, Austin, November 9 to 12. The sample comes on a drive. <a href="mailto:chase@leftieslens.com?subject=CoRL%20Austin">Set a time.</a></p></details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>A single asset, placed once. Homes shown in marketed condition, staged or tidied for listing. Single region, Colorado, not nationally representative. Images here are display versions of native camera files.</p>
+    <p><b>Chase Citrowski</b><br>Lefties Lens Limited, Arvada, Colorado<br><a href="mailto:chase@leftieslens.com">chase@leftieslens.com</a></p>
+  </div>
+</footer>
+
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var nav=document.getElementById('nav'),stage=document.querySelector('.stage');
+  var film=document.getElementById('heroFilm'),caps=[].slice.call(document.querySelectorAll('.cap')),heroPaused=reduce;
+  var CUES=[{c:0,a:0,b:6},{c:1,a:6,b:11,w:[6,7.7,9.3]},{c:2,a:11,b:15.5,w:[11,12.5,14]},{c:3,a:15.5,b:99,w:[15.5,18]}];
+  var rots=caps.map(function(c){var r=c.querySelector('.rot');return r?{b:r.querySelector('b'),w:r.dataset.rot.split('|'),k:0}:null});
+  if(innerWidth<=760){film.poster=film.dataset.pm;film.src=film.dataset.mobile}else{film.src=film.dataset.desktop}
+  var lastC=-1;
+  function tick(){
+    var t=film.currentTime||0,cue=CUES[0];
+    CUES.forEach(function(q){if(t>=q.a&&t<q.b)cue=q});
+    if(cue.c!==lastC){caps.forEach(function(c,i){c.classList.toggle('on',i===cue.c)});lastC=cue.c}
+    var r=rots[cue.c];
+    if(r&&cue.w){var k=0;cue.w.forEach(function(s,i){if(t>=s)k=i});if(k!==r.k){r.k=k;r.b.classList.add('out');setTimeout(function(){r.b.textContent=r.w[r.k];r.b.classList.remove('out')},300)}}
+    requestAnimationFrame(tick);
+  }
+  if(!reduce){var pr=film.play();if(pr&&pr.catch)pr.catch(function(){});requestAnimationFrame(tick)}
+  var hp=document.getElementById('heroPause');
+  function icon(p){return p?'<svg viewBox="0 0 12 12" fill="#fff"><path d="M3 1l8 5-8 5z"/></svg>':'<svg viewBox="0 0 12 12" fill="#fff"><rect x="2" y="1" width="3" height="10"/><rect x="7" y="1" width="3" height="10"/></svg>'}
+  hp.addEventListener('click',function(){heroPaused=!heroPaused;hp.innerHTML=icon(heroPaused);if(heroPaused)film.pause();else{var p=film.play();if(p&&p.catch)p.catch(function(){})}});
+  if(reduce)hp.parentNode.style.display='none';
+  function onScroll(){nav.classList.toggle('solid',stage.getBoundingClientRect().bottom<70)}
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  // accordion
+  var rows=[].slice.call(document.querySelectorAll('.acc-row')),pvs=[].slice.call(document.querySelectorAll('.pv'));
+  var loops=[].slice.call(document.querySelectorAll('#archive video.loop')),archOn=false;
+  function syncLoops(){loops.forEach(function(v){
+    var pv=v.closest('.pv'),row=v.closest('.acc-row');
+    var shown=v.offsetParent!==null&&(pv?pv.classList.contains('on'):row.classList.contains('open'));
+    if(shown&&archOn&&!reduce){var q=v.play();if(q&&q.catch)q.catch(function(){})}else if(!v.paused)v.pause();
+  })}
+  if('IntersectionObserver' in window)new IntersectionObserver(function(es){archOn=es[0].isIntersecting;syncLoops()},{rootMargin:'-60px 0px'}).observe(document.getElementById('archive'));
+  addEventListener('resize',syncLoops);
+  rows.forEach(function(r){r.querySelector('button').addEventListener('click',function(){
+    var p=r.classList.contains('open')?'front':r.dataset.p;
+    rows.forEach(function(x){x.classList.toggle('open',x.dataset.p===p)});
+    pvs.forEach(function(v){v.classList.toggle('on',v.dataset.p===p)});
+    r.closest('.feat').classList.toggle('has-open',p!=='front');
+    syncLoops();
+  })});
+
+  // cycler helper
+  function cycler(items,ticks,ms,pauseBtn){
+    var i=0,t=null,paused=false;
+    function go(n){items[i].classList.remove('on');ticks[i]&&ticks[i].classList.remove('on');i=n;items[i].classList.add('on');ticks[i]&&ticks[i].classList.add('on')}
+    function start(){stop();if(!paused&&!reduce)t=setInterval(function(){go((i+1)%items.length)},ms)}
+    function stop(){if(t)clearInterval(t);t=null}
+    ticks.forEach(function(b,n){b.addEventListener('click',function(){go(n);start()})});
+    if(pauseBtn)pauseBtn.addEventListener('click',function(){paused=!paused;pauseBtn.innerHTML=paused?'<svg viewBox="0 0 12 12" fill="#fff"><path d="M3 1l8 5-8 5z"/></svg>':'<svg viewBox="0 0 12 12" fill="#fff"><rect x="2" y="1" width="3" height="10"/><rect x="7" y="1" width="3" height="10"/></svg>';start()});
+    start();
+  }
+  cycler([].slice.call(document.querySelectorAll('#recon .rv')),[].slice.call(document.querySelectorAll('.steps button')),2600,null);
+
+  // film section: pause the hero loop while the film plays
+  var fv=document.querySelector('#film video');
+  fv.addEventListener('play',function(){if(!film.paused)film.pause()});
+  ['pause','ended'].forEach(function(ev){fv.addEventListener(ev,function(){if(!heroPaused){var p=film.play();if(p&&p.catch)p.catch(function(){})}})});
+
+  // reveal
+  var els=document.querySelectorAll('.in');
+  if(!('IntersectionObserver' in window)||reduce){els.forEach(function(e){e.classList.add('on')})}
+  else{var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px',threshold:.06});els.forEach(function(e){io.observe(e)})}
+})();
+</script>
 </body>
 </html>
