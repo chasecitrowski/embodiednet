@@ -78,7 +78,7 @@ nav.solid .links a.cta{color:#fff}
 @media (max-width:860px){nav .links a:not(.cta){display:none}}
 
 /* hero stage */
-.stage{position:relative;height:100vh;min-height:560px;max-height:1100px;background:#0B1A2E}
+.stage{position:relative;height:100vh;height:100svh;min-height:560px;max-height:1100px;background:#0B1A2E}
 .stage .pin{position:relative;height:100%;overflow:hidden}
 .scene-media{position:absolute;inset:0;opacity:0;transition:opacity .9s ease}
 .scene-media.on{opacity:1}
@@ -132,6 +132,8 @@ nav.solid .links a.cta{color:#fff}
 .panel .pv{position:absolute;inset:0;opacity:0;transition:opacity .5s}
 .panel .pv.on{opacity:1}
 .panel .pv .media{position:absolute;inset:28px;border-radius:18px}
+.pv>.pill{top:22px;left:28px}
+.pv>.pill+.brkgrid{top:62px}
 .brkgrid{position:absolute;inset:28px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:8px}
 .brkgrid div{position:relative;border-radius:12px;overflow:hidden}
 .brkgrid img{width:100%;height:100%;object-fit:cover}
@@ -191,15 +193,15 @@ nav.solid .links a.cta{color:#fff}
 }
 
 /* where it fits: A to D loop */
-.loop{display:grid;grid-template-columns:1.35fr 40px 1fr 40px 1fr 40px 1fr;margin-top:40px;align-items:stretch}
+.fitloop{display:grid;grid-template-columns:1.35fr 40px 1fr 40px 1fr 40px 1fr;margin-top:40px;align-items:stretch}
 .lc{border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;background:#fff;min-width:0}
 .lc.real{border:2px solid var(--orange)}
 .lc .lab{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:var(--navy);letter-spacing:-.01em}
 .lc .lab i{font-style:normal;flex:none;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--navy);display:grid;place-items:center;font-size:12px;font-weight:600}
 .lc.real .lab i{border-color:var(--orange);color:var(--orange2)}
 .lc .sub{font-size:13px;color:var(--ink2);margin-top:4px;line-height:1.4}
-.lc .imgs{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:6px;margin-top:14px;flex:1;min-height:300px}
-.lc .imgs img{width:100%;height:100%;object-fit:cover;border-radius:8px}
+.lc .imgs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:minmax(0,1fr) minmax(0,1fr);gap:6px;margin-top:14px;flex:1;min-height:300px}
+.lc .imgs img{width:100%;height:100%;min-width:0;min-height:0;object-fit:cover;border-radius:8px}
 .lc .imgs img.plan{grid-row:1/3;grid-column:2;object-fit:contain;background:#fff;border:1px solid var(--line);padding:6px}
 .lc .box{flex:1;margin-top:14px;border-radius:12px;background:var(--soft);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:10px;padding:18px 12px;text-align:center;min-height:220px}
 .lc .big{font-size:15px;font-weight:600;color:var(--navy);line-height:1.35}
@@ -218,15 +220,22 @@ nav.solid .links a.cta{color:#fff}
 .lnote{margin:-12px auto 0;text-align:center;font-size:15px;color:var(--navy);line-height:1.45;max-width:760px;position:relative}
 .lnote span{background:var(--bg);padding:0 12px}
 .lnote b{font-weight:600;color:var(--orange2)}
+.lret-v{display:none}
 @media (max-width:980px){
-  .loop{grid-template-columns:1fr;gap:0;max-width:520px;margin-left:auto;margin-right:auto}
+  .fitloop{grid-template-columns:minmax(0,1fr);gap:0;max-width:520px;margin-left:auto;margin-right:auto;position:relative;padding-right:30px}
   .larr{height:36px}.larr svg{transform:rotate(90deg)}
-  .lc .imgs{min-height:0;aspect-ratio:4/3}
+  .lc .imgs{flex:none;min-height:0;height:auto;aspect-ratio:4/3}
+  .lret-v{display:block;position:absolute;right:0;top:34px;bottom:34px;width:20px;border:2px dashed var(--orange);border-left:0;border-radius:0 14px 14px 0}
+  .lret-v::before{content:"";position:absolute;left:-3px;top:-6px;width:8px;height:8px;border:solid var(--orange);border-width:0 0 2px 2px;transform:rotate(45deg)}
   .lc .box{min-height:0}
   .lret{display:none}
   .lnote{margin:22px auto 0;max-width:520px;text-align:left;border-left:2px dashed var(--orange);padding:4px 0 4px 16px}
   .lnote span{padding:0;background:none}
 }
+
+/* provenance */
+.prov{max-width:820px}
+.prov p.t{font-size:clamp(20px,2.3vw,27px);line-height:1.4;color:var(--navy);font-weight:400;letter-spacing:-.015em;margin-top:10px}
 
 /* "As shot" corner label: add <span class="asshot">Native camera file. As shot.</span> inside a .media box, only on media confirmed as a straight display transform */
 .asshot{position:absolute;right:10px;bottom:10px;z-index:3;font-size:10px;font-weight:500;letter-spacing:.02em;color:#fff;background:rgba(11,26,46,.55);padding:3px 8px;border-radius:6px;pointer-events:none;white-space:nowrap}
@@ -391,7 +400,7 @@ dialog .x{position:absolute;top:-44px;right:0;background:none;border:0;color:#ff
 <section class="sec" id="archive">
   <div class="wrap">
     <div class="head in">
-      <div><p class="eyebrow">The archive</p><h2 class="h2">One house, six ways. Then 517 more.</h2>
+      <div><p class="eyebrow">The archive</p><h2 class="h2">One house, six modalities of capture.</h2>
         <p class="lead">One visit, one operator, one documented method.</p></div>
       <a class="btn" href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20evaluation%20under%20NDA">Evaluate under NDA</a>
     </div>
@@ -399,31 +408,31 @@ dialog .x{position:absolute;top:-44px;right:0;background:none;border:0;color:#ff
       <div class="media front-m in"><span class="pill">Aerial · from raw brackets</span><img src="./assets/web/archive-front.jpg" alt="Front of the house, drone still"></div>
       <div class="acc in" id="acc">
         <div class="acc-row" data-p="0"><button type="button"><span><span class="n">01</span>Interior video</span><span class="pm"></span></button>
-          <div class="acc-body"><div><div class="media mm"><span class="pill">Interior video</span><video class="loop" muted loop playsinline preload="metadata" poster="./assets/clips/archive-interior-poster.jpg" src="./assets/clips/archive-interior.mp4" aria-hidden="true"></video></div><p>A gimbal mounted trajectory at human height.</p></div></div></div>
+          <div class="acc-body"><div><div class="media mm"><span class="pill">Interior video · as shot</span><video class="loop" muted loop playsinline preload="metadata" poster="./assets/clips/archive-interior-poster.jpg" src="./assets/clips/archive-interior.mp4" aria-hidden="true"></video></div><p>A gimbal mounted trajectory at human height, ambient light only.</p></div></div></div>
         <div class="acc-row" data-p="1"><button type="button"><span><span class="n">02</span>Interior stills</span><span class="pm"></span></button>
-          <div class="acc-body"><div><div class="media mm"><span class="pill">Interior still · from raw brackets</span><img src="./assets/web/archive-interior-still.jpg" alt=""></div><p>Camera raw brackets and a flash frame behind every photo.</p></div></div></div>
+          <div class="acc-body"><div><div class="media mm"><span class="pill">Interior stills · from raw brackets</span><img src="./assets/web/archive-interior-still.jpg" alt=""></div><p>Camera raw brackets and a flash frame behind every photo.</p></div></div></div>
         <div class="acc-row" data-p="2"><button type="button"><span><span class="n">03</span>Floor plans</span><span class="pm"></span></button>
-          <div class="acc-body"><div><div class="media mm plan"><span class="pill">Floor plan · hand measured</span><img src="./assets/web/archive-floorplan.jpg" alt=""></div><p>Hand measured, every level. About half the homes.</p></div></div></div>
+          <div class="acc-body"><div><div class="media mm plan"><span class="pill">Floor plans · hand measured</span><img src="./assets/web/archive-floorplan.jpg" alt=""></div><p>Every level. About half the homes.</p></div></div></div>
         <div class="acc-row" data-p="3"><button type="button"><span><span class="n">04</span>Exterior video</span><span class="pm"></span></button>
-          <div class="acc-body"><div><div class="media mm"><span class="pill">Exterior video</span><video class="loop" muted loop playsinline preload="metadata" poster="./assets/clips/archive-exterior-poster.jpg" src="./assets/clips/archive-exterior.mp4" aria-hidden="true"></video></div><p>Facades, yards and the crossing at the front door.</p></div></div></div>
+          <div class="acc-body"><div><div class="media mm"><span class="pill">Exterior video · as shot</span><video class="loop" muted loop playsinline preload="metadata" poster="./assets/clips/archive-exterior-poster.jpg" src="./assets/clips/archive-exterior.mp4" aria-hidden="true"></video></div><p>Facades, yards and the crossing at the front door.</p></div></div></div>
         <div class="acc-row" data-p="4"><button type="button"><span><span class="n">05</span>Exterior stills</span><span class="pm"></span></button>
-          <div class="acc-body"><div><div class="media mm"><span class="pill">Exterior still · from raw brackets</span><img src="./assets/web/archive-exterior-still.jpg" alt="Back elevation, HDR merge"></div><p>Camera raw. Facades, the lot and its context.</p></div></div></div>
+          <div class="acc-body"><div><div class="media mm"><span class="pill">Exterior stills · from raw brackets</span><img src="./assets/web/archive-exterior-still.jpg" alt="Back elevation, HDR merge"></div><p>Camera raw. Facades, the lot and its context.</p></div></div></div>
         <div class="acc-row" data-p="5"><button type="button"><span><span class="n">06</span>Aerial</span><span class="pm"></span></button>
-          <div class="acc-body"><div><div class="media mm"><span class="pill">Aerial video</span><video class="loop" muted loop playsinline preload="metadata" poster="./assets/clips/archive-aerial-poster.jpg" src="./assets/clips/archive-aerial.mp4" aria-hidden="true"></video></div><p>Stills and log video under FAA Part 107.</p></div></div></div>
+          <div class="acc-body"><div><div class="media mm"><span class="pill">Aerial · as shot</span><video class="loop" muted loop playsinline preload="metadata" poster="./assets/clips/archive-aerial-poster.jpg" src="./assets/clips/archive-aerial.mp4" aria-hidden="true"></video></div><p>Stills and log video under FAA Part 107.</p></div></div></div>
       </div>
       <div class="panel in" id="panel">
         <div class="pv on" data-p="front"><div class="media"><span class="pill">Aerial · from raw brackets</span><img src="./assets/web/archive-front.jpg" alt="Front of the house, drone still"></div></div>
-        <div class="pv" data-p="0"><div class="media"><span class="pill">Interior video</span><video class="loop" muted loop playsinline preload="metadata" poster="./assets/clips/archive-interior-poster.jpg" src="./assets/clips/archive-interior.mp4" aria-hidden="true"></video></div></div>
-        <div class="pv" data-p="1"><div class="brkgrid">
+        <div class="pv" data-p="0"><div class="media"><span class="pill">Interior video · as shot</span><video class="loop" muted loop playsinline preload="metadata" poster="./assets/clips/archive-interior-poster.jpg" src="./assets/clips/archive-interior.mp4" aria-hidden="true"></video></div></div>
+        <div class="pv" data-p="1"><span class="pill">Interior stills · from raw brackets</span><div class="brkgrid">
           <div><img src="./assets/web/archive-b1.jpg" alt=""><span>B1</span></div><div><img src="./assets/web/archive-b2.jpg" alt=""><span>B2</span></div><div><img src="./assets/web/archive-b3.jpg" alt=""><span>B3</span></div>
           <div><img src="./assets/web/archive-b4.jpg" alt=""><span>B4</span></div><div><img src="./assets/web/archive-b5.jpg" alt=""><span>B5</span></div><div><img src="./assets/web/archive-fl.jpg" alt=""><span>Flash</span></div>
         </div></div>
-        <div class="pv" data-p="2"><div class="media plan"><span class="pill">Floor plan · hand measured</span><img src="./assets/web/archive-floorplan.jpg" alt="Hand measured floor plan, main level"></div></div>
-        <div class="pv" data-p="3"><div class="media"><span class="pill">Exterior video</span><video class="loop" muted loop playsinline preload="metadata" poster="./assets/clips/archive-exterior-poster.jpg" src="./assets/clips/archive-exterior.mp4" aria-hidden="true"></video></div></div>
-        <div class="pv" data-p="4"><div class="brkgrid">
+        <div class="pv" data-p="2"><div class="media plan"><span class="pill">Floor plans · hand measured</span><img src="./assets/web/archive-floorplan.jpg" alt="Hand measured floor plan, main level"></div></div>
+        <div class="pv" data-p="3"><div class="media"><span class="pill">Exterior video · as shot</span><video class="loop" muted loop playsinline preload="metadata" poster="./assets/clips/archive-exterior-poster.jpg" src="./assets/clips/archive-exterior.mp4" aria-hidden="true"></video></div></div>
+        <div class="pv" data-p="4"><span class="pill">Exterior stills · from raw brackets</span><div class="brkgrid">
           <div><img src="./assets/web/archive-ext-b1.jpg" alt=""><span>B1</span></div><div><img src="./assets/web/archive-ext-b2.jpg" alt=""><span>B2</span></div><div><img src="./assets/web/archive-ext-b3.jpg" alt=""><span>B3</span></div><div><img src="./assets/web/archive-ext-b4.jpg" alt=""><span>B4</span></div><div><img src="./assets/web/archive-ext-b5.jpg" alt=""><span>B5</span></div><div><img src="./assets/web/archive-exterior-still.jpg" alt="Back elevation, HDR merge of the five brackets"><span>Merged</span></div>
         </div></div>
-        <div class="pv" data-p="5"><div class="media"><span class="pill">Aerial video</span><video class="loop" muted loop playsinline preload="metadata" poster="./assets/clips/archive-aerial-poster.jpg" src="./assets/clips/archive-aerial.mp4" aria-hidden="true"></video></div></div>
+        <div class="pv" data-p="5"><div class="media"><span class="pill">Aerial · as shot</span><video class="loop" muted loop playsinline preload="metadata" poster="./assets/clips/archive-aerial-poster.jpg" src="./assets/clips/archive-aerial.mp4" aria-hidden="true"></video></div></div>
       </div>
     </div>
   </div>
@@ -434,7 +443,8 @@ dialog .x{position:absolute;top:-44px;right:0;background:none;border:0;color:#ff
   <div class="wrap">
     <div class="head in">
       <div><p class="eyebrow">Why homes</p><h2 class="h2">Cars have fleets. Factories have digital twins. Homes have neither.</h2>
-        <p class="lead">Fleets log the real road. A factory&rsquo;s twin comes from its own design files.</p></div>
+        <p class="lead">EmbodiedNet is what simulated and generated homes get checked against: real homes, measured, that no model has trained on.</p>
+        <p class="lead">Think Alpamayo&rsquo;s ground truth, but for homes.</p></div>
       <a class="btn" href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20evaluation%20under%20NDA">Evaluate under NDA</a>
     </div>
     <div class="cmp">
@@ -474,7 +484,7 @@ dialog .x{position:absolute;top:-44px;right:0;background:none;border:0;color:#ff
 <section class="sec" id="fits">
   <div class="wrap">
     <div class="in"><p class="eyebrow">Where it fits</p><h2 class="h2">Bring the real home into the computer. Then check against it.</h2></div>
-    <div class="loop in">
+    <div class="fitloop in"><i class="lret-v" aria-hidden="true"></i>
       <div class="lc real">
         <div class="lab"><i>A</i>Capture the real home</div>
         <p class="sub">EmbodiedNet. 518 homes, six modalities, one operator.</p>
@@ -504,6 +514,14 @@ dialog .x{position:absolute;top:-44px;right:0;background:none;border:0;color:#ff
   </div>
 </section>
 
+<!-- PROVENANCE (one pager wording, Nov 6) -->
+<section class="sec" id="provenance">
+  <div class="wrap">
+    <div class="prov in"><p class="eyebrow">Provenance</p>
+      <p class="t">Every capture was shot for a commercial engagement, not for training. Single operator, never licensed. Rights settled at the source; chain of title closed.</p></div>
+  </div>
+</section>
+
 <!-- THE FILM -->
 <section class="sec" id="film">
   <div class="wrap">
@@ -522,7 +540,7 @@ dialog .x{position:absolute;top:-44px;right:0;background:none;border:0;color:#ff
       <p class="lead" style="font-size:16px">Layout, light, and what breaks at a threshold.</p>
       <div style="margin-top:22px"><a class="btn" href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20evaluation%20under%20NDA">Evaluate under NDA</a></div></div>
     <div class="prow in" id="papers">
-      <div class="pcard"><div class="media"><span class="st">Measured</span><img src="./assets/web/sim2real_fig1_real.jpg" alt="" loading="lazy"></div><p><b>EmbodiedNet-Sim2Real</b> measures simulated houses against real ones, for layout.</p></div>
+      <div class="pcard"><div class="media"><span class="st">Technical note</span><img src="./assets/web/sim2real_fig1_real.jpg" alt="" loading="lazy"></div><p><b>EmbodiedNet-Sim2Real</b> measures simulated houses against real ones, for layout.</p></div>
       <a class="pcard" href="papers/calibrate/"><div class="media"><span class="st">Technical note</span><img src="./assets/web/calibrate_fig1_real.jpg" alt="" loading="lazy"><span class="go">&rsaquo;</span></div><p><b>EmbodiedNet-Calibrate</b> reads real rooms against generated ones, for light.</p></a>
       <div class="pcard"><div class="media"><span class="st">Under review</span><img class="bar" src="./assets/web/transition.jpg" alt="" loading="lazy" style="object-position:left top"></div><p><b>EmbodiedNet-Hard</b> benchmarks sparse interiors and indoor to outdoor transitions.</p></div>
     </div>
@@ -559,7 +577,7 @@ dialog .x{position:absolute;top:-44px;right:0;background:none;border:0;color:#ff
     <div class="in">
       <p class="eyebrow">The sample</p>
       <h2>Start with the sample.</h2>
-      <p>A full living room in every modality, then single stills of other rooms and the exterior. Native camera files. No cost, no NDA.</p>
+      <p>A full living room in every modality, native camera files. No cost, no NDA.</p>
       <div class="row"><a class="btn" href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20sample%20request">Request the sample</a><a class="tlink" href="#archive">What's in it</a></div>
     </div>
   </div>
@@ -594,9 +612,9 @@ dialog .x{position:absolute;top:-44px;right:0;background:none;border:0;color:#ff
     <div class="faq in">
       <details><summary>Is it real?<span class="pm"></span></summary><p>Yes. 518 homes in 239 Colorado communities, captured on site by one operator under commercial engagements, 2020 to 2026. Nothing synthetic, scraped or licensed in.</p></details>
       <details><summary>How is it different from an indoor scan dataset?<span class="pm"></span></summary><p>Indoor scan sets were captured by researchers at chosen viewpoints. This archive was captured for commercial work, one visit per house, with the raw brackets, log video and hand measured plans kept behind every delivery.</p></details>
-      <details><summary>What's in the sample?<span class="pm"></span></summary><p>One living room in every modality, plus single stills of other rooms and the exterior, as native camera files. No cost and no NDA.</p></details>
+      <details><summary>What's in the sample?<span class="pm"></span></summary><p>A full living room in every modality, native camera files. No cost, no NDA.</p></details>
       <details><summary>What's under the NDA?<span class="pm"></span></summary><p>Larger frozen evaluation slices, property disjoint, each with its manifest and fingerprints, to run on your own pipelines.</p></details>
-      <details><summary>What about rights and privacy?<span class="pm"></span></summary><p>Rights are settled at the source and the chain of title is closed. Identifiers are opaque, and location metadata is stripped and verified absent.</p></details>
+      <details><summary>What about rights and privacy?<span class="pm"></span></summary><p>Rights settled at the source; chain of title closed. Identifiers are opaque, and location metadata is stripped and verified absent.</p></details>
       <details><summary>Where can I meet you?<span class="pm"></span></summary><p>CoRL 2026, Austin, November 9 to 12. The sample comes on a drive. <a href="mailto:chase@leftieslens.com?subject=CoRL%20Austin">Set a time.</a></p></details>
     </div>
   </div>
@@ -604,7 +622,7 @@ dialog .x{position:absolute;top:-44px;right:0;background:none;border:0;color:#ff
 
 <footer>
   <div class="wrap">
-    <p>A single asset, placed once. Homes shown in marketed condition, staged or tidied for listing. Single region, Colorado, not nationally representative. Images here are display versions of native camera files.</p>
+    <p>A single asset, placed once. Homes in marketed condition, staged or tidied for listing. Single region, not nationally representative. Images here are display versions of native camera files.</p>
     <p><b>Chase Citrowski</b><br>Lefties Lens Limited, Arvada, Colorado<br><a href="mailto:chase@leftieslens.com">chase@leftieslens.com</a></p>
   </div>
 </footer>
