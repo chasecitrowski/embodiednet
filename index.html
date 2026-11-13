@@ -364,7 +364,6 @@ dialog .x{position:absolute;top:-44px;right:0;background:none;border:0;color:#ff
     <div class="links">
       <a href="#archive">The archive</a>
       <a href="#why">Why homes</a>
-      <a href="#measured">Measured</a>
       <a href="#faq">FAQ</a>
       <a class="cta" href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20evaluation%20under%20NDA">Evaluate under NDA</a>
     </div>
@@ -383,7 +382,6 @@ dialog .x{position:absolute;top:-44px;right:0;background:none;border:0;color:#ff
       <h1>The real world reference for homes.</h1>
       <div class="row">
         <a class="btn" href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20evaluation%20under%20NDA">Evaluate under NDA</a>
-        <a class="btn white" href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20sample%20request">Request the sample</a>
       </div>
       <a class="watch" href="#film"><span>&#9654;</span>Watch the video</a>
     </div>
@@ -442,36 +440,35 @@ dialog .x{position:absolute;top:-44px;right:0;background:none;border:0;color:#ff
   <div class="wrap">
     <div class="head in">
       <div><p class="eyebrow">Why homes</p><h2 class="h2">Cars have fleets. Factories have digital twins. Homes have neither.</h2>
-        <p class="lead">EmbodiedNet is what simulated and generated homes get checked against: real homes, measured, that no model has trained on.</p>
-        <p class="lead">Think Alpamayo&rsquo;s ground truth, but for homes.</p></div>
+        <p class="lead">EmbodiedNet grounds simulated and generated homes in real ones: real homes, measured, that no model has trained on.</p></div>
       <a class="btn" href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20evaluation%20under%20NDA">Evaluate under NDA</a>
     </div>
     <div class="cmp">
       <div class="cl" aria-hidden="true"><div class="ch"></div>
         <div class="cv">Application</div>
         <div class="cv">Model</div>
-        <div class="cv">Real world ground truth</div>
+        <div class="cv">Real world grounding</div>
         <div class="cv">Simulation and world models</div>
         <div class="cv">Body</div>
       </div>
       <div class="cc in"><div class="ch"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 15h16l-2-6H6z"/><circle cx="8" cy="17" r="1.5"/><circle cx="16" cy="17" r="1.5"/></svg></span><div><h3>Autonomous driving</h3><p class="sub">The road</p></div></div>
         <div class="cv" data-l="Application">Robotaxis and driver assist</div>
         <div class="cv" data-l="Model">Alpamayo, the Waymo Driver, Tesla FSD</div>
-        <div class="cv" data-l="Real world ground truth">Labeled human driving</div>
+        <div class="cv" data-l="Real world grounding">Labeled human driving</div>
         <div class="cv" data-l="Simulation and world models">Cosmos, Waymo World Model</div>
         <div class="cv" data-l="Body">The car</div>
       </div>
       <div class="cc in"><div class="ch"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 20V10l5 3V10l5 3V6h8v14z"/></svg></span><div><h3>Industrial</h3><p class="sub">The factory</p></div></div>
         <div class="cv" data-l="Application">Plants designed and tested in software</div>
         <div class="cv" data-l="Model">Industrial AI</div>
-        <div class="cv" data-l="Real world ground truth">The plant&rsquo;s design files, the source of its twin</div>
+        <div class="cv" data-l="Real world grounding">The plant&rsquo;s design files, the source of its twin</div>
         <div class="cv" data-l="Simulation and world models">Digital twins and physics simulation</div>
         <div class="cv" data-l="Body">The line</div>
       </div>
       <div class="cc hi in"><div class="ch"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 12l8-7 8 7"/><path d="M6 10v10h12V10"/></svg></span><div><h3>Residential</h3><p class="sub">The home</p></div></div>
         <div class="cv open" data-l="Application">Open</div>
         <div class="cv" data-l="Model">GR00T, Gemini Robotics, MolmoAct</div>
-        <div class="cv key" data-l="Real world ground truth"><span><em>EmbodiedNet.</em> 518 homes, measured.</span></div>
+        <div class="cv key" data-l="Real world grounding"><span><em>EmbodiedNet.</em> 518 homes, measured.</span></div>
         <div class="cv" data-l="Simulation and world models">Isaac Lab Arena, BEHAVIOR, MolmoSpaces, RoboCasa, SPEAR, Genie 3, Marble, V&#8209;JEPA 2, Cosmos</div>
         <div class="cv" data-l="Body">Home robots and humanoids</div>
       </div>
@@ -524,56 +521,6 @@ dialog .x{position:absolute;top:-44px;right:0;background:none;border:0;color:#ff
   </div>
 </section>
 
-<!-- MEASURED -->
-<section class="sec soft" id="measured">
-  <div class="wrap papers">
-    <div class="in"><p class="eyebrow">Measured</p><h2 class="h2" style="font-size:clamp(30px,3.6vw,42px)">Three readings of the archive.</h2>
-      <p class="lead" style="font-size:16px">Layout, light, and what breaks at a threshold.</p>
-      <div style="margin-top:22px"><a class="btn" href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20evaluation%20under%20NDA">Evaluate under NDA</a></div></div>
-    <div class="prow in" id="papers">
-      <a class="pcard" href="papers/sim2real/"><div class="media"><span class="st">Technical note</span><img src="./assets/web/sim2real_fig1_real.jpg" alt="" loading="lazy"><span class="go">&rsaquo;</span></div><p><b>EmbodiedNet-Sim2Real</b> measures simulated houses against real ones, for layout.</p></a>
-      <a class="pcard" href="papers/calibrate/"><div class="media"><span class="st">Technical note</span><img src="./assets/web/calibrate_fig1_real.jpg" alt="" loading="lazy"><span class="go">&rsaquo;</span></div><p><b>EmbodiedNet-Calibrate</b> reads real rooms against generated ones, for light.</p></a>
-      <div class="pcard"><div class="media"><span class="st">Under review</span><img class="bar" src="./assets/web/transition.jpg" alt="" loading="lazy" style="object-position:left top"></div><p><b>EmbodiedNet-Hard</b> benchmarks sparse interiors and indoor to outdoor transitions.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- HOLDS UP -->
-<section class="sec" id="results">
-  <div class="wrap">
-    <div class="tint in">
-      <div>
-        <p class="eyebrow">It holds up</p>
-        <h2 class="h2">Standard pipelines, the archive as it comes.</h2>
-        <p class="b">3,906 video frames and 39 stills of one bathroom, every one registered. 0.47 px mean reprojection error. Video frames as shot: no grading, no preprocessing.</p>
-        <div style="margin-top:22px"><a class="btn" href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20evaluation%20under%20NDA">Evaluate under NDA</a></div>
-      </div>
-      <div>
-        <!-- PLACEHOLDER: motion graphic. Interim: source, render and point cloud crossfade. -->
-        <div class="recon" id="recon">
-          <div class="rv on"><span class="pill">Source · 4K video frame</span><img src="./assets/web/recon-bath-source.jpg" alt="Source video frame, bathroom vanity" loading="lazy"></div>
-          <div class="rv"><span class="pill">Point cloud · same viewpoint</span><img src="./assets/web/recon-bath-pointcloud.jpg" alt="Sparse point cloud of the bathroom, seen from the source frame's camera" loading="lazy"></div>
-          <div class="rv"><span class="pill">Camera path · every registered frame</span><img src="./assets/web/recon-bath-path.jpg" alt="The bathroom point cloud from above, with the registered camera path" loading="lazy"></div>
-        </div>
-        <div class="steps"><button class="on" type="button">Source frame</button><button type="button">Point cloud</button><button type="button">Camera path</button></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SAMPLE SPLIT -->
-<section class="sec" id="sample">
-  <div class="wrap split">
-    <div class="media in"><span class="pill">Interior still · from raw brackets</span><img src="./assets/web/hdr.jpg" alt="Living room, interior still" loading="lazy"></div>
-    <div class="in">
-      <p class="eyebrow">The sample</p>
-      <h2>Start with the sample.</h2>
-      <p>A full living room in every modality, native camera files. No cost, no NDA.</p>
-      <div class="row"><a class="btn" href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20sample%20request">Request the sample</a><a class="tlink" href="#archive">What's in it</a></div>
-    </div>
-  </div>
-</section>
-
 <!-- CLOSING BANNER -->
 <section class="sec" style="padding-top:0;border-top:0">
   <div class="wrap">
@@ -587,10 +534,11 @@ dialog .x{position:absolute;top:-44px;right:0;background:none;border:0;color:#ff
       <div class="c">
         <div class="mark"><svg><use href="#mk"/></svg></div>
         <p class="eyebrow">Evaluate</p>
-        <h2>Ready to measure against real homes?</h2>
-        <p>A single asset, placed once.</p>
+        <h2>Real homes, for robots that will work in them.</h2>
+        <p style="max-width:600px;margin-left:auto;margin-right:auto">Use cases: home safety and fall prevention, aging in place, and disaster response. Each one starts with understanding real homes.</p>
+        <p>A single asset, placed once, with one lab that can build on all of it.</p>
         <p>Frozen evaluation slices, property disjoint, under a mutual NDA.</p>
-        <div class="row"><a class="btn" href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20evaluation%20under%20NDA">Evaluate under NDA</a><a class="btn ghost" href="mailto:chase@leftieslens.com?subject=CoRL%20Austin">Meet at CoRL, Austin</a></div>
+        <div class="row"><a class="btn" href="mailto:chase@leftieslens.com?subject=EmbodiedNet%20evaluation%20under%20NDA">Evaluate under NDA</a></div>
       </div>
     </div>
   </div>
@@ -603,10 +551,8 @@ dialog .x{position:absolute;top:-44px;right:0;background:none;border:0;color:#ff
     <div class="faq in">
       <details><summary>Is it real?<span class="pm"></span></summary><p>Yes. 518 homes in 239 Colorado communities, captured on site by one operator under commercial engagements, 2020 to 2026. Nothing synthetic, scraped or licensed in.</p></details>
       <details><summary>How is it different from an indoor scan dataset?<span class="pm"></span></summary><p>Indoor scan sets were captured by researchers at chosen viewpoints. This archive was captured for commercial work, one visit per house, with the raw brackets, log video and hand measured plans kept behind every delivery.</p></details>
-      <details><summary>What's in the sample?<span class="pm"></span></summary><p>A full living room in every modality, native camera files. No cost, no NDA.</p></details>
       <details><summary>What's under the NDA?<span class="pm"></span></summary><p>Larger frozen evaluation slices, property disjoint, each with its manifest and fingerprints, to run on your own pipelines.</p></details>
       <details><summary>What about rights and privacy?<span class="pm"></span></summary><p>Every capture was shot for a commercial engagement, not for training. Single operator, never licensed. Rights settled at the source; chain of title closed. Identifiers are opaque, and location metadata is stripped and verified absent.</p></details>
-      <details><summary>Where can I meet you?<span class="pm"></span></summary><p>CoRL 2026, Austin, November 9 to 12. The sample comes on a drive. <a href="mailto:chase@leftieslens.com?subject=CoRL%20Austin">Set a time.</a></p></details>
     </div>
   </div>
 </section>
@@ -672,7 +618,6 @@ dialog .x{position:absolute;top:-44px;right:0;background:none;border:0;color:#ff
     if(pauseBtn)pauseBtn.addEventListener('click',function(){paused=!paused;pauseBtn.innerHTML=paused?'<svg viewBox="0 0 12 12" fill="#fff"><path d="M3 1l8 5-8 5z"/></svg>':'<svg viewBox="0 0 12 12" fill="#fff"><rect x="2" y="1" width="3" height="10"/><rect x="7" y="1" width="3" height="10"/></svg>';start()});
     start();
   }
-  cycler([].slice.call(document.querySelectorAll('#recon .rv')),[].slice.call(document.querySelectorAll('.steps button')),2600,null);
 
   // film section: pause the hero loop while the film plays
   var fv=document.querySelector('#film video');
